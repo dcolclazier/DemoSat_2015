@@ -22,6 +22,10 @@ public:
 	name(arg1);\
 	void execute(EventArgs* args, void* trigger) override
 
+#define BINARYACTIONINIT(name, arg1, arg2)\
+	name(arg1, arg2);\
+	void execute(EventArgs* args, void* trigger) override
+
 #define ACTIONINIT(name)\
 	name();\
 	void execute(EventArgs* args, void* trigger) override
