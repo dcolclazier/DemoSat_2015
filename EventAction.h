@@ -13,8 +13,12 @@ public:
 #define ACTION(name)\
 	struct name : public EventAction
 
-#define CLASSACTION(cls,nested,name)\
-	struct cls::nested::name : public EventAction
+#define ACTIONEXECUTE(cls,action)\
+	void cls::action::execute(EventArgs* args, void* trigger)
 
-#define EXECUTE\
+#define EXECUTE(name)\
+	name();\
 	void execute(EventArgs* args, void* trigger) override
+
+#define ACTIONSETUP(cls,action)\
+	cls::action::action()

@@ -12,8 +12,7 @@ public:
 private:
 
 	ACTION(OnboardLEDStatusFlash) {
-		OnboardLEDStatusFlash() { onboard = LED(13); }
-		EXECUTE{ onboard.toggle(); }
+		EXECUTE(OnboardLEDStatusFlash);
 		private: LED onboard;
 	};
 	

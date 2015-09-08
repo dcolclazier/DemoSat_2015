@@ -2,6 +2,7 @@
 #include "Event.h"
 #include "RedBoard.h"
 #include "Time.h"
+#include <Arduino.h>
 
 void InitClock() {
 	EventHandler::instance().add_event(".1s", new Event);
