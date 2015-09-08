@@ -80,8 +80,6 @@ extern "C" void __cxa_pure_virtual() {;}
 #define portInputRegister(P)
 #define portModeRegister(P)
 #include <DemoSat.pde>
-#include <Actions.cpp>
-#include <Actions.h>
 #include <DemoSat.ino>
 #include <Event.cpp>
 #include <Event.h>
@@ -93,6 +91,8 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <EventHandler.h>
 #include <LED.cpp>
 #include <LED.h>
+#include <LEDFlash.cpp>
+#include <LEDFlash.h>
 #include <RedBoard.cpp>
 #include <RedBoard.h>
 #include <Time.h>

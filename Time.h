@@ -1,5 +1,7 @@
 ﻿#pragma once
-struct Time {
+#include "EventArgs.h"
+
+struct Time : EventArgs {
 	int Hours = 0;
 	int Minutes = 0;
 	int Seconds = 0;

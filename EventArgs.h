@@ -3,9 +3,11 @@
 
 class EventArgs {
 public:
-	virtual ~EventArgs() {};
+	virtual ~EventArgs() = 0;
 	
 };
+inline EventArgs::~EventArgs() {}
+
 
 struct Orientation : EventArgs {
 	enum Units { rad, deg };

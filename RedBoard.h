@@ -2,7 +2,7 @@
 #include "EventHandler.h"
 #include "EventAction.h"
 #include "LED.h"
-#include "Actions.h"
+#include "LEDFlash.h"
 
 class RedBoard {
 public:

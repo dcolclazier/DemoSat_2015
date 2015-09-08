@@ -2,7 +2,6 @@
 #include "Event.h"
 #include "RedBoard.h"
 #include "Time.h"
-#include <Arduino.h>
 
 void InitClock() {
 	EventHandler::instance().add_event(".1s", new Event);
@@ -28,24 +27,26 @@ void loop() {
 	int currentTime = millis()/100;
 	if (currentTime - _prevTime < 1) return;
 	RunTime.Tenths++;
-	EventHandler::instance().trigger(".1s", 0, 0);
+	EventHandler::instance().trigger(".1s", &RunTime, 0);
 	if(RunTime.Tenths == 10) {
 		
 		RunTime.Seconds++;
 		RunTime.Tenths = 0;
 		
-		EventHandler::instance().trigger("1s", 0, 0);
-		if (RunTime.Seconds % 5 == 0)	EventHandler::instance().trigger("5s", 0, 0);
-		if (RunTime.Seconds % 15 == 0)	EventHandler::instance().trigger("15s", 0, 0);
-		if (RunTime.Seconds % 30 == 0)	EventHandler::instance().trigger("30s", 0, 0);
+		EventHandler::instance().trigger("1s", &RunTime, 0);
+		if (RunTime.Seconds % 5 == 0)	EventHandler::instance().trigger("5s", &RunTime, 0);
+		if (RunTime.Seconds % 15 == 0)	EventHandler::instance().trigger("15s", &RunTime, 0);
+		if (RunTime.Seconds % 30 == 0)	EventHandler::instance().trigger("30s", &RunTime, 0);
 		
 		if (RunTime.Seconds == 60) {
 
 			RunTime.Seconds = 0;
 			RunTime.Minutes++;
 			
-			EventHandler::instance().trigger("1m", 0, 0);
-			if (RunTime.Minutes % 5 == 0)EventHandler::instance().trigger("5m", 0, 0);
+			EventHandler::instance().trigger("1m", &RunTime, 0);
+			if (RunTime.Minutes % 5 == 0)EventHandler::instance().trigger("5m", &RunTime, 0);
+			if (RunTime.Minutes % 15 == 0)EventHandler::instance().trigger("15m", &RunTime, 0);
+			if (RunTime.Minutes % 30 == 0)EventHandler::instance().trigger("30m", &RunTime, 0);
 
 			if (RunTime.Minutes == 60) {
 				RunTime.Minutes = 0;
