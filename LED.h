@@ -9,8 +9,8 @@ public:
 	void toggle(int);
 	explicit LED(int pin);
 
-protected:
 	LED() : _ledPin(0), _ledState(0), _prevMillis(0) {}
+protected:
 	int _ledPin;
 	int _ledState;
 	unsigned long _prevMillis;
