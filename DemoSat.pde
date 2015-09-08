@@ -4,13 +4,13 @@
 #include "Time.h"
 
 void InitClock() {
-	EventHandler::instance().add_event(".1s", new Event);
-	EventHandler::instance().add_event("1s", new Event);
-	EventHandler::instance().add_event("5s", new Event);
-	EventHandler::instance().add_event("15s", new Event);
-	EventHandler::instance().add_event("30s", new Event);
-	EventHandler::instance().add_event("1m", new Event);
-	EventHandler::instance().add_event("5m", new Event);
+	EVENTHANDLER.add_event(".1s", new Event);
+	EVENTHANDLER.add_event("1s", new Event);
+	EVENTHANDLER.add_event("5s", new Event);
+	EVENTHANDLER.add_event("15s", new Event);
+	EVENTHANDLER.add_event("30s", new Event);
+	EVENTHANDLER.add_event("1m", new Event);
+	EVENTHANDLER.add_event("5m", new Event);
 }
 int _prevTime = 0;
 int _tickTimeInmillis = 500;
@@ -27,26 +27,26 @@ void loop() {
 	int currentTime = millis()/100;
 	if (currentTime - _prevTime < 1) return;
 	RunTime.Tenths++;
-	EventHandler::instance().trigger(".1s", &RunTime, 0);
+	EVENTHANDLER.trigger(".1s", &RunTime, 0);
 	if(RunTime.Tenths == 10) {
 		
 		RunTime.Seconds++;
 		RunTime.Tenths = 0;
 		
-		EventHandler::instance().trigger("1s", &RunTime, 0);
-		if (RunTime.Seconds % 5 == 0)	EventHandler::instance().trigger("5s", &RunTime, 0);
-		if (RunTime.Seconds % 15 == 0)	EventHandler::instance().trigger("15s", &RunTime, 0);
-		if (RunTime.Seconds % 30 == 0)	EventHandler::instance().trigger("30s", &RunTime, 0);
+		EVENTHANDLER.trigger("1s", &RunTime, 0);
+		if (RunTime.Seconds % 5 == 0)	EVENTHANDLER.trigger("5s", &RunTime, 0);
+		if (RunTime.Seconds % 15 == 0)	EVENTHANDLER.trigger("15s", &RunTime, 0);
+		if (RunTime.Seconds % 30 == 0)	EVENTHANDLER.trigger("30s", &RunTime, 0);
 		
 		if (RunTime.Seconds == 60) {
 
 			RunTime.Seconds = 0;
 			RunTime.Minutes++;
 			
-			EventHandler::instance().trigger("1m", &RunTime, 0);
-			if (RunTime.Minutes % 5 == 0)EventHandler::instance().trigger("5m", &RunTime, 0);
-			if (RunTime.Minutes % 15 == 0)EventHandler::instance().trigger("15m", &RunTime, 0);
-			if (RunTime.Minutes % 30 == 0)EventHandler::instance().trigger("30m", &RunTime, 0);
+			EVENTHANDLER.trigger("1m", &RunTime, 0);
+			if (RunTime.Minutes % 5 == 0)  EVENTHANDLER.trigger("5m", &RunTime, 0);
+			if (RunTime.Minutes % 15 == 0) EVENTHANDLER.trigger("15m", &RunTime, 0);
+			if (RunTime.Minutes % 30 == 0) EVENTHANDLER.trigger("30m", &RunTime, 0);
 
 			if (RunTime.Minutes == 60) {
 				RunTime.Minutes = 0;

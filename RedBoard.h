@@ -8,7 +8,7 @@ class RedBoard {
 public:
 	RedBoard() {
 		_onboardLED = 13; //pin 13
-		EventHandler::instance().add_eventAction(".1s", new LEDFlash(_onboardLED));
+		EVENTHANDLER.add_eventAction(".1s", new LEDFlash(_onboardLED));
 	}
 
 private:

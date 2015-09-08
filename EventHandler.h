@@ -29,4 +29,5 @@ private:
 
 };
 
-
+#define EVENTHANDLER\
+	EventHandler::instance()
