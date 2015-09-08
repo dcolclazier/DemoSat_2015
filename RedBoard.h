@@ -2,18 +2,16 @@
 #include "EventHandler.h"
 #include "EventAction.h"
 #include "LED.h"
+#include "Actions.h"
 
 class RedBoard {
 public:
 	RedBoard() {
-		EventHandler::instance().add_eventAction(".1s", new OnboardLEDStatusFlash);
+		_onboardLED = 13; //pin 13
+		EventHandler::instance().add_eventAction(".1s", new LEDFlash(_onboardLED));
 	}
 
 private:
+	LED _onboardLED;
 
-	ACTION(OnboardLEDStatusFlash) {
-		EXECUTE(OnboardLEDStatusFlash);
-		private: LED onboard;
-	};
-	
 };

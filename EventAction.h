@@ -1,7 +1,4 @@
 ﻿#pragma once
-
-
-
 class EventArgs;
 class EventAction {
 public:
@@ -11,14 +8,29 @@ public:
 };
 
 #define ACTION(name)\
-	struct name : public EventAction
+	struct name : public EventAction\
+		
 
-#define ACTIONEXECUTE(cls,action)\
-	void cls::action::execute(EventArgs* args, void* trigger)
+#define ACTIONEXECUTE(action)\
+	void action::execute(EventArgs* args, void* trigger)
 
-#define EXECUTE(name)\
+#define ACTIONINIT(name)\
 	name();\
 	void execute(EventArgs* args, void* trigger) override
 
-#define ACTIONSETUP(cls,action)\
-	cls::action::action()
+#define UNARYACTIONINIT(name, arg1)\
+	name(arg1);\
+	void execute(EventArgs* args, void* trigger) override
+
+#define ACTIONINIT(name)\
+	name();\
+	void execute(EventArgs* args, void* trigger) override
+
+#define ACTIONSETUP(action)\
+	action::action()
+
+#define UNARYACTIONSETUP(action,arg1)\
+	action::action(arg1)
+
+#define BINARYACTIONSETUP(action,arg1, arg2)\
+	action::action(arg1, arg2)

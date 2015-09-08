@@ -1,9 +1,9 @@
 ﻿#include "RedBoard.h"
 
-ACTIONSETUP(RedBoard, OnboardLEDStatusFlash) {
-	onboard = LED(13); 
-}
-
-ACTIONEXECUTE(RedBoard, OnboardLEDStatusFlash) {
-	onboard.toggle();
-}
+//LEDFlash::LEDFlash(LED pin) {
+//	_pin = pin;
+//}
+//
+//void LEDFlash::execute(EventArgs* args, void* trigger) {
+//	_pin.toggle();
+//}
