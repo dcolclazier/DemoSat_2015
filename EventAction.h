@@ -13,5 +13,8 @@ public:
 #define ACTION(name)\
 	struct name : public EventAction
 
+#define CLASSACTION(cls,name)\
+	struct cls::name : public EventAction
+
 #define EXECUTE\
 	void execute(EventArgs* args, void* trigger) override

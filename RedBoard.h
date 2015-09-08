@@ -9,7 +9,6 @@ public:
 		EventHandler::instance().add_eventAction("1s", new OnboardLEDStatusFlash);
 	}
 
-
 private:
 
 	ACTION(OnboardLEDStatusFlash) {
@@ -20,8 +19,8 @@ private:
 		EXECUTE{
 			onboard->toggle();
 		}
-	private:
-		LED* onboard;
+		private:
+			LED* onboard;
 	};
 
 
