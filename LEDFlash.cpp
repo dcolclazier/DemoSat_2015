@@ -1,5 +1,4 @@
 ﻿#include "LEDFlash.h"
-#include "Time.h"
 
 //Notice UNARYACTIONSETUP and UNARYACTIONINIT have identical signatures...
 UNARYACTIONSETUP(LEDFlash, LED pin) {

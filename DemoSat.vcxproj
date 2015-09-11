@@ -74,10 +74,10 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;C:\Users\David\Documents\Arduino\DemoSat;C:\Program Files (x86)\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\yssrnesa.ne3\Micro Platforms\default\debuggers;C:\Users\David\Documents\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\yssrnesa.ne3\Micro Platforms\default\debuggers\VM_DBG;C:\Program Files (x86)\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\yssrnesa.ne3\Micro Platforms\default\debuggers;C:\Users\David\Documents\Arduino\libraries;c:\program files (x86)\arduino\hardware\tools\avr\avr\include\;c:\program files (x86)\arduino\hardware\tools\avr\avr\include\avr\;c:\program files (x86)\arduino\hardware\tools\avr\avr\;c:\program files (x86)\arduino\hardware\tools\avr\lib\gcc\avr\4.8.1\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ForcedIncludeFiles>C:\Users\David\Documents\Arduino\DemoSat\Visual Micro\.DemoSat.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;C:\Users\David\Documents\Arduino\DemoSat;C:\Users\David\Documents\Arduino\libraries\Adafruit_BNO055;C:\Users\David\Documents\Arduino\libraries\Adafruit_BNO055\utility;C:\Users\David\Documents\Arduino\libraries\Adafruit_Sensor;C:\Users\David\Documents\Arduino\libraries\Adafruit_Sensor\utility;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\utility;C:\Program Files (x86)\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\jcbhnnmr.scr\Micro Platforms\default\debuggers;C:\Users\David\Documents\Arduino\libraries;C:\Users\David\Documents\Arduino\DemoSat;C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;c:\program files (x86)\arduino\hardware\tools\avr\avr\include\;c:\program files (x86)\arduino\hardware\tools\avr\avr\include\avr\;c:\program files (x86)\arduino\hardware\tools\avr\avr\;c:\program files (x86)\arduino\hardware\tools\avr\lib\gcc\avr\4.8.1\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>C:\Users\David\Documents\Arduino\DemoSat\__vm\.DemoSat.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
-      <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;_VMDEBUG=1;F_CPU=16000000L;ARDUINO=165;ARDUINO_AVR_UNO;ARDUINO_ARCH_AVR;__cplusplus;GCC_VERSION=40801;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;F_CPU=16000000L;ARDUINO=165;ARDUINO_AVR_UNO;ARDUINO_ARCH_AVR;__cplusplus;GCC_VERSION=40801;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -122,14 +122,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="DemoSat.ino">
-      <FileType>CppCode</FileType>
-    </None>
     <None Include="DemoSat.pde">
       <FileType>CppCode</FileType>
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BNOTest.h" />
     <ClInclude Include="LEDFlash.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventAction.h" />
@@ -140,9 +138,10 @@
     <ClInclude Include="RedBoard.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Vector.h" />
-    <ClInclude Include="Visual Micro\.DemoSat.vsarduino.h" />
+    <ClInclude Include="__vm\.DemoSat.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BNOTest.cpp" />
     <ClCompile Include="LEDFlash.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventDictionary.cpp" />

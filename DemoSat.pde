@@ -1,7 +1,13 @@
 #include "EventHandler.h"
+#include "EventArgs.h"
 #include "Event.h"
 #include "RedBoard.h"
-#include "Time.h"
+
+#include "Wire.h"
+#include "Adafruit_Sensor.h"
+#include "Adafruit_BNO055.h"
+
+
 
 void InitClock() {
 	EVENTHANDLER.add_event(".1s", new Event);

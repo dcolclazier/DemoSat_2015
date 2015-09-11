@@ -21,7 +21,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="DemoSat.ino" />
     <None Include="DemoSat.pde" />
   </ItemGroup>
   <ItemGroup>
@@ -32,9 +31,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Vector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Visual Micro\.DemoSat.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Event.h">
@@ -58,6 +54,12 @@
     <ClInclude Include="LEDFlash.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="__vm\.DemoSat.vsarduino.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BNOTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LED.cpp">
@@ -76,6 +78,9 @@
       <Filter>EventHandler</Filter>
     </ClCompile>
     <ClCompile Include="LEDFlash.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BNOTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

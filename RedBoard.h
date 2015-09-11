@@ -3,15 +3,14 @@
 #include "EventAction.h"
 #include "LED.h"
 #include "LEDFlash.h"
+#include "BNOTest.h"
 
 class RedBoard {
 public:
-	RedBoard() {
-		_onboardLED = 13; //pin 13
-		EVENTHANDLER.add_eventAction(".1s", new LEDFlash(_onboardLED));
-	}
+	RedBoard();
 
 private:
 	LED _onboardLED;
+	Adafruit_BNO055 _bnoSensor;
 
 };

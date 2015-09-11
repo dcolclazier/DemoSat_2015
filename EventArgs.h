@@ -77,6 +77,13 @@ struct Accelereration : EventArgs {
 	const short Accel_Data_Z;
 };
 
+struct Time : EventArgs {
+	int Hours = 0;
+	int Minutes = 0;
+	int Seconds = 0;
+	int Tenths = 0;
+};
+
 struct MagneticFieldStrength : EventArgs {
 
 
