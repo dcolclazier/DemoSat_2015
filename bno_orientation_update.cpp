@@ -1,10 +1,8 @@
-﻿#include "BNOTest.h"
-
+﻿#include "bno_orientation_update.h"
 
 //Notice UNARYACTIONSETUP and UNARYACTIONINIT have identical signatures...
-UNARYACTIONSETUP(BNOTest, Adafruit_BNO055 bno) {
+UNARYACTIONSETUP(bno_orientation_update, Adafruit_BNO055 bno) {
 	_bno = bno;
-	Serial.println("Orientation Sensor Test"); Serial.println("");
 
 	/* Initialise the sensor */
 	if (!_bno.begin()) {
@@ -23,18 +21,19 @@ UNARYACTIONSETUP(BNOTest, Adafruit_BNO055 bno) {
 //Just need the name of the class here.. You also have access to an (args) and a (trigger)
 //args contains an object with the data you need, for instance - magnetic field data (see EventArgs.h)
 //(trigger) may or may not contain the object that triggered the action
-ACTIONEXECUTE(BNOTest) {
+ACTIONEXECUTE(bno_orientation_update) {
 
-	sensors_event_t event;
-	_bno.getEvent(&event);
 
-	///* Display the floating point data */
-	Serial.print("X: ");
-	Serial.print(event.orientation.x, 4);
-	Serial.print("\tY: ");
-	Serial.print(event.orientation.y, 4);
-	Serial.print("\tZ: ");
-	Serial.print(event.orientation.z, 4);
-	Serial.println("");
+	imu::Quaternion quaternion = _bno.getQuat();
+
+	Serial.flush();
+	Serial.print(quaternion.y(), 4);
+	Serial.print(",");
+	Serial.print(quaternion.z(), 4);
+	Serial.print(",");
+	Serial.print(quaternion.x(), 4);
+	Serial.print(",");
+	Serial.print(quaternion.w(), 4);
+	Serial.println();
 }
 

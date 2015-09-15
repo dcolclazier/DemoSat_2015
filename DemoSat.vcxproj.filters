@@ -19,17 +19,14 @@
     <Filter Include="Actions">
       <UniqueIdentifier>{d1f25425-923b-49f1-891b-0d83d1d32bb6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{975c836c-a164-42c4-a740-ecf07054e7e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DemoSat.pde" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LED.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RedBoard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Vector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -48,26 +45,29 @@
     <ClInclude Include="EventHandler.h">
       <Filter>EventHandler</Filter>
     </ClInclude>
-    <ClInclude Include="Time.h">
-      <Filter>EventHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="LEDFlash.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="__vm\.DemoSat.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BNOTest.h">
+    <ClInclude Include="bno_orientation_update.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="LEDFlash.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="RedBoard.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="LED.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="bno_temperature_update.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bno_gyro_update.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LED.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RedBoard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Event.cpp">
       <Filter>EventHandler</Filter>
     </ClCompile>
@@ -77,10 +77,22 @@
     <ClCompile Include="EventHandler.cpp">
       <Filter>EventHandler</Filter>
     </ClCompile>
+    <ClCompile Include="bno_orientation_update.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
     <ClCompile Include="LEDFlash.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="RedBoard.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="LED.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="bno_temperature_update.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BNOTest.cpp">
+    <ClCompile Include="bno_gyro_update.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -3,9 +3,10 @@
 #include "EventArgs.h"
 #include "Adafruit_BNO055.h"
 
-ACTION(BNOTest) {
-	UNARYACTIONINIT(BNOTest, Adafruit_BNO055 bno);
+ACTION(bno_gyro_update) {
+	UNARYACTIONINIT(bno_gyro_update, Adafruit_BNO055 bno);
 
 private:
 	Adafruit_BNO055 _bno;
+	GyroData _gyro;
 };
