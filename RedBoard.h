@@ -7,6 +7,8 @@
 
 class RedBoard {
 public:
+	void SensorSetup();
+
 	RedBoard();
 
 private:

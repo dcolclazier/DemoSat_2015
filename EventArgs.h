@@ -24,35 +24,38 @@ struct Orientation : EventArgs {
 struct GravityVector : EventArgs {
 	enum Units { ms2, mg };
 
+	GravityVector() : GRV_Data_X(0) , GRV_Data_Y(0), GRV_Data_Z(0), GRV_Units(ms2) {}
 	explicit GravityVector(short x, short y, short z, Units units) 
 		: GRV_Data_X(x), GRV_Data_Y(y), GRV_Data_Z(z), GRV_Units(units) {}
 
-	const short GRV_Data_X;
-	const short GRV_Data_Y;
-	const short GRV_Data_Z;
-	const Units GRV_Units;
+	short GRV_Data_X;
+	short GRV_Data_Y;
+	short GRV_Data_Z;
+	Units GRV_Units;
 };
 
 struct Temperature : EventArgs {
 	enum Units{ C, F };
 
-	explicit Temperature(uint8_t temp, Units units)
+	Temperature() : Temp(0), TempUnits(C) {}
+	explicit Temperature(int8_t temp, Units units)
 		: Temp(temp), TempUnits(units) {}
 
-	const uint8_t Temp;
-	const Units TempUnits;
+	int8_t Temp;
+	Units TempUnits;
 };
 
 struct LinearAcceleration : EventArgs {
 	enum Units { ms2, mg };
 	
+	LinearAcceleration() : LIA_Data_X(0), LIA_Data_Y(0), LIA_Data_Z(0), LIA_Units(ms2) {}
 	explicit LinearAcceleration(short x, short y, short z, Units units) 
 		: LIA_Data_X(x), LIA_Data_Y(y), LIA_Data_Z(z), LIA_Units(units) {}
 
-	const short LIA_Data_X;
-	const short LIA_Data_Y;
-	const short LIA_Data_Z;
-	const Units LIA_Units;
+	short LIA_Data_X;
+	short LIA_Data_Y;
+	short LIA_Data_Z;
+	Units LIA_Units;
 };
 
 struct QuaternionOrientation : EventArgs {
@@ -65,16 +68,17 @@ struct QuaternionOrientation : EventArgs {
 	const short QUA_Data_z;
 };
 
-struct Accelereration : EventArgs {
+struct AccelVector : EventArgs {
 
-	Accelereration(short accel_data_x, short accel_data_y, short accel_data_z)
+	AccelVector():Accel_Data_X(0), Accel_Data_Y(0), Accel_Data_Z(0) {}
+	AccelVector(short accel_data_x, short accel_data_y, short accel_data_z)
 		: Accel_Data_X(accel_data_x),
 		  Accel_Data_Y(accel_data_y),
 		  Accel_Data_Z(accel_data_z) {}
 
-	const short Accel_Data_X;
-	const short Accel_Data_Y;
-	const short Accel_Data_Z;
+	short Accel_Data_X;
+	short Accel_Data_Y;
+	short Accel_Data_Z;
 };
 
 struct Time : EventArgs {
@@ -86,25 +90,26 @@ struct Time : EventArgs {
 
 struct MagneticFieldStrength : EventArgs {
 
-
+	MagneticFieldStrength() : Mag_Data_X(0), Mag_Data_Y(0), Mag_Data_Z(0) {}
 	MagneticFieldStrength(short mag_data_x, short mag_data_y, short mag_data_z)
 		: Mag_Data_X(mag_data_x),
 		  Mag_Data_Y(mag_data_y),
 		  Mag_Data_Z(mag_data_z) {}
 
-	const short Mag_Data_X;
-	const short Mag_Data_Y;
-	const short Mag_Data_Z;
+	short Mag_Data_X;
+	short Mag_Data_Y;
+	short Mag_Data_Z;
 };
 
-struct AngularVelocity : EventArgs {
+struct GyroData : EventArgs {
 
-	AngularVelocity(short gyr_data_x, short gyr_data_y, short gyr_data_z)
-		: Gyr_Data_X(gyr_data_x),
-		  Gyr_Data_Y(gyr_data_y),
-		  Gyr_Data_Z(gyr_data_z) {}
+	GyroData() : Gyro_Data_X(0), Gyro_Data_Y(0), Gyro_Data_Z(0) {}
+	GyroData(short gyr_data_x, short gyr_data_y, short gyr_data_z)
+		: Gyro_Data_X(gyr_data_x),
+		  Gyro_Data_Y(gyr_data_y),
+		  Gyro_Data_Z(gyr_data_z) {}
 
-	const short Gyr_Data_X;
-	const short Gyr_Data_Y;
-	const short Gyr_Data_Z;
+	short Gyro_Data_X;
+	short Gyro_Data_Y;
+	short Gyro_Data_Z;
 };
