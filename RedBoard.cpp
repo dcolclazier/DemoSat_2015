@@ -1,5 +1,7 @@
 ﻿#include "RedBoard.h"
 #include "bno_sensor_actions.h"
+#include "EventHandler.h"
+#include "led_flash.h"
 
 
 void RedBoard::SensorSetup() {
@@ -19,7 +21,7 @@ RedBoard::RedBoard() {
 	_bnoSensor = 55; //I2C address 0x55
 	SensorSetup();
 
-	EVENTHANDLER.add_eventAction(".1s", new LEDFlash(_onboardLED));
+	EVENTHANDLER.add_eventAction(".1s", new led_flash(_onboardLED));
 	EVENTHANDLER.add_eventAction(".1s", new bno_orientation_update(_bnoSensor));
 	EVENTHANDLER.add_eventAction(".1s", new bno_temperature_update(_bnoSensor));
 	EVENTHANDLER.add_eventAction(".1s", new bno_gyro_update(_bnoSensor));

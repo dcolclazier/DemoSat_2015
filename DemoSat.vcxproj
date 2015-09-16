@@ -127,11 +127,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bno_accel_update.h" />
-    <ClInclude Include="bno_gyro_update.h" />
-    <ClInclude Include="bno_orientation_update.h" />
-    <ClInclude Include="bno_temperature_update.h" />
-    <ClInclude Include="LEDFlash.h" />
+    <ClInclude Include="bno_sensor_actions.h" />
+    <ClInclude Include="led_flash.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventAction.h" />
     <ClInclude Include="EventArgs.h" />
@@ -143,11 +140,8 @@
     <ClInclude Include="__vm\.DemoSat.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bno_accel_update.cpp" />
-    <ClCompile Include="bno_gyro_update.cpp" />
-    <ClCompile Include="bno_orientation_update.cpp" />
-    <ClCompile Include="bno_temperature_update.cpp" />
-    <ClCompile Include="LEDFlash.cpp" />
+    <ClCompile Include="bno_sensor_actions.cpp" />
+    <ClCompile Include="led_flash.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventDictionary.cpp" />
     <ClCompile Include="EventHandler.cpp" />

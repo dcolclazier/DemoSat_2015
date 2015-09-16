@@ -48,26 +48,17 @@
     <ClInclude Include="__vm\.DemoSat.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="bno_orientation_update.h">
-      <Filter>Actions</Filter>
-    </ClInclude>
-    <ClInclude Include="LEDFlash.h">
-      <Filter>Actions</Filter>
-    </ClInclude>
     <ClInclude Include="RedBoard.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="LED.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="bno_temperature_update.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="bno_sensor_actions.h">
+      <Filter>Actions</Filter>
     </ClInclude>
-    <ClInclude Include="bno_gyro_update.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="bno_accel_update.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="led_flash.h">
+      <Filter>Actions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -80,26 +71,17 @@
     <ClCompile Include="EventHandler.cpp">
       <Filter>EventHandler</Filter>
     </ClCompile>
-    <ClCompile Include="bno_orientation_update.cpp">
-      <Filter>Actions</Filter>
-    </ClCompile>
-    <ClCompile Include="LEDFlash.cpp">
-      <Filter>Actions</Filter>
-    </ClCompile>
     <ClCompile Include="RedBoard.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="LED.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="bno_temperature_update.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="bno_sensor_actions.cpp">
+      <Filter>Actions</Filter>
     </ClCompile>
-    <ClCompile Include="bno_gyro_update.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="bno_accel_update.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="led_flash.cpp">
+      <Filter>Actions</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
