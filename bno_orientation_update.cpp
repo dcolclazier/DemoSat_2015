@@ -3,7 +3,6 @@
 //Notice UNARYACTIONSETUP and UNARYACTIONINIT have identical signatures...
 UNARYACTIONSETUP(bno_orientation_update, Adafruit_BNO055 bno) {
 	_bno = bno;
-
 	/* Initialise the sensor */
 	if (!_bno.begin()) {
 		/* There was a problem detecting the BNO055 ... check your connections */

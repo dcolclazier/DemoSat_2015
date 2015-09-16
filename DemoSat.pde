@@ -23,6 +23,7 @@ int _tickTimeInmillis = 500;
 Time RunTime;
 
 void setup() {
+	Serial.begin(9600);
 	InitClock();
 	RedBoard mainBoard;
 }

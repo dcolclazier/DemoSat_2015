@@ -8,5 +8,5 @@ ACTION(bno_temperature_update) {
 
 private:
 	Adafruit_BNO055 _bno;
-	Temperature _temp;
+	//Temperature _temp;
 };

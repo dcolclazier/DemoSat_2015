@@ -8,5 +8,5 @@ ACTION(bno_accel_update) {
 
 private:
 	Adafruit_BNO055 _bno;
-	AccelVector _acceleration;
+	//AccelVector _acceleration;
 };

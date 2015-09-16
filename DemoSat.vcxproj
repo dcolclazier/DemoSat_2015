@@ -77,7 +77,7 @@
       <AdditionalIncludeDirectories>C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;D:\COMPANY DATA\OneDrive\Documents\Arduino\DemoSat;C:\Users\David\Documents\Arduino\libraries\Adafruit_BNO055;C:\Users\David\Documents\Arduino\libraries\Adafruit_BNO055\utility;C:\Users\David\Documents\Arduino\libraries\Adafruit_Sensor;C:\Users\David\Documents\Arduino\libraries\Adafruit_Sensor\utility;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\utility;C:\Program Files (x86)\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\jcbhnnmr.scr\Micro Platforms\default\debuggers;C:\Users\David\Documents\Arduino\libraries;D:\COMPANY DATA\OneDrive\Documents\Arduino\DemoSat;C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;C:\Users\David\Documents\Arduino\libraries\Adafruit_BNO055;C:\Users\David\Documents\Arduino\libraries\Adafruit_Sensor;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire;C:\Program Files (x86)\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\jcbhnnmr.scr\Micro Platforms\default\debuggers;C:\Users\David\Documents\Arduino\libraries;C:\Users\David\Documents\Arduino\libraries\Adafruit_BNO055\utility;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\utility;c:\program files (x86)\arduino\hardware\tools\avr\avr\include\;c:\program files (x86)\arduino\hardware\tools\avr\avr\include\avr\;c:\program files (x86)\arduino\hardware\tools\avr\avr\;c:\program files (x86)\arduino\hardware\tools\avr\lib\gcc\avr\4.8.1\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>D:\COMPANY DATA\OneDrive\Documents\Arduino\DemoSat\__vm\.DemoSat.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
-      <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;_VMDEBUG=1;F_CPU=16000000L;ARDUINO=165;ARDUINO_AVR_UNO;ARDUINO_ARCH_AVR;__cplusplus;GCC_VERSION=40801;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;F_CPU=16000000L;ARDUINO=165;ARDUINO_AVR_UNO;ARDUINO_ARCH_AVR;__cplusplus;GCC_VERSION=40801;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -127,6 +127,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bno_accel_update.h" />
     <ClInclude Include="bno_gyro_update.h" />
     <ClInclude Include="bno_orientation_update.h" />
     <ClInclude Include="bno_temperature_update.h" />
@@ -142,6 +143,7 @@
     <ClInclude Include="__vm\.DemoSat.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="bno_accel_update.cpp" />
     <ClCompile Include="bno_gyro_update.cpp" />
     <ClCompile Include="bno_orientation_update.cpp" />
     <ClCompile Include="bno_temperature_update.cpp" />

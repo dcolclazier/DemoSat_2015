@@ -8,5 +8,5 @@ ACTION(bno_gyro_update) {
 
 private:
 	Adafruit_BNO055 _bno;
-	GyroData _gyro;
+	//GyroData _gyro;
 };

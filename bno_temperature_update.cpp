@@ -10,6 +10,6 @@ UNARYACTIONSETUP(bno_temperature_update, Adafruit_BNO055 bno) {
 } 
 ACTIONEXECUTE(bno_temperature_update) {
 	
-	_temp.Temp = _bno.getTemp();
-	EVENTHANDLER.trigger("bno_tmp_upd", &_temp, &_bno);
+	//_temp.Temp = _bno.getTemp();
+	//EVENTHANDLER.trigger("bno_tmp_upd", &_temp, &_bno);
 }
