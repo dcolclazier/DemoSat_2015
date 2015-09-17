@@ -35,6 +35,8 @@ void loop() {
 	if (currentTime - _prevTime < 1) return;
 	RunTime.Tenths++;
 	EVENTHANDLER.trigger(".1s", &RunTime, 0);
+	if (RunTime.Tenths % 5 == 0) EVENTHANDLER.trigger(".5s", &RunTime, 0);
+
 	if(RunTime.Tenths == 10) {
 		
 		RunTime.Seconds++;
