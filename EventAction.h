@@ -9,10 +9,13 @@ public:
 
 #define ACTION(name)\
 	struct name : public EventAction\
-		
+
 
 #define ACTIONEXECUTE(action)\
 	void action::execute(EventArgs* args, void* trigger)
+
+#define ACTIONCLEANUP(action)\
+	void action::~action()
 
 #define ACTIONINIT(name)\
 	name();\
