@@ -4,11 +4,12 @@
 
 class RedBoard {
 public:
-	void SensorSetup();
 
 	RedBoard();
 
 private:
+	void SensorSetup();
+
 	LED _onboardLED;
 	Adafruit_BNO055 _bnoSensor;
 
