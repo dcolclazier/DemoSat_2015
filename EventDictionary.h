@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include "WString.h"
 #include "Vector.h"
 
 
@@ -7,13 +6,13 @@ class Event;
 
 class EventDictionary {
 public:
-	void add_event(const String& name, Event* eventToAdd);
-	Event* get(const String& name);
-	bool contains(const String& name) const;
+	void add_event(const char* name, Event* eventToAdd);
+	Event* get(const char* name);
+	bool contains(const char* name) const;
 
 private:
 	struct EventKeyValue {
-		String key;
+		const char* key;
 		Event* value;
 	};
 

@@ -1,6 +1,5 @@
 ﻿#pragma once
-#include "EventAction.h"
-#include "EventArgs.h"
+#include "EventHandler.h"
 #include "Adafruit_BNO055.h"
 
 ACTION(bno_gyro_update) {
@@ -8,7 +7,7 @@ ACTION(bno_gyro_update) {
 
 private:
 	Adafruit_BNO055 _bno;
-	GyroData _gyro;
+	bno_vec _args;
 };
 
 ACTION(bno_mag_update) {
@@ -16,7 +15,8 @@ ACTION(bno_mag_update) {
 
 private:
 	Adafruit_BNO055 _bno;
-	MagneticFieldStrength _mag;
+	bno_vec _args;
+	
 };
 
 ACTION(bno_grav_update) {
@@ -24,7 +24,7 @@ ACTION(bno_grav_update) {
 
 private:
 	Adafruit_BNO055 _bno;
-	GravityVector _grav;
+	bno_vec _args;
 };
 
 ACTION(bno_temperature_update) {
@@ -40,7 +40,7 @@ ACTION(bno_accel_update) {
 
 private:
 	Adafruit_BNO055 _bno;
-	AccelVector _acceleration;
+	bno_vec _args;
 };
 
 ACTION(bno_orientation_update) {
@@ -48,6 +48,7 @@ ACTION(bno_orientation_update) {
 
 private:
 	Adafruit_BNO055 _bno;
+	bno_quat _quat;
 };
 
 ACTION(bno_linearAccel_update) {
@@ -55,5 +56,5 @@ ACTION(bno_linearAccel_update) {
 
 private:
 	Adafruit_BNO055 _bno;
-	LinearAcceleration _linear;
+	bno_vec _args;
 };

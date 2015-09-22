@@ -35,11 +35,7 @@ public:
 		memcpy(d_data, other.d_data, d_size*sizeof(T));
 		return *this;
 	}; // Needed for memory management
-	   /*void remove(int index) {
-	   memmove(d_data + index, d_data + 3, (d_size - index - 1) * sizeof(T));
-	   d_size--;
-	   d_capacity--;
-	   }*/
+	 
 	void push_back(T const &x) {
 
 		if (d_capacity == d_size) resize();

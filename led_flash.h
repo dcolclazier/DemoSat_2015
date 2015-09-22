@@ -1,13 +1,20 @@
 ﻿#pragma once
 #include "EventAction.h"
 #include "LED.h"
+#include <RTClib.h>
+
+
 
 ACTION(led_flash) {
-	UNARYACTIONINIT(led_flash, LED pin); // The name of the action, and any params it needs... This 
-										// action needs an LED to toggle, meaning 1 paramater, so
-										// we use the UNARYACTIONINIT.
+	UNARYACTIONINIT(led_flash, LED pin); 
 
-private://just like you'd put in a class
+private:
 	LED _pin;
 };
 
+
+ACTION(print_time) {
+	UNARYACTIONINIT(print_time, RTC_DS1307 rtc);
+private:
+	RTC_DS1307 _rtc;
+};

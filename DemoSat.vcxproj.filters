@@ -45,9 +45,6 @@
     <ClInclude Include="EventHandler.h">
       <Filter>EventHandler</Filter>
     </ClInclude>
-    <ClInclude Include="__vm\.DemoSat.vsarduino.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RedBoard.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -59,6 +56,9 @@
     </ClInclude>
     <ClInclude Include="led_flash.h">
       <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="__vm\.DemoSat.vsarduino.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

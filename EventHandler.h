@@ -1,9 +1,11 @@
 ﻿#pragma once
-#include "WString.h"
 #include "EventDictionary.h"
-class Event;
-class EventAction;
-class EventArgs;
+#include "EventAction.h"
+#include "Event.h"
+#include "EventArgs.h"
+//class Event;
+//class EventAction;
+//class EventArgs;
 
 class EventHandler {
 public:
@@ -12,11 +14,11 @@ public:
 		return me;
 	}
 
-	void add_event(const String& name, Event* eventToAdd);
-	void add_eventAction(const String& name, EventAction* action);
-	bool contains(const String& name);
-	Event* get(const String& name);
-	void trigger(const String& name, EventArgs* args, void* trigger);
+	void add_event(const char* name, Event* eventToAdd);
+	void add_eventAction(const char* name, EventAction* action);
+	bool contains(const char* name);
+	Event* get(const char* name);
+	void trigger(const char* name, EventArgs* args, void* trigger);
 
 
 
