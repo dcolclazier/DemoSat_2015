@@ -51,14 +51,20 @@
     <ClInclude Include="LED.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="bno_sensor_actions.h">
-      <Filter>Actions</Filter>
-    </ClInclude>
     <ClInclude Include="led_flash.h">
       <Filter>Actions</Filter>
     </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="__vm\.DemoSat.vsarduino.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bmp_sensor_actions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bno_sensor_actions.h">
+      <Filter>Actions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -77,10 +83,16 @@
     <ClCompile Include="LED.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="bno_sensor_actions.cpp">
+    <ClCompile Include="led_flash.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
-    <ClCompile Include="led_flash.cpp">
+    <ClCompile Include="Logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bmp_sensor_actions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bno_sensor_actions.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
   </ItemGroup>

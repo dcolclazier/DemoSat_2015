@@ -1,41 +1,32 @@
 ﻿#include "RedBoard.h"
+#include "bmp_sensor_actions.h"
 #include "bno_sensor_actions.h"
 #include "EventHandler.h"
-#include "led_flash.h"
 #include <RTClib.h>
 
-
-void RedBoard::SensorSetup() {
+RedBoard::RedBoard() : _logger(this), _onboardLED(LED(3)), _bnoSensor(55){
+	//start bno055 
 	if (!_bnoSensor.begin()) {
 		Serial.print(F("9dof sensor not detected..."));
 		while (1);
 	}
-
+	//start bmp180
+	if (!_bmpSensor.begin()) {
+		Serial.print(F("bmp180 not detected..."));
+		while (1);
+	}
 	delay(1000);
-
 	_bnoSensor.setExtCrystalUse(true);
-	
+
+	//EVENTHANDLER.add_eventAction(".1s", new bno_full_update(_bnoSensor));
+	//EVENTHANDLER.add_eventAction("bno_u", new log_bno_update(&_logger));
+
+	EVENTHANDLER.add_eventAction(".1s", new bmp_full_update(_bmpSensor));
+	EVENTHANDLER.add_eventAction("bmp_u", new log_bmp_update(&_logger));
 }
 
-RedBoard::RedBoard() : _onboardLED(13) {
-	
-
-	_realTimeClock.begin();
-	//_onboardLED = LED(13); //pin 13
-	_bnoSensor = 55; //I2C address 0x55
-	
-}
-
-void RedBoard::InitEvents() {
-	EVENTHANDLER.add_eventAction("1s", new print_time(_realTimeClock));
-	EVENTHANDLER.add_eventAction(".1s", new led_flash(_onboardLED));
-	EVENTHANDLER.add_eventAction(".1s", new bno_orientation_update(_bnoSensor));
-	EVENTHANDLER.add_eventAction("1s", new bno_temperature_update(_bnoSensor));
-	EVENTHANDLER.add_eventAction(".1s", new bno_gyro_update(_bnoSensor));
-	EVENTHANDLER.add_eventAction(".1s", new bno_accel_update(_bnoSensor));
-	EVENTHANDLER.add_eventAction(".1s", new bno_mag_update(_bnoSensor));
-	EVENTHANDLER.add_eventAction(".1s", new bno_grav_update(_bnoSensor));
-	EVENTHANDLER.add_eventAction(".1s", new bno_linearAccel_update(_bnoSensor));
+DateTime RedBoard::getTime() {
+	return _realTimeClock.now();
 }
 
 /*

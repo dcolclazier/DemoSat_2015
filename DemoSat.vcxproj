@@ -74,7 +74,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;D:\COMPANY DATA\OneDrive\Documents\Arduino\DemoSat;C:\Users\David\Documents\Arduino\libraries\Adafruit_BNO055;C:\Users\David\Documents\Arduino\libraries\Adafruit_BNO055\utility;C:\Users\David\Documents\Arduino\libraries\Adafruit_Sensor;C:\Users\David\Documents\Arduino\libraries\Adafruit_Sensor\utility;C:\Users\David\Documents\Arduino\libraries\RTClib;C:\Users\David\Documents\Arduino\libraries\RTClib\utility;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\utility;C:\Program Files (x86)\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\jcbhnnmr.scr\Micro Platforms\default\debuggers;C:\Users\David\Documents\Arduino\libraries;D:\COMPANY DATA\OneDrive\Documents\Arduino\DemoSat;C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;C:\Users\David\Documents\Arduino\libraries\Adafruit_BNO055;C:\Users\David\Documents\Arduino\libraries\Adafruit_Sensor;C:\Users\David\Documents\Arduino\libraries\RTClib;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI;C:\Program Files (x86)\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\jcbhnnmr.scr\Micro Platforms\default\debuggers;C:\Users\David\Documents\Arduino\libraries;C:\Users\David\Documents\Arduino\libraries\Adafruit_BNO055\utility;c:\program files (x86)\arduino\hardware\tools\avr\avr\include\;c:\program files (x86)\arduino\hardware\tools\avr\avr\include\avr\;c:\program files (x86)\arduino\hardware\tools\avr\avr\;c:\program files (x86)\arduino\hardware\tools\avr\lib\gcc\avr\4.8.1\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;D:\COMPANY DATA\OneDrive\Documents\Arduino\DemoSat;C:\Users\David\Documents\Arduino\libraries\Adafruit_BMP085_Unified-master;C:\Users\David\Documents\Arduino\libraries\Adafruit_BMP085_Unified-master\utility;C:\Users\David\Documents\Arduino\libraries\Adafruit_BNO055;C:\Users\David\Documents\Arduino\libraries\Adafruit_BNO055\utility;C:\Users\David\Documents\Arduino\libraries\Adafruit_Sensor;C:\Users\David\Documents\Arduino\libraries\Adafruit_Sensor\utility;C:\Users\David\Documents\Arduino\libraries\RTClib;C:\Users\David\Documents\Arduino\libraries\RTClib\utility;C:\Users\David\Documents\Arduino\libraries\SD;C:\Users\David\Documents\Arduino\libraries\SD\utility;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\utility;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\utility;C:\Program Files (x86)\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\jcbhnnmr.scr\Micro Platforms\default\debuggers;C:\Users\David\Documents\Arduino\libraries;D:\COMPANY DATA\OneDrive\Documents\Arduino\DemoSat;C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;C:\Users\David\Documents\Arduino\libraries\Adafruit_BMP085_Unified-master;C:\Users\David\Documents\Arduino\libraries\Adafruit_BNO055;C:\Users\David\Documents\Arduino\libraries\Adafruit_Sensor;C:\Users\David\Documents\Arduino\libraries\RTClib;C:\Users\David\Documents\Arduino\libraries\SD;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire;C:\Program Files (x86)\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\jcbhnnmr.scr\Micro Platforms\default\debuggers;C:\Users\David\Documents\Arduino\libraries;C:\Users\David\Documents\Arduino\libraries\Adafruit_BNO055\utility;C:\Users\David\Documents\Arduino\libraries\SD\utility;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\utility;c:\program files (x86)\arduino\hardware\tools\avr\avr\include\;c:\program files (x86)\arduino\hardware\tools\avr\avr\include\avr\;c:\program files (x86)\arduino\hardware\tools\avr\avr\;c:\program files (x86)\arduino\hardware\tools\avr\lib\gcc\avr\4.8.1\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>D:\COMPANY DATA\OneDrive\Documents\Arduino\DemoSat\__vm\.DemoSat.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
       <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;F_CPU=16000000L;ARDUINO=165;ARDUINO_AVR_UNO;ARDUINO_ARCH_AVR;__cplusplus;GCC_VERSION=40801;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -127,6 +127,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bmp_sensor_actions.h" />
     <ClInclude Include="bno_sensor_actions.h" />
     <ClInclude Include="led_flash.h" />
     <ClInclude Include="Event.h" />
@@ -135,17 +136,20 @@
     <ClInclude Include="EventDictionary.h" />
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="LED.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="RedBoard.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="__vm\.DemoSat.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="bmp_sensor_actions.cpp" />
     <ClCompile Include="bno_sensor_actions.cpp" />
     <ClCompile Include="led_flash.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventDictionary.cpp" />
     <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="LED.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="RedBoard.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

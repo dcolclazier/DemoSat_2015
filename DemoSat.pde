@@ -1,4 +1,5 @@
 
+
 #include "EventHandler.h"
 #include "EventArgs.h"
 #include "Event.h"
@@ -7,9 +8,11 @@
 #include "Wire.h"
 #include "Adafruit_Sensor.h"
 #include "Adafruit_BNO055.h"
+#include <Adafruit_BMP085_U.h>
 #include <SPI.h>
 #include <RTClib.h>
 #include <SD.h>
+#include "Logger.h"
 
 
 void InitClock() {
@@ -24,7 +27,6 @@ void InitClock() {
 	//EVENTHANDLER.add_event("5m", new Event);
 }
 int _prevTime = 0;
-int _tickTimeInmillis = 500;
 Time RunTime;
 
 void setup() {
@@ -32,9 +34,7 @@ void setup() {
 	Wire.begin();
 	InitClock();
 	
-	RedBoard mainBoard;
-	mainBoard.SensorSetup();
-	mainBoard.InitEvents();
+	static RedBoard mainBoard;
 }
 
 

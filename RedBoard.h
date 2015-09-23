@@ -1,17 +1,20 @@
 ﻿#pragma once
 #include "LED.h"
+#include <Adafruit_BMP085_U.h>
 #include <Adafruit_BNO055.h>
 #include <RTClib.h>
+#include "Logger.h"
 
 class RedBoard {
 public:
 
 	RedBoard();
-	void SensorSetup();
-	void InitEvents();
+	DateTime getTime();
 private:
 
+	Logger _logger;
+	RTC_DS1307 _realTimeClock;
 	LED _onboardLED;
 	Adafruit_BNO055 _bnoSensor;
-	RTC_DS1307 _realTimeClock;
+	Adafruit_BMP085_Unified _bmpSensor;
 };

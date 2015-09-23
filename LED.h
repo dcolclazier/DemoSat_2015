@@ -5,8 +5,8 @@ class LED {
 
 public:
 	void toggle();
-	LED(byte pin);
+	LED(uint8_t pin);
 protected:
-	byte _ledPin;
-	byte _ledState;
+	uint8_t _ledPin;
+	uint8_t _ledState;
 };
