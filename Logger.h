@@ -9,8 +9,6 @@ public:
 
 	explicit Logger(RedBoard* redboard);
 	DateTime getTime();
-	void init();
-	void test();
 
 private:
 	RedBoard* _redboard;

@@ -18,8 +18,8 @@ RedBoard::RedBoard() : _logger(this), _onboardLED(LED(3)), _bnoSensor(55){
 	delay(1000);
 	_bnoSensor.setExtCrystalUse(true);
 
-	//EVENTHANDLER.add_eventAction(".1s", new bno_full_update(_bnoSensor));
-	//EVENTHANDLER.add_eventAction("bno_u", new log_bno_update(&_logger));
+	EVENTHANDLER.add_eventAction(".1s", new bno_full_update(_bnoSensor));
+	EVENTHANDLER.add_eventAction("bno_u", new log_bno_update(&_logger));
 
 	EVENTHANDLER.add_eventAction(".1s", new bmp_full_update(_bmpSensor));
 	EVENTHANDLER.add_eventAction("bmp_u", new log_bmp_update(&_logger));

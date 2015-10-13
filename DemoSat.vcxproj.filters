@@ -57,14 +57,14 @@
     <ClInclude Include="Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="__vm\.DemoSat.vsarduino.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="bmp_sensor_actions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="bno_sensor_actions.h">
       <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="__vm\.DemoSat.vsarduino.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
