@@ -17,6 +17,8 @@
 
 void InitClock() {
 
+	//Test
+
 	EVENTHANDLER.add_event(".1s", new Event);
 	//EVENTHANDLER.add_event(".5s", new Event);
 	EVENTHANDLER.add_event("1s", new Event);
