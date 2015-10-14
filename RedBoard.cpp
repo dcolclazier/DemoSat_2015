@@ -1,6 +1,7 @@
 ﻿#include "RedBoard.h"
 #include "bmp_sensor_actions.h"
 #include "bno_sensor_actions.h"
+#include "HeaterActions.h"
 #include "EventHandler.h"
 #include <RTClib.h>
 
@@ -23,6 +24,9 @@ RedBoard::RedBoard() : _logger(this), _onboardLED(LED(3)), _bnoSensor(55){
 
 	EVENTHANDLER.add_eventAction(".1s", new bmp_full_update(_bmpSensor));
 	EVENTHANDLER.add_eventAction("bmp_u", new log_bmp_update(&_logger));
+
+	EVENTHANDLER.add_eventAction("5s", new avg_temp_update(_bmpSensor, _bnoSensor));
+	//EVENTHANDLER.add_eventAction("avg_tmp", new check_temperature());
 }
 
 DateTime RedBoard::getTime() {

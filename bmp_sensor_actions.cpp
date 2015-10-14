@@ -1,11 +1,11 @@
 ﻿#include "bmp_sensor_actions.h"
 #include "EventHandler.h"
 
-UNARYACTIONSETUP(bmp_full_update, Adafruit_BMP085_Unified  bmp) {
+bmp_full_update::bmp_full_update(Adafruit_BMP085_Unified bmp) {
 	_bmp = bmp;
 	EVENTHANDLER.add_event("bmp_u", new Event);
 }
-ACTIONEXECUTE(bmp_full_update) {
+void bmp_full_update::execute(EventArgs* args, void* trigger) {
 	sensors_event_t event;
 	_bmp.getEvent(&event);
 	_args.Pressure = event.pressure;
@@ -14,3 +14,17 @@ ACTIONEXECUTE(bmp_full_update) {
 	EVENTHANDLER.trigger("bmp_u", &_args, &_bmp);
 }
 
+
+avg_temp_update::avg_temp_update (Adafruit_BMP085_Unified bmp, Adafruit_BNO055 bno) : _bmp(bmp), _bno(bno)
+{
+	_bmp = bmp;
+	EVENTHANDLER.add_event("avg_tmp", new Event);
+}
+
+void avg_temp_update::execute(EventArgs* args, void* trigger)
+{
+	_bmp.getTemperature(&_args.BMP_Temp);
+	_args.BNO_Temp = _bno.getTemp();
+	_args.AVG_Temp = (_args.BNO_Temp + _args.BMP_Temp) / 2;
+	EVENTHANDLER.trigger("avg_tmp", &_args, 0);
+}

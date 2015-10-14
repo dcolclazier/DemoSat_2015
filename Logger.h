@@ -22,16 +22,18 @@ private:
 
 
 
-ACTION(log_bno_update) {
-	UNARYACTIONINIT(log_bno_update, Logger* logger);
+struct log_bno_update : public EventAction  {
+	log_bno_update(Logger* logger); 
+	void execute(EventArgs* args, void* trigger) override;
 private:
 	File _logfile;
 	Logger* _logger;
 	String _filename;
 };
 
-ACTION(log_bmp_update) {
-	UNARYACTIONINIT(log_bmp_update, Logger* logger);
+struct log_bmp_update : public EventAction  {
+	log_bmp_update(Logger* logger); 
+	void execute(EventArgs* args, void* trigger) override;
 private:
 	File _logfile;
 	Logger* _logger;

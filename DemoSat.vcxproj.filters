@@ -63,7 +63,13 @@
     <ClInclude Include="bno_sensor_actions.h">
       <Filter>Actions</Filter>
     </ClInclude>
-    <ClInclude Include="__vm\.DemoSat.vsarduino.h">
+    <ClInclude Include="HeaterController.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaterActions.h">
+      <Filter>EventHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="__vm\.Demosat.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -94,6 +100,9 @@
     </ClCompile>
     <ClCompile Include="bno_sensor_actions.cpp">
       <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="HeaterActions.cpp">
+      <Filter>EventHandler</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

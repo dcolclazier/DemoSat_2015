@@ -51,3 +51,10 @@ struct bmp_full_args :EventArgs {
 	float Temp;
 	float Altitude;
 };
+
+struct avg_temp_args : EventArgs
+{
+	float BNO_Temp;
+	float BMP_Temp;
+	float AVG_Temp;
+};

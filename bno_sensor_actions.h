@@ -66,8 +66,9 @@
 //	bno_args _args;
 //};
 ACTION(bno_full_update) {
-	UNARYACTIONINIT(bno_full_update, Adafruit_BNO055 bno);
+	bno_full_update(Adafruit_BNO055 bno); void execute(EventArgs* args, void* trigger) override;
 private:
+
 	Adafruit_BNO055 _bno;
 	bno_full_args _args;
 };

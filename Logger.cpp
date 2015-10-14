@@ -128,7 +128,7 @@ UNARYACTIONSETUP(log_bmp_update, Logger* logger) : _logger(logger) {
 	_logfile.close();
 
 }
-ACTIONEXECUTE(log_bmp_update) {
+void log_bmp_update::execute(EventArgs* args, void* trigger) {
 
 	//bno_args * bnoargs = static_cast<bno_args*>(args);
 	bmp_full_args * bmpargs = static_cast<bmp_full_args*>(args);
