@@ -8,28 +8,6 @@ public:
 };
 inline EventArgs::~EventArgs() {}
 
-//struct bno_args : EventArgs {
-//	bno_args() {}
-//	explicit bno_args(imu::Vector<3> vec) : Vec(vec) {}
-//	imu::Vector<3> Vec;
-//};
-//
-//struct bno_quat : EventArgs {
-//	bno_quat(){}
-//	explicit bno_quat(imu::Quaternion quat) : Quat(quat) {}
-//	imu::Quaternion Quat;
-//};
-//struct Temperature : EventArgs {
-//	enum Units { C, F };
-//
-//	Temperature() : Temp(0), TempUnits(C) {}
-//	explicit Temperature(int8_t temp, Units units)
-//		: Temp(temp), TempUnits(units) {
-//	}
-//
-//	byte Temp;
-//	Units TempUnits;
-//};
 struct Time : EventArgs {
 	byte Hours = 0;
 	byte Minutes = 0;
