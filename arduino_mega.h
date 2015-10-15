@@ -3,16 +3,16 @@
 #include <Adafruit_BMP085_U.h>
 #include <Adafruit_BNO055.h>
 #include <RTClib.h>
-#include "Logger.h"
+#include "sd_shield.h"
 
-class RedBoard {
+class arduino_mega {
 public:
 
-	RedBoard();
+	arduino_mega();
 	DateTime getTime();
 private:
 
-	Logger _logger;
+	SD_Shield _logger;
 	RTC_DS1307 _realTimeClock;
 	LED _onboardLED;
 	Adafruit_BNO055 _bnoSensor;

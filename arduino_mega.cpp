@@ -1,11 +1,12 @@
-﻿#include "RedBoard.h"
+﻿#include "arduino_mega.h"
 #include "heater_actions.h"
 #include "sensor_actions.h"
+#include "logging_actions.h"
 #include "EventHandler.h"
 #include <avr/pgmspace.h>
 #include <RTClib.h>
 
-RedBoard::RedBoard() : _logger(this), _onboardLED(LED(3)), _bnoSensor(55){
+arduino_mega::arduino_mega() : _logger(this), _onboardLED(LED(3)), _bnoSensor(55){
 	//start bno055 
 	if (!_bnoSensor.begin()) {
 		Serial.print(F("9dof sensor not detected..."));
@@ -29,7 +30,7 @@ RedBoard::RedBoard() : _logger(this), _onboardLED(LED(3)), _bnoSensor(55){
 	EVENTHANDLER.add_eventAction("avg_tmp", new update_heater_status());
 }
 
-DateTime RedBoard::getTime() {
+DateTime arduino_mega::getTime() {
 	return _realTimeClock.now();
 }
 

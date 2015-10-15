@@ -1,6 +1,6 @@
 #include "heater_actions.h"
 
-ACTIONSETUP(update_heater_status) {
+SIMPLEACTIONSETUP(update_heater_status) {
 	pinMode(heater_control, OUTPUT);
 	analogWrite(heater_control, 0);
 }

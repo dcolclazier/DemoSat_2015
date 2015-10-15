@@ -3,7 +3,7 @@
 #include "EventHandler.h"
 #include "EventArgs.h"
 #include "Event.h"
-#include "RedBoard.h"
+#include "arduino_mega.h"
 
 #include "Wire.h"
 #include "Adafruit_Sensor.h"
@@ -12,7 +12,7 @@
 #include <SPI.h>
 #include <RTClib.h>
 #include <SD.h>
-#include "Logger.h"
+#include "sd_shield.h"
 
 
 void InitClock() {
@@ -34,7 +34,7 @@ void setup() {
 	Wire.begin();
 	InitClock();
 	
-	static RedBoard mainBoard;
+	static arduino_mega mainBoard;
 }
 
 

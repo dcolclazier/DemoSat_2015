@@ -33,13 +33,7 @@
     <ClInclude Include="EventHandler.h">
       <Filter>_EventHandler</Filter>
     </ClInclude>
-    <ClInclude Include="RedBoard.h">
-      <Filter>_Components</Filter>
-    </ClInclude>
     <ClInclude Include="LED.h">
-      <Filter>_Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Logger.h">
       <Filter>_Components</Filter>
     </ClInclude>
     <ClInclude Include="sensor_actions.h">
@@ -50,6 +44,16 @@
     </ClInclude>
     <ClInclude Include="Vector.h">
       <Filter>_Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="arduino_mega.h">
+      <Filter>_Components</Filter>
+    </ClInclude>
+    <ClInclude Include="__vm\.DemoSat.vsarduino.h" />
+    <ClInclude Include="sd_shield.h">
+      <Filter>_Components</Filter>
+    </ClInclude>
+    <ClInclude Include="logging_actions.h">
+      <Filter>_Actions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -62,19 +66,22 @@
     <ClCompile Include="EventHandler.cpp">
       <Filter>_EventHandler</Filter>
     </ClCompile>
-    <ClCompile Include="RedBoard.cpp">
-      <Filter>_Components</Filter>
-    </ClCompile>
     <ClCompile Include="LED.cpp">
-      <Filter>_Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Logger.cpp">
       <Filter>_Components</Filter>
     </ClCompile>
     <ClCompile Include="sensor_actions.cpp">
       <Filter>_Actions</Filter>
     </ClCompile>
     <ClCompile Include="heater_actions.cpp">
+      <Filter>_Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="arduino_mega.cpp">
+      <Filter>_Components</Filter>
+    </ClCompile>
+    <ClCompile Include="sd_shield.cpp">
+      <Filter>_Components</Filter>
+    </ClCompile>
+    <ClCompile Include="logging_actions.cpp">
       <Filter>_Actions</Filter>
     </ClCompile>
   </ItemGroup>

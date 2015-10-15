@@ -2,8 +2,7 @@
 
 #include "EventHandler.h"
 
-ACTION(update_heater_status) {
-	ACTIONINIT(update_heater_status);
+SIMPLEACTION(update_heater_status) 
 	int heater_control = 11;
 };
 
