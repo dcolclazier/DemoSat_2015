@@ -3,6 +3,7 @@
 //Every action gets a setup function and an execute macro.
 //Match the name with the action name in sensor_actions.h
 
+
 //SIMPLE - means that the action won't be triggering any new events, meaning we don't need a type_of_args_sent_with_trigger (see below)
 //UNARY - means the action needs one piece of data from somewhere else in the program - could be a sensor, a component, w/e
 //BINARY - means the action needs two pieces of data from somewhere else in the program 
