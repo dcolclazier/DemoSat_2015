@@ -22,6 +22,9 @@
     <Filter Include="Components">
       <UniqueIdentifier>{975c836c-a164-42c4-a740-ecf07054e7e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Coroutines">
+      <UniqueIdentifier>{ff13bb19-4c35-4ed0-a311-d611a3b354bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DemoSat.pde" />
@@ -63,6 +66,9 @@
     <ClInclude Include="bno_sensor_actions.h">
       <Filter>Actions</Filter>
     </ClInclude>
+    <ClInclude Include="Coroutine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="__vm\.DemoSat.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -94,6 +100,9 @@
     </ClCompile>
     <ClCompile Include="bno_sensor_actions.cpp">
       <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="Coroutine.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

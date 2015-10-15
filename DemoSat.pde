@@ -34,7 +34,7 @@ void setup() {
 	Wire.begin();
 	InitClock();
 	
-	static RedBoard mainBoard;
+	static Mega2560 mainBoard;
 }
 
 
@@ -52,7 +52,7 @@ void loop() {
 		RunTime.Tenths = 0;
 		
 		EVENTHANDLER.trigger("1s", &RunTime, 0);
-		//if (RunTime.Seconds % 5 == 0)		EVENTHANDLER.trigger("5s", &RunTime, 0);
+		if (RunTime.Seconds % 5 == 0)		EVENTHANDLER.trigger("5s", &RunTime, 0);
 		//if (RunTime.Seconds % 15 == 0)	EVENTHANDLER.trigger("15s", &RunTime, 0);
 		//if (RunTime.Seconds % 30 == 0)	EVENTHANDLER.trigger("30s", &RunTime, 0);
 		

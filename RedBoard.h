@@ -5,10 +5,10 @@
 #include <RTClib.h>
 #include "Logger.h"
 
-class RedBoard {
+class Mega2560 {
 public:
 
-	RedBoard();
+	Mega2560();
 	DateTime getTime();
 private:
 

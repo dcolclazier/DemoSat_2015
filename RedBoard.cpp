@@ -4,7 +4,7 @@
 #include "EventHandler.h"
 #include <RTClib.h>
 
-RedBoard::RedBoard() : _logger(this), _onboardLED(LED(3)), _bnoSensor(55){
+Mega2560::Mega2560() : _logger(this), _onboardLED(LED(3)), _bnoSensor(55){
 	//start bno055 
 	if (!_bnoSensor.begin()) {
 		Serial.print(F("9dof sensor not detected..."));
@@ -21,11 +21,11 @@ RedBoard::RedBoard() : _logger(this), _onboardLED(LED(3)), _bnoSensor(55){
 	EVENTHANDLER.add_eventAction(".1s", new bno_full_update(_bnoSensor));
 	EVENTHANDLER.add_eventAction("bno_u", new log_bno_update(&_logger));
 
-	EVENTHANDLER.add_eventAction(".1s", new bmp_full_update(_bmpSensor));
-	EVENTHANDLER.add_eventAction("bmp_u", new log_bmp_update(&_logger));
+	//EVENTHANDLER.add_eventAction(".1s", new bmp_full_update(_bmpSensor));
+	//EVENTHANDLER.add_eventAction("bmp_u", new log_bmp_update(&_logger));
 }
 
-DateTime RedBoard::getTime() {
+DateTime Mega2560::getTime() {
 	return _realTimeClock.now();
 }
 
