@@ -5,7 +5,7 @@ void check_temperature::execute(EventArgs* args, void* trigger)
 {
 	avg_temp_args * tmpargs = static_cast<avg_temp_args*>(args);
 	if (tmpargs->AVG_Temp < 0) {
-		analogWrite(HeaterControl, 255);
+		analogWrite(HeaterControl, 50);
 	}
 	else if (tmpargs->AVG_Temp >= 0) {
 		analogWrite(HeaterControl, 0);

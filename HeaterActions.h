@@ -9,7 +9,8 @@ struct check_temperature : public EventAction
 {
 	//check_temperature(const HeaterController& ctrl) : _controller(ctrl) {}
 	check_temperature() {
-		pinmode(HeaterControl, OUTPUT);
+		pinMode(HeaterControl, OUTPUT);
+		analogWrite(HeaterControl, 0);
 	}
 	void execute(EventArgs* args, void* trigger) override;
 private:

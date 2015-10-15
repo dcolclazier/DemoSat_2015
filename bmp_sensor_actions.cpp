@@ -17,7 +17,6 @@ void bmp_full_update::execute(EventArgs* args, void* trigger) {
 
 avg_temp_update::avg_temp_update (Adafruit_BMP085_Unified bmp, Adafruit_BNO055 bno) : _bmp(bmp), _bno(bno)
 {
-	_bmp = bmp;
 	EVENTHANDLER.add_event("avg_tmp", new Event);
 }
 
