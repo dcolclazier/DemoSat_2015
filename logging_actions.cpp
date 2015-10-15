@@ -1,26 +1,6 @@
-﻿#include "Logger.h"
+﻿#include "logging_actions.h"
 #include "RTClib.h"
-#include "RedBoard.h"
-#include "EventHandler.h"
-
-Logger::Logger(RedBoard* redboard) : _redboard(redboard){
-	pinMode(SS, OUTPUT);
-	while (!_card.init(SPI_HALF_SPEED, 10,11,12,13)) {
-		Serial.println(F("Something went wrong with the SD Card init..."));
-	}
-	if (!_volume.init(_card)) {
-		Serial.println(F("Couldn't find FAT16/FAT32 partition..."));
-		return;
-	}
-	SD.begin(10,11,12,13);
-
-}
-
-DateTime Logger::getTime() {
-	return _redboard->getTime();
-}
-
-UNARYACTIONSETUP(log_bno_update, Logger* logger) : _logger(logger) {
+UNARYACTIONSETUP(log_bno_update, SD_Shield* logger) : _logger(logger) {
 	char filename[] = "BNO00.CSV";
 	for (uint8_t i = 0; i < 100; i++) {
 		filename[3] = i / 10 + '0';
@@ -40,7 +20,6 @@ UNARYACTIONSETUP(log_bno_update, Logger* logger) : _logger(logger) {
 }
 ACTIONEXECUTE(log_bno_update) {
 
-	//bno_args * bnoargs = static_cast<bno_args*>(args);
 	bno_full_args * bnoargs = static_cast<bno_full_args*>(args);
 
 	_logfile = SD.open(_filename.c_str(), O_CREAT | O_WRITE);
@@ -101,16 +80,17 @@ ACTIONEXECUTE(log_bno_update) {
 	_logfile.print(F(", "));
 	_logfile.print(bnoargs->Quat.w(), DEC);
 	_logfile.print(F(", "));
-	_logfile.print(bnoargs->linearAccell.x(), DEC);
+	_logfile.print(bnoargs->linearAccel.x(), DEC);
 	_logfile.print(F(", "));
-	_logfile.print(bnoargs->linearAccell.y(), DEC);
+	_logfile.print(bnoargs->linearAccel.y(), DEC);
 	_logfile.print(F(", "));
-	_logfile.print(bnoargs->linearAccell.z(), DEC);
+	_logfile.print(bnoargs->linearAccel.z(), DEC);
 	_logfile.println();
 	_logfile.close();
 }
-UNARYACTIONSETUP(log_bmp_update, Logger* logger) : _logger(logger) {
-	
+
+UNARYACTIONSETUP(log_alt_update, SD_Shield* logger) : _logger(logger) {
+
 	char filename[] = "BMP00.CSV";
 	for (uint8_t i = 0; i < 100; i++) {
 		filename[3] = i / 10 + '0';
@@ -128,9 +108,8 @@ UNARYACTIONSETUP(log_bmp_update, Logger* logger) : _logger(logger) {
 	_logfile.close();
 
 }
-ACTIONEXECUTE(log_bmp_update) {
+ACTIONEXECUTE(log_alt_update) {
 
-	//bno_args * bnoargs = static_cast<bno_args*>(args);
 	bmp_full_args * bmpargs = static_cast<bmp_full_args*>(args);
 
 	_logfile = SD.open(_filename.c_str(), O_CREAT | O_WRITE);
