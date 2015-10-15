@@ -11,6 +11,11 @@ public:
 	struct name : public EventAction\
 
 
+
+#define BINARYACTION(name)\
+	struct name : public EventAction\
+
+
 #define ACTIONEXECUTE(action)\
 	void action::execute(EventArgs* args, void* trigger)
 
@@ -19,15 +24,21 @@ public:
 
 #define ACTIONINIT(name)\
 	name();\
-	void execute(EventArgs* args, void* trigger) override
+	void execute(EventArgs* args, void* trigger) override;\
+private:\
 
-#define UNARYACTIONINIT(name, arg1)\
+#define UNARYACTIONINIT(name, argtype, arg1)\
 	name(arg1);\
-	void execute(EventArgs* args, void* trigger) override
+	void execute(EventArgs* args, void* trigger) override;\
+private:\
+	argtype _args\
 
-#define BINARYACTIONINIT(name, arg1, arg2)\
+
+#define BINARYACTIONINIT(name, argtype, arg1, arg2)\
 	name(arg1, arg2);\
-	void execute(EventArgs* args, void* trigger) override
+	void execute(EventArgs* args, void* trigger) override;\
+private:\
+	argtype _args\
 
 #define ACTIONINIT(name)\
 	name();\

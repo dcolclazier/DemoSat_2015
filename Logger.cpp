@@ -2,6 +2,7 @@
 #include "RTClib.h"
 #include "RedBoard.h"
 #include "EventHandler.h"
+#include <avr/pgmspace.h>
 
 Logger::Logger(RedBoard* redboard) : _redboard(redboard){
 	pinMode(SS, OUTPUT);
@@ -40,7 +41,6 @@ UNARYACTIONSETUP(log_bno_update, Logger* logger) : _logger(logger) {
 }
 ACTIONEXECUTE(log_bno_update) {
 
-	//bno_args * bnoargs = static_cast<bno_args*>(args);
 	bno_full_args * bnoargs = static_cast<bno_full_args*>(args);
 
 	_logfile = SD.open(_filename.c_str(), O_CREAT | O_WRITE);
@@ -101,15 +101,15 @@ ACTIONEXECUTE(log_bno_update) {
 	_logfile.print(F(", "));
 	_logfile.print(bnoargs->Quat.w(), DEC);
 	_logfile.print(F(", "));
-	_logfile.print(bnoargs->linearAccell.x(), DEC);
+	_logfile.print(bnoargs->linearAccel.x(), DEC);
 	_logfile.print(F(", "));
-	_logfile.print(bnoargs->linearAccell.y(), DEC);
+	_logfile.print(bnoargs->linearAccel.y(), DEC);
 	_logfile.print(F(", "));
-	_logfile.print(bnoargs->linearAccell.z(), DEC);
+	_logfile.print(bnoargs->linearAccel.z(), DEC);
 	_logfile.println();
 	_logfile.close();
 }
-UNARYACTIONSETUP(log_bmp_update, Logger* logger) : _logger(logger) {
+UNARYACTIONSETUP(log_alt_update, Logger* logger) : _logger(logger) {
 	
 	char filename[] = "BMP00.CSV";
 	for (uint8_t i = 0; i < 100; i++) {
@@ -128,7 +128,7 @@ UNARYACTIONSETUP(log_bmp_update, Logger* logger) : _logger(logger) {
 	_logfile.close();
 
 }
-void log_bmp_update::execute(EventArgs* args, void* trigger) {
+void log_alt_update::execute(EventArgs* args, void* trigger) {
 
 	//bno_args * bnoargs = static_cast<bno_args*>(args);
 	bmp_full_args * bmpargs = static_cast<bmp_full_args*>(args);

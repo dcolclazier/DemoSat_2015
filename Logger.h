@@ -31,8 +31,8 @@ private:
 	String _filename;
 };
 
-struct log_bmp_update : public EventAction  {
-	log_bmp_update(Logger* logger); 
+struct log_alt_update : public EventAction  {
+	log_alt_update(Logger* logger); 
 	void execute(EventArgs* args, void* trigger) override;
 private:
 	File _logfile;

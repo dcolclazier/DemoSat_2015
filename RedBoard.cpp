@@ -1,8 +1,8 @@
 ﻿#include "RedBoard.h"
-#include "bmp_sensor_actions.h"
-#include "bno_sensor_actions.h"
-#include "HeaterActions.h"
+#include "heater_actions.h"
+#include "sensor_actions.h"
 #include "EventHandler.h"
+#include <avr/pgmspace.h>
 #include <RTClib.h>
 
 RedBoard::RedBoard() : _logger(this), _onboardLED(LED(3)), _bnoSensor(55){
@@ -19,14 +19,14 @@ RedBoard::RedBoard() : _logger(this), _onboardLED(LED(3)), _bnoSensor(55){
 	delay(1000);
 	_bnoSensor.setExtCrystalUse(true);
 
-	EVENTHANDLER.add_eventAction(".1s", new bno_full_update(_bnoSensor));
+	EVENTHANDLER.add_eventAction(".5s", new bno_full_update(_bnoSensor));
 	EVENTHANDLER.add_eventAction("bno_u", new log_bno_update(&_logger));
 
-	EVENTHANDLER.add_eventAction(".1s", new bmp_full_update(_bmpSensor));
-	EVENTHANDLER.add_eventAction("bmp_u", new log_bmp_update(&_logger));
+	EVENTHANDLER.add_eventAction(".5s", new altitude_sensor_update(_bmpSensor));
+	EVENTHANDLER.add_eventAction("alt_u", new log_alt_update(&_logger));
 
 	EVENTHANDLER.add_eventAction("5s", new avg_temp_update(_bmpSensor, _bnoSensor));
-	EVENTHANDLER.add_eventAction("avg_tmp", new check_temperature());
+	EVENTHANDLER.add_eventAction("avg_tmp", new update_heater_status());
 }
 
 DateTime RedBoard::getTime() {
