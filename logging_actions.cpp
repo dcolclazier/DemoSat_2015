@@ -1,5 +1,6 @@
-﻿#include "Logger.h"
+﻿#include "logging_actions.h"
 #include "RTClib.h"
+<<<<<<< HEAD:Logger.cpp
 #include "RedBoard.h"
 #include "EventHandler.h"
 #include "Coroutine.h"
@@ -14,13 +15,23 @@ Logger::Logger(Mega2560* redboard) : _redboard(redboard){
 		return;
 	}
 	SD.begin(10,11,12,13);
+=======
 
-}
+//*************INSTRUCTIONS******************
+//Every action gets a setup function and an execute macro.
+//Match the name with the action name in sensor_actions.h
+>>>>>>> 963fd89bffea6faa822d910af2391f4a91769ee1:logging_actions.cpp
 
-DateTime Logger::getTime() {
-	return _redboard->getTime();
-}
+//SIMPLE - means that the action won't be triggering any new events, meaning we don't need a type_of_args_sent_with_trigger (see below)
+//UNARY - means the action needs one piece of data from somewhere else in the program - could be a sensor, a component, w/e
+//BINARY - means the action needs two pieces of data from somewhere else in the program 
 
+// UNARYACTIONSETUP(name_of_action, piece_of_data){
+//		put setup code here... if you're going to trigger an event, create that event here. 
+//		Also assign your piece_of_data to the private variable you created for it.
+// }
+
+<<<<<<< HEAD:Logger.cpp
 better_log_bno_update::better_log_bno_update(Logger* logger) {
 	buffer_test._logger = logger;
 	char filename[] = "BNO00.CSV";
@@ -42,6 +53,24 @@ better_log_bno_update::better_log_bno_update(Logger* logger) {
 
 
 log_bno_update::log_bno_update(Logger* logger) : _logger(logger) {
+=======
+// BINARYACTIONSETUP(name_of_action, piece_of_data1, piece_of_data2){
+//		put setup code here... if you're going to trigger an event, create that event here. 
+//		Also assign your piece_of_data to the private variable you created for it.
+// }
+
+// ACTIONEXECUTE(name_of_action){
+//		This is the code that runs when the action executes... for example, when the 
+//		update_heater_status runs, it checks the average temperature and turns on/off the heater 
+//		Another example would be the events below... They respond to a time event triggered in DemoSat.pde
+//		and trigger another event containing data from the sensor.
+
+//		One note: the first line of code turns the generic "args" into the args you need - into whatever args are sent with the 
+//		event your action is responding to. You can copy/paste from another action until you get used to the syntax.
+// }
+UNARYACTIONSETUP(log_bno_update, SD_Shield* logger) : _logger(logger) {
+	//find a good filename, create the file.
+>>>>>>> 963fd89bffea6faa822d910af2391f4a91769ee1:logging_actions.cpp
 	char filename[] = "BNO00.CSV";
 	for (uint8_t i = 0; i < 100; i++) {
 		filename[3] = i / 10 + '0';
@@ -82,7 +111,6 @@ void better_log_bno_update::execute(EventArgs* args, void* trigger) {
 }
 void log_bno_update::execute(EventArgs* args, void* trigger) {
 
-	//bno_args * bnoargs = static_cast<bno_args*>(args);
 	bno_full_args * bnoargs = static_cast<bno_full_args*>(args);
 
 	_logfile = SD.open(_filename.c_str(), O_CREAT | O_WRITE);
@@ -103,6 +131,7 @@ void log_bno_update::execute(EventArgs* args, void* trigger) {
 	_logfile.print(now.second(), DEC);
 	_logfile.print(F("\""));
 	_logfile.print(F(", "));
+<<<<<<< HEAD:Logger.cpp
 	_logfile.print((float)bnoargs->Gyro.x(), DEC);
 	_logfile.print(F(","));
 	_logfile.print((float)bnoargs->Gyro.y(), DEC);
@@ -148,11 +177,59 @@ void log_bno_update::execute(EventArgs* args, void* trigger) {
 	_logfile.print((float)bnoargs->linearAccell.y(), DEC);
 	_logfile.print(F(","));
 	_logfile.print((float)bnoargs->linearAccell.z(), DEC);
+=======
+	_logfile.print(bnoargs->Gyro.x(), DEC);
+	_logfile.print(F(", "));
+	_logfile.print(bnoargs->Gyro.y(), DEC);
+	_logfile.print(F(", "));
+	_logfile.print(bnoargs->Gyro.z(), DEC);
+	_logfile.print(F(", "));
+	_logfile.print(bnoargs->Mag.x(), DEC);
+	_logfile.print(F(", "));
+	_logfile.print(bnoargs->Mag.y(), DEC);
+	_logfile.print(F(", "));
+	_logfile.print(bnoargs->Mag.z(), DEC);
+	_logfile.print(F(", "));
+	_logfile.print(bnoargs->Grav.x(), DEC);
+	_logfile.print(F(", "));
+	_logfile.print(bnoargs->Grav.y(), DEC);
+	_logfile.print(F(", "));
+	_logfile.print(bnoargs->Grav.z(), DEC);
+	_logfile.print(F(", "));
+	_logfile.print(bnoargs->Temp, DEC);
+	_logfile.print(F(", "));
+	_logfile.print(bnoargs->Accel.x(), DEC);
+	_logfile.print(F(", "));
+	_logfile.print(bnoargs->Accel.y(), DEC);
+	_logfile.print(F(", "));
+	_logfile.print(bnoargs->Accel.z(), DEC);
+	_logfile.print(F(", "));
+	_logfile.print(bnoargs->Euler.x(), DEC);
+	_logfile.print(F(", "));
+	_logfile.print(bnoargs->Euler.y(), DEC);
+	_logfile.print(F(", "));
+	_logfile.print(bnoargs->Euler.z(), DEC);
+	_logfile.print(F(", "));
+	_logfile.print(bnoargs->Quat.x(), DEC);
+	_logfile.print(F(", "));
+	_logfile.print(bnoargs->Quat.y(), DEC);
+	_logfile.print(F(", "));
+	_logfile.print(bnoargs->Quat.z(), DEC);
+	_logfile.print(F(", "));
+	_logfile.print(bnoargs->Quat.w(), DEC);
+	_logfile.print(F(", "));
+	_logfile.print(bnoargs->linearAccel.x(), DEC);
+	_logfile.print(F(", "));
+	_logfile.print(bnoargs->linearAccel.y(), DEC);
+	_logfile.print(F(", "));
+	_logfile.print(bnoargs->linearAccel.z(), DEC);
+>>>>>>> 963fd89bffea6faa822d910af2391f4a91769ee1:logging_actions.cpp
 	_logfile.println();
 	_logfile.close();
 }
-UNARYACTIONSETUP(log_bmp_update, Logger* logger) : _logger(logger) {
-	
+
+UNARYACTIONSETUP(log_alt_update, SD_Shield* logger) : _logger(logger) {
+
 	char filename[] = "BMP00.CSV";
 	for (uint8_t i = 0; i < 100; i++) {
 		filename[3] = i / 10 + '0';
@@ -170,9 +247,8 @@ UNARYACTIONSETUP(log_bmp_update, Logger* logger) : _logger(logger) {
 	_logfile.close();
 
 }
-ACTIONEXECUTE(log_bmp_update) {
+ACTIONEXECUTE(log_alt_update) {
 
-	//bno_args * bnoargs = static_cast<bno_args*>(args);
 	bmp_full_args * bmpargs = static_cast<bmp_full_args*>(args);
 
 	_logfile = SD.open(_filename.c_str(), O_CREAT | O_WRITE);
