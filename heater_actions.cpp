@@ -1,5 +1,38 @@
 #include "heater_actions.h"
+#include "EventAction.h"
 //*************INSTRUCTIONS******************
+//The start of the program sets up a clock, that triggers an "event" on different time intervals (.1s, 1s, 5s, etc.)
+
+//The event handler works in the following way:
+//	Add an event to the eventhandler, which allows you to trigger the event. You can add actions to the event, 
+//	such that when the event is triggered, the action is performed.
+
+//Now, let's say I want something to happen every .1s:
+//The first thing I need to do is tell the EVENTHANDLER that there is an event:
+	// EVENTHANDLER.add_event(".1s");
+
+//Then, I set up a clock, such that every .1s, I trigger the event (don't worry about the clock logic)
+//  There's actually 3 ways to trigger an event, but we'll look at the simple way first:
+	// EVENTHANDLER.trigger(".1s");		
+
+
+//That's it! Every .1s, this ".1s" event is triggered. Right now, nothing happens, because we haven't added an action to the event.
+//Let's say I want to change that.. I need to add an action to the ".1s" event, which requires that I create an action.
+
+//There are several ways to create an action - to start, we'll look at the easiest way:
+	// CREATE_SIMPLEACTION(name_of_action);
+
+//Easy, right? If you want to create some variables that this action will know about, you can do it here as well:
+	// CREATE_SIMPLEACTION(name_of_action)
+	// {
+	//    int somePinOnArduino = 3;
+	// }
+
+//Once you create the action, you need two other macros: a setup, and an execute. The setup macro gets called when the action is created, once.
+// The execute macro gets called every time the event that it is associated with triggers. For our event, this would happen every .1s.
+
+//Each event can have an action associated with it.. For example: Every .1s, an event called ".1s" triggers
+//	
 //Every action gets a setup function and an execute macro.
 //Match the name with the action name in sensor_actions.h
 
@@ -33,21 +66,21 @@ SIMPLEACTIONSETUP(update_heater_status) {
 }
 ACTIONEXECUTE(update_heater_status) {
 	avg_temp_args * temp_args = static_cast<avg_temp_args*>(args);
-	if (temp_args->AVG_Temp < 0) analogWrite(heater_control, 50);
-	else if (temp_args->AVG_Temp > 5) analogWrite(heater_control, 0);
+	if (temp_args->avg_temp_update < 0) analogWrite(heater_control, 50);
+	else if (temp_args->avg_temp_update > 5) analogWrite(heater_control, 0);
 }
 
 //OLD CODE
 //void update_heater_status::execute(EventArgs* args, void* trigger)
 //{
 //	avg_temp_args * tmpargs = static_cast<avg_temp_args*>(args);
-//	if (tmpargs->AVG_Temp < 0) {
+//	if (tmpargs->avg_temp_update < 0) {
 //		analogWrite(HeaterControl, 50);
 //	}
-//	else if (tmpargs->AVG_Temp >= 0) {
+//	else if (tmpargs->avg_temp_update >= 0) {
 //		analogWrite(HeaterControl, 0);
 //	}
 //	//tmpargs->BNO_Temp;
 //	//tmpargs->BMP_Temp;
-//	//tmpargs->AVG_Temp;
+//	//tmpargs->avg_temp_update;
 //}

@@ -21,7 +21,7 @@
 //		any private variables you plan on using with the action - you'll need one for the piece_of_data, like below...
 // };
 
-// SIMPLEACTION(action_name)
+// CREATE_SIMPLEACTION(action_name)
 //		any private variables you plan on using with the action - you'll need one for the piece_of_data, like below...
 // };
 
@@ -36,7 +36,7 @@ SD_Shield* _logger;
 String _filename;
 };
 
-SIMPLEUNARYACTION(log_alt_update, SD_Shield* logger)
+SIMPLEUNARYACTION(log_altitude_updatepdate, SD_Shield* logger)
 
 File _logfile;
 SD_Shield* _logger;

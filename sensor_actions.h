@@ -19,7 +19,7 @@
 //		any private variables you plan on using with the action - you'll need one for the piece_of_data, like below...
 // };
 
-// SIMPLEACTION(action_name)
+// CREATE_SIMPLEACTION(action_name)
 //		any private variables you plan on using with the action - you'll need one for the piece_of_data, like below...
 // };
 
@@ -27,46 +27,46 @@
 //		any private variables you plan on using with the action - you'll need one for the piece_of_data, like below...
 // };
 
-//BNO055 GYROSCOPE UPDATE - to trigger, use event name "bn_gy_u"
+//BNO055 GYROSCOPE UPDATE - to trigger, use event name "gyro_update"
 //args contains gyroscope data
-UNARYACTION(bno_gyro_update, bno_gyro_args, Adafruit_BNO055 bno)
+UNARYACTION(gyro_update, gyro_args, Adafruit_BNO055 bno)
 	Adafruit_BNO055 _bno;
 };
 
-//BNO055 MAGNETOMETER UPDATE - to trigger, use event name "bn_m_u"
+//BNO055 MAGNETOMETER UPDATE - to trigger, use event name "magnetometer_update"
 //args contain magnetometer data
-UNARYACTION(bno_mag_update, bno_mag_args, Adafruit_BNO055 bno)
+UNARYACTION(magnetometer_update, magnetometer_args, Adafruit_BNO055 bno)
 	Adafruit_BNO055 _bno;
 };
 
-//BNO055 GRAVITOMETER UPDATE - to trigger, use event name "bn_gr_u"
+//BNO055 GRAVITOMETER UPDATE - to trigger, use event name "gravitometer_update"
 //args contain gravitometer data
-UNARYACTION(bno_grav_update, bno_grav_args, Adafruit_BNO055 bno)
+UNARYACTION(gravitometer_update, gravitometer_args, Adafruit_BNO055 bno)
 	Adafruit_BNO055 _bno;
 };
 
-//BNO055 ACCELERATION UPDATE - to trigger, use event name "bn_a_u"
+//BNO055 ACCELERATION UPDATE - to trigger, use event name "accelerometer_update"
 //args contain accelerometer and linear acceleration
-UNARYACTION(bno_accel_update, bno_accel_args, Adafruit_BNO055 bno);
+UNARYACTION(accelerometer_update, accelerometer_args, Adafruit_BNO055 bno);
 	Adafruit_BNO055 _bno;
 };
 
-//BNO055 POSITION UPDATE - to trigger, use event name "bn_p_u"
+//BNO055 POSITION UPDATE - to trigger, use event name "position_update"
 //args contains both euler heading and quaternion
-UNARYACTION(bno_position_update, bno_position_args, Adafruit_BNO055 bno);
+UNARYACTION(position_update, position_args, Adafruit_BNO055 bno);
 	Adafruit_BNO055 _bno;
 };
 
-//BNO055 Full UPDATE - to trigger, use event name "bn_full_u"
+//BNO055 Full UPDATE - to trigger, use event name "bno_logger_update"
 //args contains all possible data from bno_055 sensor 
 //use this for logging data - it's memory intensive.
-UNARYACTION(bno_full_update, bno_full_args, Adafruit_BNO055 bno)
+UNARYACTION(bno_logger_update, bno_logger_args, Adafruit_BNO055 bno)
 	Adafruit_BNO055 _bno;
 };
 
-//BMP SENSOR UPDATE - to trigger, use event name "alt_u"
+//BMP SENSOR UPDATE - to trigger, use event name "altitude_update"
 //args contains temperature, pressure and altitude
-UNARYACTION(altitude_sensor_update, bmp_full_args, Adafruit_BMP085_Unified bmp)
+UNARYACTION(altitude_update, altitude_args, Adafruit_BMP085_Unified bmp)
 
 	Adafruit_BMP085_Unified _bmp;
 	const float _seaLevelPressure = 1012.8f;

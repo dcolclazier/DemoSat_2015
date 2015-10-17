@@ -18,7 +18,7 @@
 //		any private variables you plan on using with the action - you'll need one for the piece_of_data, like below...
 // };
 
-// SIMPLEACTION(action_name)
+// CREATE_SIMPLEACTION(action_name)
 //		any private variables you plan on using with the action - you'll need one for the piece_of_data, like below...
 // };
 
@@ -26,7 +26,7 @@
 //		any private variables you plan on using with the action - you'll need one for the piece_of_data, like below...
 // };
 
-SIMPLEACTION(update_heater_status) 
+CREATE_SIMPLEACTION(update_heater_status) 
 	int heater_control = 11;
 };
 

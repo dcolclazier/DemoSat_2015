@@ -5,7 +5,17 @@ public:
 	virtual ~EventAction() {}
 	virtual void execute(EventArgs* args, void* trigger) = 0;
 };
-#define SIMPLEACTION(name)\
+#define CREATE_ACTION(name, out_argtype)\
+	struct name : public EventAction {\
+	ACTIONINIT(name, out_argtype);
+
+#define INIT_ACTION(name, argtype)\
+	name();\
+	void execute(EventArgs* args, void* trigger) override;\
+private:\
+	argtype _args\
+
+#define CREATE_SIMPLEACTION(name)\
 	struct name : public EventAction {\
 	SIMPLEACTIONINIT(name);
 

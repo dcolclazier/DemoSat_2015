@@ -17,14 +17,14 @@
 
 void InitClock() {
 
-	EVENTHANDLER.add_event(".1s", new Event);
-	EVENTHANDLER.add_event(".5s", new Event);
-	EVENTHANDLER.add_event("1s", new Event);
-	EVENTHANDLER.add_event("5s", new Event);
-	EVENTHANDLER.add_event("15s", new Event);
-	EVENTHANDLER.add_event("30s", new Event);
-	EVENTHANDLER.add_event("1m", new Event);
-	EVENTHANDLER.add_event("5m", new Event);
+	EVENTHANDLER.add_event(".1s");
+	EVENTHANDLER.add_event(".5s");
+	EVENTHANDLER.add_event("1s");
+	EVENTHANDLER.add_event("5s");
+	EVENTHANDLER.add_event("15s");
+	EVENTHANDLER.add_event("30s");
+	EVENTHANDLER.add_event("1m");
+	EVENTHANDLER.add_event("5m");
 }
 int _prevTime = 0;
 Time RunTime;

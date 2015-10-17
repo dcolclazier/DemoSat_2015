@@ -49,7 +49,7 @@ UNARYACTIONSETUP(log_bno_update, SD_Shield* logger) : _logger(logger) {
 }
 ACTIONEXECUTE(log_bno_update) {
 
-	bno_full_args * bnoargs = static_cast<bno_full_args*>(args);
+	bno_logger_args * bnoargs = static_cast<bno_logger_args*>(args);
 
 	_logfile = SD.open(_filename.c_str(), O_CREAT | O_WRITE);
 	_logfile.print(millis());
@@ -118,7 +118,7 @@ ACTIONEXECUTE(log_bno_update) {
 	_logfile.close();
 }
 
-UNARYACTIONSETUP(log_alt_update, SD_Shield* logger) : _logger(logger) {
+UNARYACTIONSETUP(log_altitude_updatepdate, SD_Shield* logger) : _logger(logger) {
 
 	char filename[] = "BMP00.CSV";
 	for (uint8_t i = 0; i < 100; i++) {
@@ -137,9 +137,9 @@ UNARYACTIONSETUP(log_alt_update, SD_Shield* logger) : _logger(logger) {
 	_logfile.close();
 
 }
-ACTIONEXECUTE(log_alt_update) {
+ACTIONEXECUTE(log_altitude_updatepdate) {
 
-	bmp_full_args * bmpargs = static_cast<bmp_full_args*>(args);
+	altitude_args * bmpargs = static_cast<altitude_args*>(args);
 
 	_logfile = SD.open(_filename.c_str(), O_CREAT | O_WRITE);
 	_logfile.print(millis());
