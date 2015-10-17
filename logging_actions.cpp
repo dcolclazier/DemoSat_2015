@@ -9,17 +9,17 @@
 //UNARY - means the action needs one piece of data from somewhere else in the program - could be a sensor, a component, w/e
 //BINARY - means the action needs two pieces of data from somewhere else in the program 
 
-// UNARYACTIONSETUP(name_of_action, piece_of_data){
+// SETUP_TRIGGERACTION_ONE_ARG(name_of_action, piece_of_data){
 //		put setup code here... if you're going to trigger an event, create that event here. 
 //		Also assign your piece_of_data to the private variable you created for it.
 // }
 
-// BINARYACTIONSETUP(name_of_action, piece_of_data1, piece_of_data2){
+// SETUP_TRIGGERACTION_TWO_ARGS(name_of_action, piece_of_data1, piece_of_data2){
 //		put setup code here... if you're going to trigger an event, create that event here. 
 //		Also assign your piece_of_data to the private variable you created for it.
 // }
 
-// ACTIONEXECUTE(name_of_action){
+// EXECUTE_ACTION(name_of_action){
 //		This is the code that runs when the action executes... for example, when the 
 //		update_heater_status runs, it checks the average temperature and turns on/off the heater 
 //		Another example would be the events below... They respond to a time event triggered in DemoSat.pde
@@ -28,7 +28,7 @@
 //		One note: the first line of code turns the generic "args" into the args you need - into whatever args are sent with the 
 //		event your action is responding to. You can copy/paste from another action until you get used to the syntax.
 // }
-UNARYACTIONSETUP(log_bno_update, SD_Shield* logger) : _logger(logger) {
+SETUP_TRIGGERACTION_ONE_ARG(log_bno_update, SD_Shield* logger) : _logger(logger) {
 	//find a good filename, create the file.
 	char filename[] = "BNO00.CSV";
 	for (uint8_t i = 0; i < 100; i++) {
@@ -47,7 +47,7 @@ UNARYACTIONSETUP(log_bno_update, SD_Shield* logger) : _logger(logger) {
 	_logfile.close();
 
 }
-ACTIONEXECUTE(log_bno_update) {
+EXECUTE_ACTION(log_bno_update) {
 
 	bno_logger_args * bnoargs = static_cast<bno_logger_args*>(args);
 
@@ -118,7 +118,7 @@ ACTIONEXECUTE(log_bno_update) {
 	_logfile.close();
 }
 
-UNARYACTIONSETUP(log_altitude_updatepdate, SD_Shield* logger) : _logger(logger) {
+SETUP_TRIGGERACTION_ONE_ARG(log_altitude_updatepdate, SD_Shield* logger) : _logger(logger) {
 
 	char filename[] = "BMP00.CSV";
 	for (uint8_t i = 0; i < 100; i++) {
@@ -137,7 +137,7 @@ UNARYACTIONSETUP(log_altitude_updatepdate, SD_Shield* logger) : _logger(logger) 
 	_logfile.close();
 
 }
-ACTIONEXECUTE(log_altitude_updatepdate) {
+EXECUTE_ACTION(log_altitude_updatepdate) {
 
 	altitude_args * bmpargs = static_cast<altitude_args*>(args);
 

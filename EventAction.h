@@ -5,7 +5,7 @@ public:
 	virtual ~EventAction() {}
 	virtual void execute(EventArgs* args, void* trigger) = 0;
 };
-#define CREATE_ACTION(name, out_argtype)\
+#define CREATE_TRIGGERACTION(name, out_argtype)\
 	struct name : public EventAction {\
 	ACTIONINIT(name, out_argtype);
 
@@ -19,7 +19,7 @@ private:\
 	struct name : public EventAction {\
 	SIMPLEACTIONINIT(name);
 
-#define SIMPLEACTIONSETUP(action)\
+#define SETUP_SIMPLEACTION(action)\
 	action::action()
 
 #define SIMPLEACTIONINIT(name)\
@@ -27,11 +27,11 @@ private:\
 	void execute(EventArgs* args, void* trigger) override;\
 	private:\
 
-#define SIMPLEUNARYACTION(name, arg1)\
+#define CREATE_SIMPLEUNARYACTION(name, arg1)\
 	struct name : public EventAction {\
 	SIMPLEUNARYACTIONINIT(name, arg1);
 
-#define SIMPLEUNARYACTIONSETUP(name)\
+#define SETUP_SIMPLEUNARYACTION(name)\
 	name::name()
 
 #define SIMPLEUNARYACTIONINIT(name, arg1)\
@@ -39,11 +39,11 @@ private:\
 	void execute(EventArgs* args, void* trigger) override;\
 	private:\
 
-#define SIMPLEBINARYACTION(name, arg1, arg2)\
+#define CREATE_SIMPLEBINARYACTION(name, arg1, arg2)\
 	struct name : public EventAction {\
 	SIMPLEBINARYACTIONINIT(name, arg1, arg2);
 
-#define SIMPLEBINARYACTIONSETUP(name, arg1, arg2)\
+#define SETUP_ACTION_TWO_ARGS(name, arg1, arg2)\
 	name::name(arg1, arg2)
 
 #define SIMPLEBINARYACTIONINIT(name, arg1, arg2)\
@@ -52,7 +52,7 @@ private:\
 private:\
 
 
-#define UNARYACTION(name, out_argtype, in_arg1)\
+#define CREATE_TRIGGERACTION_ONE_ARG(name, out_argtype, in_arg1)\
 	struct name : public EventAction {\
 	UNARYACTIONINIT(name, out_argtype, in_arg1);\
 
@@ -62,11 +62,11 @@ private:\
 private:\
 	argtype _args\
 
-#define UNARYACTIONSETUP(action,arg1)\
+#define SETUP_TRIGGERACTION_ONE_ARG(action,arg1)\
 	action::action(arg1)
 
 
-#define BINARYACTION(name, out_argtype, in_arg1, in_arg2)\
+#define CREATE_TRIGGERACTION_TWO_ARGS(name, out_argtype, in_arg1, in_arg2)\
 	struct name : public EventAction {\
 	BINARYACTIONINIT(name, out_argtype, in_arg1, in_arg2);
 
@@ -76,11 +76,13 @@ private:\
 private:\
 	argtype _args\
 
-#define BINARYACTIONSETUP(action,arg1, arg2)\
+#define SETUP_TRIGGERACTION_TWO_ARGS(action,arg1, arg2)\
 	action::action(arg1, arg2)
 
-#define ACTIONCLEANUP(action)\
+#define CLEANUP_ACTION(action)\
 	void action::~action()
 
-#define ACTIONEXECUTE(action)\
+#define EXECUTE_ACTION(action)\
 	void action::execute(EventArgs* args, void* trigger)
+
+#define END_CREATE };

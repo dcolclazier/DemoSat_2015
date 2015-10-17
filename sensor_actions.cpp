@@ -9,17 +9,17 @@
 //UNARY - means the action needs one piece of data from somewhere else in the program - could be a sensor, a component, w/e
 //BINARY - means the action needs two pieces of data from somewhere else in the program 
 
-// UNARYACTIONSETUP(name_of_action, piece_of_data){
+// SETUP_TRIGGERACTION_ONE_ARG(name_of_action, piece_of_data){
 //		put setup code here... if you're going to trigger an event, create that event here. 
 //		Also assign your piece_of_data to the private variable you created for it.
 // }
 
-// BINARYACTIONSETUP(name_of_action, piece_of_data1, piece_of_data2){
+// SETUP_TRIGGERACTION_TWO_ARGS(name_of_action, piece_of_data1, piece_of_data2){
 //		put setup code here... if you're going to trigger an event, create that event here. 
 //		Also assign your piece_of_data to the private variable you created for it.
 // }
 
-// ACTIONEXECUTE(name_of_action){
+// EXECUTE_ACTION(name_of_action){
 //		This is the code that runs when the action executes... for example, when the 
 //		update_heater_status runs, it checks the average temperature and turns on/off the heater 
 //		Another example would be the events below... They respond to a time event triggered in DemoSat.pde
@@ -32,11 +32,11 @@
 //BNO055 GYROSCOPE UPDATE - to trigger, use event name "gyro_update"
 //args should be casted into a gyro_args
 //args contains gyroscope data
-UNARYACTIONSETUP(gyro_update, Adafruit_BNO055 bno)  {
+SETUP_TRIGGERACTION_ONE_ARG(gyro_update, Adafruit_BNO055 bno)  {
 	_bno = bno;
 	EVENTHANDLER.add_event("gyro_update");
 }
-ACTIONEXECUTE(gyro_update) {
+EXECUTE_ACTION(gyro_update) {
 
 	_args.Gyro = _bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
 	EVENTHANDLER.trigger("gyro_update", &_args);
@@ -45,11 +45,11 @@ ACTIONEXECUTE(gyro_update) {
 //BNO055 MAGNETOMETER UPDATE - to trigger, use event name "magnetometer_update"
 //args should be casted into a magnetometer_args
 //args contain magnetometer data
-UNARYACTIONSETUP(magnetometer_update, Adafruit_BNO055 bno) {
+SETUP_TRIGGERACTION_ONE_ARG(magnetometer_update, Adafruit_BNO055 bno) {
 	_bno = bno;
 	EVENTHANDLER.add_event("magnetometer_update");
 }
-ACTIONEXECUTE(magnetometer_update) {
+EXECUTE_ACTION(magnetometer_update) {
 
 	_args.Mag = _bno.getVector(Adafruit_BNO055::VECTOR_MAGNETOMETER);
 	EVENTHANDLER.trigger("magnetometer_update", &_args);
@@ -58,11 +58,11 @@ ACTIONEXECUTE(magnetometer_update) {
 //BNO055 GRAVITOMETER UPDATE - to trigger, use event name "gravitometer_update"
 //args should be casted into a gravitometer_args
 //args contain gravitometer data
-UNARYACTIONSETUP(gravitometer_update, Adafruit_BNO055 bno) {
+SETUP_TRIGGERACTION_ONE_ARG(gravitometer_update, Adafruit_BNO055 bno) {
 	_bno = bno;
 	EVENTHANDLER.add_event("gravitometer_update");
 }
-ACTIONEXECUTE(gravitometer_update) {
+EXECUTE_ACTION(gravitometer_update) {
 
 	_args.Grav = _bno.getVector(Adafruit_BNO055::VECTOR_GRAVITY);
 	EVENTHANDLER.trigger("gravitometer_update", &_args);
@@ -71,11 +71,11 @@ ACTIONEXECUTE(gravitometer_update) {
 //BNO055 ACCELERATION UPDATE - to trigger, use event name "accelerometer_update"
 //args should be casted into a accelerometer_args
 //args contain accelerometer and linear acceleration
-UNARYACTIONSETUP(accelerometer_update, Adafruit_BNO055 bno) {
+SETUP_TRIGGERACTION_ONE_ARG(accelerometer_update, Adafruit_BNO055 bno) {
 	_bno = bno;
 	EVENTHANDLER.add_event("accelerometer_update");
 }
-ACTIONEXECUTE(accelerometer_update) {
+EXECUTE_ACTION(accelerometer_update) {
 
 	_args.Accel = _bno.getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER);
 	_args.linearAccel = _bno.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
@@ -85,11 +85,11 @@ ACTIONEXECUTE(accelerometer_update) {
 //BNO055 POSITION UPDATE - to trigger, use event name "position_update"
 //args should be casted into a position_args
 //args contains both euler heading and quaternion
-UNARYACTIONSETUP(position_update, Adafruit_BNO055 bno) {
+SETUP_TRIGGERACTION_ONE_ARG(position_update, Adafruit_BNO055 bno) {
 	_bno = bno;
 	EVENTHANDLER.add_event("position_update");
 }
-ACTIONEXECUTE(position_update) {
+EXECUTE_ACTION(position_update) {
 
 	_args.Euler = _bno.getVector(Adafruit_BNO055::VECTOR_EULER);
 	_args.Quat = _bno.getQuat();
@@ -100,11 +100,11 @@ ACTIONEXECUTE(position_update) {
 //args should be casted into a bno_logger_args
 //args contains all possible data from bno_055 sensor 
 //use this for logging data - it's memory intensive.
-UNARYACTIONSETUP(bno_logger_update, Adafruit_BNO055 bno)  {
+SETUP_TRIGGERACTION_ONE_ARG(bno_logger_update, Adafruit_BNO055 bno)  {
 	_bno = bno;
 	EVENTHANDLER.add_event("bno_logger_update");
 }
-ACTIONEXECUTE(bno_logger_update) {
+EXECUTE_ACTION(bno_logger_update) {
 
 	_args.Gyro = _bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
 	_args.Mag = _bno.getVector(Adafruit_BNO055::VECTOR_MAGNETOMETER);
@@ -120,11 +120,11 @@ ACTIONEXECUTE(bno_logger_update) {
 //BMP SENSOR UPDATE - to trigger, use event name "altitude_update"
 //args should be casted into a altitude_args
 //args contains temperature, pressure and altitude
-UNARYACTIONSETUP(altitude_update, Adafruit_BMP085_Unified bmp) {
+SETUP_TRIGGERACTION_ONE_ARG(altitude_update, Adafruit_BMP085_Unified bmp) {
 	_bmp = bmp;
 	EVENTHANDLER.add_event("altitude_update");
 }
-ACTIONEXECUTE(altitude_update) {
+EXECUTE_ACTION(altitude_update) {
 	sensors_event_t event;
 	_bmp.getEvent(&event);
 	_args.Pressure = event.pressure;
@@ -134,13 +134,13 @@ ACTIONEXECUTE(altitude_update) {
 }
 
 //AVG TEMP UPDATE - to trigger, use event name "avg_tmp"
-//args should be casted into a avg_temp_args
+//args should be casted into a temperature_args
 //args contains temperature, pressure and altitude
-BINARYACTIONSETUP(avg_temp_update, Adafruit_BMP085_Unified bmp, Adafruit_BNO055 bno)
+SETUP_TRIGGERACTION_TWO_ARGS(avg_temp_update, Adafruit_BMP085_Unified bmp, Adafruit_BNO055 bno)
 	: _bmp(bmp), _bno(bno) {
 	EVENTHANDLER.add_event("avg_temp_update");
 }
-ACTIONEXECUTE(avg_temp_update) {
+EXECUTE_ACTION(avg_temp_update) {
 	_bmp.getTemperature(&_args.BMP_Temp);
 	_args.BNO_Temp = _bno.getTemp();
 	_args.avg_temp_update = (_args.BNO_Temp + _args.BMP_Temp) / 2;
