@@ -147,6 +147,21 @@ EXECUTE_ACTION(avg_temp_update) {
 	EVENTHANDLER.trigger("avg_temp_update", &_args);
 }
 
+SETUP_ACTION_TWO_ARGS(doorman_update, Adafruit_BMP085_Unified bmp, HIH6130 humid) : _humid(humid), _bmp(bmp) {
+	EVENTHANDLER.add_event("doorman_update");
+
+}
+
+
+EXECUTE_ACTION(doorman_update) {
+	sensors_event_t event;
+	float temp;
+	_bmp.getEvent(&event);
+	_humid.readRHT();
+	_args.altitude = _bmp.pressureToAltitude(seaPressure, event.pressure, _humid.temperature);
+	_args.relative_humidity = _humid.humidity;
+	EVENTHANDLER.trigger("doorman_update", &_args);
+}
 SETUP_ACTION(doorman_check) {
 	EVENTHANDLER.add_event("Open_Door1");
 	EVENTHANDLER.add_event("Open_Door2");

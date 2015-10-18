@@ -2,6 +2,7 @@
 #include "EventHandler.h"
 #include "Adafruit_BNO055.h"
 #include "Adafruit_BMP085_U.h"
+#include "HIH6130.h"
 
 //Here are some newer actions still - they're called
 // trigger actions. They work the same as the other actions,
@@ -64,6 +65,9 @@ CREATE_EVENT_TRIGGERING_ACTION_2ARGS(avg_temp_update, temperature_args, Adafruit
 	Adafruit_BNO055 _bno;
 END_CREATE
 
+
+
+//DOOR MAN CHECK - responsble for checking the doorman_update arguments to see if its time to open a door.
 CREATE_EVENT_TRIGGERING_ACTION(doorman_check, int)
 
 	int door1_alt = 5000;
@@ -71,4 +75,12 @@ CREATE_EVENT_TRIGGERING_ACTION(doorman_check, int)
 	int door3_alt = 15000;
 	int door4_alt = 20000;
 
+END_CREATE
+
+
+//DOOR MAN UPDATE - responsible for updating the arguments that the doorman needs in order to open doors.
+CREATE_EVENT_TRIGGERING_ACTION_2ARGS(doorman_update, doorman_args, Adafruit_BMP085_Unified bmp, HIH6130 humid)
+	Adafruit_BMP085_Unified _bmp;
+	HIH6130 _humid;
+	float seaPressure = 1012.8f;
 END_CREATE

@@ -39,10 +39,11 @@ arduino_mega::arduino_mega() : _logger(this), _onboardLED(LED(4)), _bnoSensor(0x
 		Serial.print(F("bmp180 not detected..."));
 		while (1);
 	}
-	if (!_humidSensor.begin()) {
+	/*if (!_humidSensor.begin()) {
 		Serial.print(F("humid sensor not detected..."));
 		while (1);
-	}
+	}*/
+	_humidSensor.begin();
 	delay(1000);
 	_bnoSensor.setExtCrystalUse(true);
 
@@ -55,7 +56,9 @@ arduino_mega::arduino_mega() : _logger(this), _onboardLED(LED(4)), _bnoSensor(0x
 
 	EVENTHANDLER.add_eventAction(".5s", new altitude_update(_bmpSensor));
 	EVENTHANDLER.add_eventAction("altitude_update", new log_altitude_update(&_logger));
-	EVENTHANDLER.add_eventAction("altitude_update", new doorman_check);
+
+	EVENTHANDLER.add_eventAction(".5s", new doorman_update(_bmpSensor, _humidSensor));
+	EVENTHANDLER.add_eventAction("doorman_update", new doorman_check);
 
 	EVENTHANDLER.add_eventAction("5s", new avg_temp_update(_bmpSensor, _bnoSensor));
 	EVENTHANDLER.add_eventAction("avg_temp_update", new update_heater_status());

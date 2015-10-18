@@ -64,3 +64,9 @@ struct temperature_args : EventArgs
 	float BMP_Temp;
 	float AVG_temp;
 };
+
+struct doorman_args : EventArgs {
+	float relative_humidity;
+	float altitude;
+
+};

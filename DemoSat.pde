@@ -1,5 +1,6 @@
 
 
+
 #include "EventHandler.h"
 #include "EventArgs.h"
 #include "Event.h"
@@ -14,6 +15,7 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 #include <SD.h>
+#include <HIH6130.h>
 #include "sd_shield.h"
 //*************INSTRUCTIONS******************
 //The start of the program sets up a clock, that triggers an "event" on different time intervals (.1s, 1s, 5s, etc.)

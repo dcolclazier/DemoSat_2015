@@ -4,7 +4,7 @@
 #include <Adafruit_BNO055.h>
 #include <RTClib.h>
 #include "sd_shield.h"
-#include "Sparkfun_Humid.h"
+#include "HIH6130.h"
 
 class arduino_mega {
 public:
@@ -18,5 +18,5 @@ private:
 	LED _onboardLED;
 	Adafruit_BNO055 _bnoSensor;
 	Adafruit_BMP085_Unified _bmpSensor;
-	Sparkfun_Humid _humidSensor;
+	HIH6130 _humidSensor;
 };
