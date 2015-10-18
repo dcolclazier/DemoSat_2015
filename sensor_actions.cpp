@@ -146,3 +146,34 @@ EXECUTE_ACTION(avg_temp_update) {
 	_args.AVG_temp = (_args.BNO_Temp + _args.BMP_Temp) / 2;
 	EVENTHANDLER.trigger("avg_temp_update", &_args);
 }
+
+SETUP_ACTION(doorman_check) {
+	EVENTHANDLER.add_event("Open_Door1");
+	EVENTHANDLER.add_event("Open_Door2");
+	EVENTHANDLER.add_event("Open_Door3");
+	EVENTHANDLER.add_event("Open_Door4");
+	EVENTHANDLER.add_event("Close_Door1");
+	EVENTHANDLER.add_event("Close_Door2");
+	EVENTHANDLER.add_event("Close_Door3");
+	EVENTHANDLER.add_event("Close_Door4");
+}
+EXECUTE_ACTION(doorman_check) {
+	altitude_args * data = static_cast<altitude_args*>(args);
+	
+	if(data->Altitude == 5000) {
+		EVENTHANDLER.trigger("Open_Door1");
+	}
+	if(data->Altitude == 10000) {
+		EVENTHANDLER.trigger("Close_Door1");
+		EVENTHANDLER.trigger("Open_Door2");
+	}
+	if(data->Altitude == 15000) {
+		EVENTHANDLER.trigger("Close_Door2");
+		EVENTHANDLER.trigger("Open_Door3");
+	}
+	if(data->Altitude == 20000) {
+		EVENTHANDLER.trigger("Close_Door3");
+		EVENTHANDLER.trigger("Open_Door4");
+	}
+
+}

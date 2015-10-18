@@ -128,3 +128,10 @@ void loop() {
 	int loopExecutionTime = millis()/100 - currentTime;
 	_prevTime = currentTime + loopExecutionTime;
 }
+
+
+//action to open doors
+//photo resistors plug into door - action to say door opened
+//event triggered at 4 different altitudes
+//code to calibrate the sensors and run led
+//need the rest of the humidity sensor code

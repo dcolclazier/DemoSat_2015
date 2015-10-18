@@ -63,3 +63,12 @@ CREATE_EVENT_TRIGGERING_ACTION_2ARGS(avg_temp_update, temperature_args, Adafruit
 	Adafruit_BMP085_Unified _bmp;
 	Adafruit_BNO055 _bno;
 END_CREATE
+
+CREATE_EVENT_TRIGGERING_ACTION(doorman_check, int)
+
+	int door1_alt = 5000;
+	int door2_alt = 10000;
+	int door3_alt = 15000;
+	int door4_alt = 20000;
+
+END_CREATE
