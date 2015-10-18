@@ -11,6 +11,8 @@
 #include <Adafruit_BMP085_U.h>
 #include <SPI.h>
 #include <RTClib.h>
+#include <OneWire.h>
+#include <DallasTemperature.h>
 #include <SD.h>
 #include "sd_shield.h"
 //*************INSTRUCTIONS******************
@@ -35,15 +37,18 @@
 //There are several ways to create an action - to start, we'll look at the easiest way:
 
 //Easy, right? If you want to create some variables that this action will remember for the whole flight, you can do it here as well:
+
 //CREATE_ACTION(name_of_action)
 //
 //	int _somePinOnArduino = 3;
 //END_CREATE
+
 //This syntax will look weird, but I haven't figured out a way to make it
 // look nicer. DONT FORGET TO PUT END_CREATE at the end of your create macro.
 
 //Once you create the action, you need two other macros: a setup, and an
 //execute. The setup macro gets called when the action is created, once.
+
 //SETUP_ACTION(name_of_action) {
 	/*This is where you put code the action needs to run once, but not
 	every time the action is executed. This can access stuff you created in
@@ -52,6 +57,7 @@
 	//pinMode(_somePinOnArduino, OUTPUT);
 	
 //}
+
 // The execute macro gets called every time the event that it is associated
 // with triggers. For our event, this would happen every .1s.
 

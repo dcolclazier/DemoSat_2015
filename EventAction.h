@@ -7,7 +7,7 @@ public:
 };
 #define CREATE_EVENT_TRIGGERING_ACTION(name, out_argtype)\
 	struct name : public EventAction {\
-	ACTIONINIT(name, out_argtype);
+	INIT_ACTION(name, out_argtype);
 
 #define INIT_ACTION(name, argtype)\
 	name();\

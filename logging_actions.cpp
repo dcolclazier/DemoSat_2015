@@ -140,3 +140,49 @@ EXECUTE_ACTION(log_altitude_update) {
 	_logfile.println();
 	_logfile.close();
 }
+
+SETUP_ACTION_ONE_ARG(log_ext_temp, SD_Shield* logger) : _logger(logger) {
+
+	char filename[] = "EXT_TMP00.CSV";
+	for (uint8_t i = 0; i < 100; i++) {
+		filename[3] = i / 10 + '0';
+		filename[4] = i % 10 + '0';
+		if (!SD.exists(filename)) {
+			// only open a new file if it doesn't exist
+			_logfile = SD.open(filename, O_CREAT | O_WRITE);
+			_filename = filename;
+			Serial.println(_filename);
+			break;  // leave the loop!
+		}
+	}
+	//print column headers for csv
+	_logfile.println(F("Time,Datestamp,External Temp"));
+	_logfile.close();
+
+}
+EXECUTE_ACTION(log_ext_temp) {
+
+	externalTemp_args * tmpargs = static_cast<externalTemp_args*>(args);
+
+	_logfile = SD.open(_filename.c_str(), O_CREAT | O_WRITE);
+	_logfile.print(millis());
+	_logfile.print(F(", "));
+	_logfile.print(F("\""));
+	DateTime now = _logger->getTime();
+	_logfile.print(now.year(), DEC);
+	_logfile.print(F("/"));
+	_logfile.print(now.month(), DEC);
+	_logfile.print(F("/"));
+	_logfile.print(now.day(), DEC);
+	_logfile.print(F(" "));
+	_logfile.print(now.hour(), DEC);
+	_logfile.print(F(":"));
+	_logfile.print(now.minute(), DEC);
+	_logfile.print(F(":"));
+	_logfile.print(now.second(), DEC);
+	_logfile.print(F("\""));
+	_logfile.print(F(", "));
+	_logfile.print(tmpargs->EXT_Temp);
+	_logfile.println();
+	_logfile.close();
+}

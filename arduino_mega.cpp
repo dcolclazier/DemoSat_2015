@@ -5,6 +5,7 @@
 #include "EventHandler.h"
 #include <avr/pgmspace.h>
 #include <RTClib.h>
+#include "external_temperature_actions.h"
 
 //CREATE_ACTION(some_name)
 	//put variables here you want the action to remember for the whole flight.
@@ -47,6 +48,10 @@ arduino_mega::arduino_mega() : _logger(this), _onboardLED(LED(4)), _bnoSensor(0x
 
 	EVENTHANDLER.add_eventAction(".5s", new bno_logger_update(_bnoSensor));
 	EVENTHANDLER.add_eventAction("bno_logger_update", new log_bno_update(&_logger));
+
+	EVENTHANDLER.add_eventAction("10s", new get_external_temp);
+	EVENTHANDLER.add_eventAction("external_temp_update", new log_ext_temp(&_logger));
+
 
 	EVENTHANDLER.add_eventAction(".5s", new altitude_update(_bmpSensor));
 	EVENTHANDLER.add_eventAction("altitude_update", new log_altitude_update(&_logger));

@@ -6,7 +6,7 @@
 //Match the name with the action name in sensor_actions.h
 
 //SIMPLE - means that the action won't be triggering any new events, meaning we don't need a type_of_args_sent_with_trigger (see below)
-//UNARY - means the action needs one piece of data from somewhere else in the program - could be a sensor, a component, w/e
+//UNARY - means the action needs one piece of data from somewhere else in the program - could be a sensors, a component, w/e
 //BINARY - means the action needs two pieces of data from somewhere else in the program 
 
 // SETUP_TRIGGERACTION_ONE_ARG(name_of_action, piece_of_data){
@@ -23,7 +23,7 @@
 //		This is the code that runs when the action executes... for example, when the 
 //		update_heater_status runs, it checks the average temperature and turns on/off the heater 
 //		Another example would be the events below... They respond to a time event triggered in DemoSat.pde
-//		and trigger another event containing data from the sensor.
+//		and trigger another event containing data from the sensors.
 
 //		One note: the first line of code turns the generic "args" into the args you need - into whatever args are sent with the 
 //		event your action is responding to. You can copy/paste from another action until you get used to the syntax.
@@ -98,7 +98,7 @@ EXECUTE_ACTION(position_update) {
 
 //BNO055 Full UPDATE - to trigger, use event name "bno_logger_update"
 //args should be casted into a bno_logger_data
-//args contains all possible data from bno_055 sensor 
+//args contains all possible data from bno_055 sensors 
 //use this for logging data - it's memory intensive.
 SETUP_ACTION_ONE_ARG(bno_logger_update, Adafruit_BNO055 bno)  {
 	_bno = bno;

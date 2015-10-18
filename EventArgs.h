@@ -54,6 +54,10 @@ struct altitude_args :EventArgs {
 //	float Altitude;
 //};
 
+struct externalTemp_args : EventArgs {
+	int8_t EXT_Temp;
+};
+
 struct temperature_args : EventArgs
 {
 	float BNO_Temp;

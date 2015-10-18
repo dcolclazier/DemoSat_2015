@@ -2,14 +2,18 @@
 #include "external_temperature_actions.h"
 #include "EventAction.h"
 
-SETUP_SIMPLEACTION(get_external_temp) {
+SETUP_ACTION(get_external_temp) : oneWireBus(OneWire(2)), sensors(&oneWireBus) {
+	EVENTHANDLER.add_event("external_temp_update");
 	sensors.begin();//Turn on all sensors on IC bus
 }
 
 EXECUTE_ACTION(get_external_temp) {
-	temperature_args * temp_args = static_cast<temperature_args*>(args);
+	/*externalTemp_args * temp_args = static_cast<externalTemp_args*>(args);*/
 
 	sensors.requestTemperatures();//Request reading from probe
-	temp_args->EXT_Temp = sensors.getTempCByIndex(0);//set temp argument "Ext_Temp" to probe reading
+	_args.EXT_Temp = sensors.getTempCByIndex(0);
+	EVENTHANDLER.trigger("external_temp_update", &_args);
+								  
+								  //temp_args->EXT_Temp = sensors.getTempCByIndex(0);//set temp argument "Ext_Temp" to probe reading
 }
 
