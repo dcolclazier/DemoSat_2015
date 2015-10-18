@@ -15,5 +15,5 @@ public:
 	bool begin();
 	uint8_t getHumidTemp(humidity_data& data);
 private:
-	int32_t _address;
+	uint8_t _address;
 };

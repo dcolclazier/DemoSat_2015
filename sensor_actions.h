@@ -44,7 +44,7 @@ END_CREATE
 //BNO055 Full UPDATE - to trigger, use event name "bno_logger_update"
 //args contains all possible data from bno_055 sensor 
 //use this for logging data - it's memory intensive.
-CREATE_EVENT_TRIGGERING_ACTION_1ARG(bno_logger_update, bno_logger_args, Adafruit_BNO055 bno)
+CREATE_EVENT_TRIGGERING_ACTION_1ARG(bno_logger_update, bno_logger_data, Adafruit_BNO055 bno)
 	Adafruit_BNO055 _bno;
 END_CREATE
 

@@ -97,7 +97,7 @@ EXECUTE_ACTION(position_update) {
 }
 
 //BNO055 Full UPDATE - to trigger, use event name "bno_logger_update"
-//args should be casted into a bno_logger_args
+//args should be casted into a bno_logger_data
 //args contains all possible data from bno_055 sensor 
 //use this for logging data - it's memory intensive.
 SETUP_ACTION_ONE_ARG(bno_logger_update, Adafruit_BNO055 bno)  {

@@ -12,7 +12,7 @@ uint8_t Sparkfun_Humid::getHumidTemp(humidity_data& data) {
 	
 	Wire.beginTransmission(_address);
 	Wire.endTransmission();
-	Wire.requestFrom(_address, 4);
+	Wire.requestFrom((int)_address, 4);
 	uint8_t Hum_H = Wire.read();
 	uint8_t Hum_L = Wire.read();
 	uint8_t Temp_H = Wire.read();

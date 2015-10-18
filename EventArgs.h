@@ -14,7 +14,7 @@ struct Time : EventArgs {
 	byte Seconds = 0;
 	byte Tenths = 0;
 };
-struct bno_logger_args :EventArgs {
+struct bno_logger_data :EventArgs {
 	imu::Vector<3> Gyro;
 	imu::Vector<3> Mag;
 	imu::Vector<3> Grav;

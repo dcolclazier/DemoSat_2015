@@ -22,7 +22,7 @@ SETUP_ACTION_ONE_ARG(log_bno_update, SD_Shield* logger) : _logger(logger) {
 }
 EXECUTE_ACTION(log_bno_update) {
 
-	bno_logger_args * bnoargs = static_cast<bno_logger_args*>(args);
+	bno_logger_data * bnoargs = static_cast<bno_logger_data*>(args);
 
 	_logfile = SD.open(_filename.c_str(), O_CREAT | O_WRITE);
 	_logfile.print(millis());

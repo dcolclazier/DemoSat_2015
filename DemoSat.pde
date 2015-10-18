@@ -35,10 +35,10 @@
 //There are several ways to create an action - to start, we'll look at the easiest way:
 
 //Easy, right? If you want to create some variables that this action will remember for the whole flight, you can do it here as well:
-CREATE_ACTION(name_of_action)
-
-	int _somePinOnArduino = 3;
-END_CREATE
+//CREATE_ACTION(name_of_action)
+//
+//	int _somePinOnArduino = 3;
+//END_CREATE
 //This syntax will look weird, but I haven't figured out a way to make it
 // look nicer. DONT FORGET TO PUT END_CREATE at the end of your create macro.
 
