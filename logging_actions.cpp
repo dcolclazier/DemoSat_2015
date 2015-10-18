@@ -1,6 +1,35 @@
 ﻿#include "logging_actions.h"
 #include "RTClib.h"
-UNARYACTIONSETUP(log_bno_update, SD_Shield* logger) : _logger(logger) {
+
+//*************INSTRUCTIONS******************
+//Every action gets a setup function and an execute macro.
+//Match the name with the action name in sensor_actions.h
+
+//SIMPLE - means that the action won't be triggering any new events, meaning we don't need a type_of_args_sent_with_trigger (see below)
+//UNARY - means the action needs one piece of data from somewhere else in the program - could be a sensor, a component, w/e
+//BINARY - means the action needs two pieces of data from somewhere else in the program 
+
+// SETUP_TRIGGERACTION_ONE_ARG(name_of_action, piece_of_data){
+//		put setup code here... if you're going to trigger an event, create that event here. 
+//		Also assign your piece_of_data to the private variable you created for it.
+// }
+
+// SETUP_TRIGGERACTION_TWO_ARGS(name_of_action, piece_of_data1, piece_of_data2){
+//		put setup code here... if you're going to trigger an event, create that event here. 
+//		Also assign your piece_of_data to the private variable you created for it.
+// }
+
+// EXECUTE_ACTION(name_of_action){
+//		This is the code that runs when the action executes... for example, when the 
+//		update_heater_status runs, it checks the average temperature and turns on/off the heater 
+//		Another example would be the events below... They respond to a time event triggered in DemoSat.pde
+//		and trigger another event containing data from the sensor.
+
+//		One note: the first line of code turns the generic "args" into the args you need - into whatever args are sent with the 
+//		event your action is responding to. You can copy/paste from another action until you get used to the syntax.
+// }
+SETUP_TRIGGERACTION_ONE_ARG(log_bno_update, SD_Shield* logger) : _logger(logger) {
+	//find a good filename, create the file.
 	char filename[] = "BNO00.CSV";
 	for (uint8_t i = 0; i < 100; i++) {
 		filename[3] = i / 10 + '0';
@@ -18,9 +47,9 @@ UNARYACTIONSETUP(log_bno_update, SD_Shield* logger) : _logger(logger) {
 	_logfile.close();
 
 }
-ACTIONEXECUTE(log_bno_update) {
+EXECUTE_ACTION(log_bno_update) {
 
-	bno_full_args * bnoargs = static_cast<bno_full_args*>(args);
+	bno_logger_args * bnoargs = static_cast<bno_logger_args*>(args);
 
 	_logfile = SD.open(_filename.c_str(), O_CREAT | O_WRITE);
 	_logfile.print(millis());
@@ -89,7 +118,7 @@ ACTIONEXECUTE(log_bno_update) {
 	_logfile.close();
 }
 
-UNARYACTIONSETUP(log_alt_update, SD_Shield* logger) : _logger(logger) {
+SETUP_TRIGGERACTION_ONE_ARG(log_altitude_updatepdate, SD_Shield* logger) : _logger(logger) {
 
 	char filename[] = "BMP00.CSV";
 	for (uint8_t i = 0; i < 100; i++) {
@@ -108,9 +137,9 @@ UNARYACTIONSETUP(log_alt_update, SD_Shield* logger) : _logger(logger) {
 	_logfile.close();
 
 }
-ACTIONEXECUTE(log_alt_update) {
+EXECUTE_ACTION(log_altitude_updatepdate) {
 
-	bmp_full_args * bmpargs = static_cast<bmp_full_args*>(args);
+	altitude_args * bmpargs = static_cast<altitude_args*>(args);
 
 	_logfile = SD.open(_filename.c_str(), O_CREAT | O_WRITE);
 	_logfile.print(millis());
