@@ -138,6 +138,7 @@
     <ClInclude Include="LED.h" />
     <ClInclude Include="sd_shield.h" />
     <ClInclude Include="arduino_mega.h" />
+    <ClInclude Include="Sparkfun_Humid.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="__vm\.DemoSat.vsarduino.h" />
   </ItemGroup>
@@ -151,6 +152,7 @@
     <ClCompile Include="LED.cpp" />
     <ClCompile Include="sd_shield.cpp" />
     <ClCompile Include="arduino_mega.cpp" />
+    <ClCompile Include="Sparkfun_Humid.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

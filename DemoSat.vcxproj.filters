@@ -55,6 +55,7 @@
     <ClInclude Include="logging_actions.h">
       <Filter>_Actions</Filter>
     </ClInclude>
+    <ClInclude Include="Sparkfun_Humid.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Event.cpp">
@@ -84,5 +85,6 @@
     <ClCompile Include="logging_actions.cpp">
       <Filter>_Actions</Filter>
     </ClCompile>
+    <ClCompile Include="Sparkfun_Humid.cpp" />
   </ItemGroup>
 </Project>

@@ -30,7 +30,7 @@ struct bno_temp_args : EventArgs {
 struct gravitometer_args : EventArgs {
 	imu::Vector<3> Grav;
 };
-struct gyro_args : EventArgs {
+struct gyro_data : EventArgs {
 	imu::Vector<3> Gyro;
 };
 struct position_args : EventArgs {
@@ -49,10 +49,10 @@ struct altitude_args :EventArgs {
 	float Temp;
 	float Altitude;
 };
-struct bmp_alt_args :EventArgs {
-	float Pressure;
-	float Altitude;
-};
+//struct bmp_alt_args :EventArgs {
+//	float Pressure;
+//	float Altitude;
+//};
 
 struct temperature_args : EventArgs
 {

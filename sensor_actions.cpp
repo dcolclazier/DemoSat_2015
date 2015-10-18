@@ -30,9 +30,9 @@
 // }
 
 //BNO055 GYROSCOPE UPDATE - to trigger, use event name "gyro_update"
-//args should be casted into a gyro_args
+//args should be casted into a gyro_data
 //args contains gyroscope data
-SETUP_TRIGGERACTION_ONE_ARG(gyro_update, Adafruit_BNO055 bno)  {
+SETUP_ACTION_ONE_ARG(gyro_update, Adafruit_BNO055 bno)  {
 	_bno = bno;
 	EVENTHANDLER.add_event("gyro_update");
 }
@@ -45,7 +45,7 @@ EXECUTE_ACTION(gyro_update) {
 //BNO055 MAGNETOMETER UPDATE - to trigger, use event name "magnetometer_update"
 //args should be casted into a magnetometer_args
 //args contain magnetometer data
-SETUP_TRIGGERACTION_ONE_ARG(magnetometer_update, Adafruit_BNO055 bno) {
+SETUP_ACTION_ONE_ARG(magnetometer_update, Adafruit_BNO055 bno) {
 	_bno = bno;
 	EVENTHANDLER.add_event("magnetometer_update");
 }
@@ -58,7 +58,7 @@ EXECUTE_ACTION(magnetometer_update) {
 //BNO055 GRAVITOMETER UPDATE - to trigger, use event name "gravitometer_update"
 //args should be casted into a gravitometer_args
 //args contain gravitometer data
-SETUP_TRIGGERACTION_ONE_ARG(gravitometer_update, Adafruit_BNO055 bno) {
+SETUP_ACTION_ONE_ARG(gravitometer_update, Adafruit_BNO055 bno) {
 	_bno = bno;
 	EVENTHANDLER.add_event("gravitometer_update");
 }
@@ -71,7 +71,7 @@ EXECUTE_ACTION(gravitometer_update) {
 //BNO055 ACCELERATION UPDATE - to trigger, use event name "accelerometer_update"
 //args should be casted into a accelerometer_args
 //args contain accelerometer and linear acceleration
-SETUP_TRIGGERACTION_ONE_ARG(accelerometer_update, Adafruit_BNO055 bno) {
+SETUP_ACTION_ONE_ARG(accelerometer_update, Adafruit_BNO055 bno) {
 	_bno = bno;
 	EVENTHANDLER.add_event("accelerometer_update");
 }
@@ -85,7 +85,7 @@ EXECUTE_ACTION(accelerometer_update) {
 //BNO055 POSITION UPDATE - to trigger, use event name "position_update"
 //args should be casted into a position_args
 //args contains both euler heading and quaternion
-SETUP_TRIGGERACTION_ONE_ARG(position_update, Adafruit_BNO055 bno) {
+SETUP_ACTION_ONE_ARG(position_update, Adafruit_BNO055 bno) {
 	_bno = bno;
 	EVENTHANDLER.add_event("position_update");
 }
@@ -100,7 +100,7 @@ EXECUTE_ACTION(position_update) {
 //args should be casted into a bno_logger_args
 //args contains all possible data from bno_055 sensor 
 //use this for logging data - it's memory intensive.
-SETUP_TRIGGERACTION_ONE_ARG(bno_logger_update, Adafruit_BNO055 bno)  {
+SETUP_ACTION_ONE_ARG(bno_logger_update, Adafruit_BNO055 bno)  {
 	_bno = bno;
 	EVENTHANDLER.add_event("bno_logger_update");
 }
@@ -120,8 +120,8 @@ EXECUTE_ACTION(bno_logger_update) {
 //BMP SENSOR UPDATE - to trigger, use event name "altitude_update"
 //args should be casted into a altitude_args
 //args contains temperature, pressure and altitude
-SETUP_TRIGGERACTION_ONE_ARG(altitude_update, Adafruit_BMP085_Unified bmp) {
-	_bmp = bmp;
+SETUP_ACTION_ONE_ARG(altitude_update, Adafruit_BMP085_Unified bmp) :_bmp(bmp) {
+
 	EVENTHANDLER.add_event("altitude_update");
 }
 EXECUTE_ACTION(altitude_update) {
@@ -136,13 +136,13 @@ EXECUTE_ACTION(altitude_update) {
 //AVG TEMP UPDATE - to trigger, use event name "avg_tmp"
 //args should be casted into a temperature_args
 //args contains temperature, pressure and altitude
-SETUP_TRIGGERACTION_TWO_ARGS(avg_temp_update, Adafruit_BMP085_Unified bmp, Adafruit_BNO055 bno)
+SETUP_ACTION_TWO_ARGS(avg_temp_update, Adafruit_BMP085_Unified bmp, Adafruit_BNO055 bno)
 	: _bmp(bmp), _bno(bno) {
 	EVENTHANDLER.add_event("avg_temp_update");
 }
 EXECUTE_ACTION(avg_temp_update) {
 	_bmp.getTemperature(&_args.BMP_Temp);
 	_args.BNO_Temp = _bno.getTemp();
-	_args.avg_temp_update = (_args.BNO_Temp + _args.BMP_Temp) / 2;
+	_args.AVG_temp = (_args.BNO_Temp + _args.BMP_Temp) / 2;
 	EVENTHANDLER.trigger("avg_temp_update", &_args);
 }
