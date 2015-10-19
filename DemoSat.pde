@@ -1,9 +1,9 @@
-
-
 #include "EventHandler.h"
 #include "EventArgs.h"
 #include "Event.h"
 #include "arduino_mega.h"
+#include <Arduino.h>
+#include <avr/wdt.h>
 
 #include "Wire.h"
 #include "Adafruit_Sensor.h"
@@ -81,6 +81,13 @@ int _prevTime = 0;
 Time RunTime;
 
 void setup() {
+	//Enable WatchDog
+	wdt_disable();
+	delay(250);
+	wdt_enable(WDTO_4S);
+	delay(250);
+	wdt_reset();//"Pat the Dog" Good Boy!
+
 	Serial.begin(9600);
 	
 	Wire.begin();
@@ -127,4 +134,5 @@ void loop() {
 	}
 	int loopExecutionTime = millis()/100 - currentTime;
 	_prevTime = currentTime + loopExecutionTime;
+	wdt_reset();
 }
