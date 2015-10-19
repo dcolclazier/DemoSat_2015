@@ -2,80 +2,64 @@
 #include "EventHandler.h"
 #include "Adafruit_BNO055.h"
 #include "Adafruit_BMP085_U.h"
-//*************INSTRUCTIONS******************
-//To create an action, follow the format below. A few notes:
 
-//SIMPLE - means that the action won't be triggering any new events, meaning we don't need a type_of_args_sent_with_trigger (see below)
-//UNARY - means the action needs one piece of data from somewhere else in the program - could be a sensor, a component, w/e
-//BINARY - means the action needs two pieces of data from somewhere else in the program 
+//Here are some newer actions still - they're called
+// trigger actions. They work the same as the other actions,
 
-//The format is such:
+/* with one big difference - they are responsible for triggering
+ an event themselves. For instance - these actions respond to certain time intervals, grab data from the sensors, and then send that data in a new event trigger. 
+ 
+ The thing you have to have for this is the correct 'type' of 
+ data package. When we update the gyroscope, we fill up and send
+ the gyro_data data package - it holds gyroscode data*/
 
-// CREATE_TRIGGERACTION_ONE_ARG(action_name, type_of_args_sent_with_trigger, piece_of_data)
-//		any private variables you plan on using with the action - you'll need one for the piece_of_data, like below...
-// };
 
-// CREATE_TRIGGERACTION_TWO_ARGS(action_name, type_of_args_sent_with_trigger, piece_of_data1, piece_of_data2)
-//		any private variables you plan on using with the action - you'll need one for the piece_of_data, like below...
-// };
-
-// CREATE_SIMPLEACTION(action_name)
-//		any private variables you plan on using with the action - you'll need one for the piece_of_data, like below...
-// };
-
-// CREATE_SIMPLEUNARYACTION(action_name, piece_of_data)
-//		any private variables you plan on using with the action - you'll need one for the piece_of_data, like below...
-// };
-
-//BNO055 GYROSCOPE UPDATE - to trigger, use event name "gyro_update"
-//args contains gyroscope data
-CREATE_TRIGGERACTION_ONE_ARG(gyro_update, gyro_args, Adafruit_BNO055 bno)
+//BNO055 GYROSCOPE UPDATE 
+CREATE_EVENT_TRIGGERING_ACTION_1ARG(gyro_update, gyro_data, Adafruit_BNO055 bno)
 	Adafruit_BNO055 _bno;
-};
+END_CREATE
 
-//BNO055 MAGNETOMETER UPDATE - to trigger, use event name "magnetometer_update"
-//args contain magnetometer data
-CREATE_TRIGGERACTION_ONE_ARG(magnetometer_update, magnetometer_args, Adafruit_BNO055 bno)
+//BNO055 MAGNETOMETER UPDATE 
+CREATE_EVENT_TRIGGERING_ACTION_1ARG(magnetometer_update, magnetometer_args, Adafruit_BNO055 bno)
 	Adafruit_BNO055 _bno;
-};
+END_CREATE
 
 //BNO055 GRAVITOMETER UPDATE - to trigger, use event name "gravitometer_update"
 //args contain gravitometer data
-CREATE_TRIGGERACTION_ONE_ARG(gravitometer_update, gravitometer_args, Adafruit_BNO055 bno)
+CREATE_EVENT_TRIGGERING_ACTION_1ARG(gravitometer_update, gravitometer_args, Adafruit_BNO055 bno)
 	Adafruit_BNO055 _bno;
-};
+END_CREATE
 
 //BNO055 ACCELERATION UPDATE - to trigger, use event name "accelerometer_update"
 //args contain accelerometer and linear acceleration
-CREATE_TRIGGERACTION_ONE_ARG(accelerometer_update, accelerometer_args, Adafruit_BNO055 bno);
+CREATE_EVENT_TRIGGERING_ACTION_1ARG(accelerometer_update, accelerometer_args, Adafruit_BNO055 bno);
 	Adafruit_BNO055 _bno;
-};
+END_CREATE
 
-//BNO055 POSITION UPDATE - to trigger, use event name "position_update"
-//args contains both euler heading and quaternion
-CREATE_TRIGGERACTION_ONE_ARG(position_update, position_args, Adafruit_BNO055 bno);
+//BNO055 POSITION UPDATE 
+CREATE_EVENT_TRIGGERING_ACTION_1ARG(position_update, position_args, Adafruit_BNO055 bno);
 	Adafruit_BNO055 _bno;
-};
+END_CREATE
 
 //BNO055 Full UPDATE - to trigger, use event name "bno_logger_update"
-//args contains all possible data from bno_055 sensor 
+//args contains all possible data from bno_055 sensors 
 //use this for logging data - it's memory intensive.
-CREATE_TRIGGERACTION_ONE_ARG(bno_logger_update, bno_logger_args, Adafruit_BNO055 bno)
+CREATE_EVENT_TRIGGERING_ACTION_1ARG(bno_logger_update, bno_logger_data, Adafruit_BNO055 bno)
 	Adafruit_BNO055 _bno;
-};
+END_CREATE
 
 //BMP SENSOR UPDATE - to trigger, use event name "altitude_update"
 //args contains temperature, pressure and altitude
-CREATE_TRIGGERACTION_ONE_ARG(altitude_update, altitude_args, Adafruit_BMP085_Unified bmp)
+CREATE_EVENT_TRIGGERING_ACTION_1ARG(altitude_update, altitude_args, Adafruit_BMP085_Unified bmp)
 
 	Adafruit_BMP085_Unified _bmp;
 	const float _seaLevelPressure = 1012.8f;
-};
+END_CREATE
 
 //AVG TEMP UPDATE - to trigger, use event name "avg_tmp"
 //args contains temperature, pressure and altitude
-CREATE_TRIGGERACTION_TWO_ARGS(avg_temp_update, temperature_args, Adafruit_BMP085_Unified bmp, Adafruit_BNO055 bno)
+CREATE_EVENT_TRIGGERING_ACTION_2ARGS(avg_temp_update, temperature_args, Adafruit_BMP085_Unified bmp, Adafruit_BNO055 bno)
 	
 	Adafruit_BMP085_Unified _bmp;
 	Adafruit_BNO055 _bno;
-};
+END_CREATE

@@ -1,34 +1,7 @@
 ﻿#include "logging_actions.h"
 #include "RTClib.h"
 
-//*************INSTRUCTIONS******************
-//Every action gets a setup function and an execute macro.
-//Match the name with the action name in sensor_actions.h
-
-//SIMPLE - means that the action won't be triggering any new events, meaning we don't need a type_of_args_sent_with_trigger (see below)
-//UNARY - means the action needs one piece of data from somewhere else in the program - could be a sensor, a component, w/e
-//BINARY - means the action needs two pieces of data from somewhere else in the program 
-
-// SETUP_TRIGGERACTION_ONE_ARG(name_of_action, piece_of_data){
-//		put setup code here... if you're going to trigger an event, create that event here. 
-//		Also assign your piece_of_data to the private variable you created for it.
-// }
-
-// SETUP_TRIGGERACTION_TWO_ARGS(name_of_action, piece_of_data1, piece_of_data2){
-//		put setup code here... if you're going to trigger an event, create that event here. 
-//		Also assign your piece_of_data to the private variable you created for it.
-// }
-
-// EXECUTE_ACTION(name_of_action){
-//		This is the code that runs when the action executes... for example, when the 
-//		update_heater_status runs, it checks the average temperature and turns on/off the heater 
-//		Another example would be the events below... They respond to a time event triggered in DemoSat.pde
-//		and trigger another event containing data from the sensor.
-
-//		One note: the first line of code turns the generic "args" into the args you need - into whatever args are sent with the 
-//		event your action is responding to. You can copy/paste from another action until you get used to the syntax.
-// }
-SETUP_TRIGGERACTION_ONE_ARG(log_bno_update, SD_Shield* logger) : _logger(logger) {
+SETUP_ACTION_ONE_ARG(log_bno_update, SD_Shield* logger) : _logger(logger) {
 	//find a good filename, create the file.
 	char filename[] = "BNO00.CSV";
 	for (uint8_t i = 0; i < 100; i++) {
@@ -49,7 +22,7 @@ SETUP_TRIGGERACTION_ONE_ARG(log_bno_update, SD_Shield* logger) : _logger(logger)
 }
 EXECUTE_ACTION(log_bno_update) {
 
-	bno_logger_args * bnoargs = static_cast<bno_logger_args*>(args);
+	bno_logger_data * bnoargs = static_cast<bno_logger_data*>(args);
 
 	_logfile = SD.open(_filename.c_str(), O_CREAT | O_WRITE);
 	_logfile.print(millis());
@@ -118,7 +91,7 @@ EXECUTE_ACTION(log_bno_update) {
 	_logfile.close();
 }
 
-SETUP_TRIGGERACTION_ONE_ARG(log_altitude_updatepdate, SD_Shield* logger) : _logger(logger) {
+SETUP_ACTION_ONE_ARG(log_altitude_update, SD_Shield* logger) : _logger(logger) {
 
 	char filename[] = "BMP00.CSV";
 	for (uint8_t i = 0; i < 100; i++) {
@@ -137,7 +110,7 @@ SETUP_TRIGGERACTION_ONE_ARG(log_altitude_updatepdate, SD_Shield* logger) : _logg
 	_logfile.close();
 
 }
-EXECUTE_ACTION(log_altitude_updatepdate) {
+EXECUTE_ACTION(log_altitude_update) {
 
 	altitude_args * bmpargs = static_cast<altitude_args*>(args);
 
@@ -164,6 +137,52 @@ EXECUTE_ACTION(log_altitude_updatepdate) {
 	_logfile.print(bmpargs->Temp);
 	_logfile.print(F(", "));
 	_logfile.print(bmpargs->Altitude);
+	_logfile.println();
+	_logfile.close();
+}
+
+SETUP_ACTION_ONE_ARG(log_ext_temp, SD_Shield* logger) : _logger(logger) {
+
+	char filename[] = "EXT_TMP00.CSV";
+	for (uint8_t i = 0; i < 100; i++) {
+		filename[3] = i / 10 + '0';
+		filename[4] = i % 10 + '0';
+		if (!SD.exists(filename)) {
+			// only open a new file if it doesn't exist
+			_logfile = SD.open(filename, O_CREAT | O_WRITE);
+			_filename = filename;
+			Serial.println(_filename);
+			break;  // leave the loop!
+		}
+	}
+	//print column headers for csv
+	_logfile.println(F("Time,Datestamp,External Temp"));
+	_logfile.close();
+
+}
+EXECUTE_ACTION(log_ext_temp) {
+
+	externalTemp_args * tmpargs = static_cast<externalTemp_args*>(args);
+
+	_logfile = SD.open(_filename.c_str(), O_CREAT | O_WRITE);
+	_logfile.print(millis());
+	_logfile.print(F(", "));
+	_logfile.print(F("\""));
+	DateTime now = _logger->getTime();
+	_logfile.print(now.year(), DEC);
+	_logfile.print(F("/"));
+	_logfile.print(now.month(), DEC);
+	_logfile.print(F("/"));
+	_logfile.print(now.day(), DEC);
+	_logfile.print(F(" "));
+	_logfile.print(now.hour(), DEC);
+	_logfile.print(F(":"));
+	_logfile.print(now.minute(), DEC);
+	_logfile.print(F(":"));
+	_logfile.print(now.second(), DEC);
+	_logfile.print(F("\""));
+	_logfile.print(F(", "));
+	_logfile.print(tmpargs->EXT_Temp);
 	_logfile.println();
 	_logfile.close();
 }
