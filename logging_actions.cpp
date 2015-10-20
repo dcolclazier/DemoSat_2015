@@ -1,7 +1,7 @@
 ﻿#include "logging_actions.h"
 #include "RTClib.h"
 
-SETUP_ACTION_ONE_ARG(log_bno_update, SD_Shield* logger) : _logger(logger) {
+SETUP_ACTION_1ARG(log_bno_update, SD_Shield* logger) : _logger(logger) {
 	//find a good filename, create the file.
 	char filename[] = "BNO00.CSV";
 	for (uint8_t i = 0; i < 100; i++) {
@@ -91,7 +91,7 @@ EXECUTE_ACTION(log_bno_update) {
 	_logfile.close();
 }
 
-SETUP_ACTION_ONE_ARG(log_altitude_update, SD_Shield* logger) : _logger(logger) {
+SETUP_ACTION_1ARG(log_altitude_update, SD_Shield* logger) : _logger(logger) {
 
 	char filename[] = "BMP00.CSV";
 	for (uint8_t i = 0; i < 100; i++) {
@@ -141,7 +141,7 @@ EXECUTE_ACTION(log_altitude_update) {
 	_logfile.close();
 }
 
-SETUP_ACTION_ONE_ARG(log_ext_temp, SD_Shield* logger) : _logger(logger) {
+SETUP_ACTION_1ARG(log_ext_temp, SD_Shield* logger) : _logger(logger) {
 
 	char filename[] = "EXT_TMP00.CSV";
 	for (uint8_t i = 0; i < 100; i++) {
