@@ -14,7 +14,13 @@ struct Time : EventArgs {
 	byte Seconds = 0;
 	byte Tenths = 0;
 };
-struct bno_logger_data :EventArgs {
+
+struct DOOR_DATA : EventArgs
+{
+	int door_to_open = 0;
+	int door_to_close = 0;
+};
+struct bno_logger_data : EventArgs {
 	imu::Vector<3> Gyro;
 	imu::Vector<3> Mag;
 	imu::Vector<3> Grav;
