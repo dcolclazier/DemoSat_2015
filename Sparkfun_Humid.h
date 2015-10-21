@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <Arduino.h>
-#include "EventArgs.h"
-struct humidity_data : EventArgs {
+#include "EventData.h"
+struct humidity_data : EventData {
 	int Temp;
 	int Humidity;
 };

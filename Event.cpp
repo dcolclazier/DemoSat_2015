@@ -1,8 +1,8 @@
-﻿#include "EventArgs.h"
+﻿#include "EventData.h"
 #include "EventAction.h"
 #include "Event.h"
 
-void Event::invoke(EventArgs* args, void* trigger) {
+void Event::invoke(EventData* args, void* trigger) {
 	for (int i = 0; i < _actionList.size(); i++) {
 		EventAction* action = _actionList[i];
 		action->execute(args, trigger);

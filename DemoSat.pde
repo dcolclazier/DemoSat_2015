@@ -1,5 +1,5 @@
 #include "EventHandler.h"
-#include "EventArgs.h"
+#include "EventData.h"
 #include "Event.h"
 #include "arduino_mega.h"
 

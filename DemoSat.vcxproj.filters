@@ -13,6 +13,9 @@
     <Filter Include="_Actions">
       <UniqueIdentifier>{d1f25425-923b-49f1-891b-0d83d1d32bb6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="_EventData">
+      <UniqueIdentifier>{beb93c7e-fb72-401c-b5c8-6edb8f6029b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DemoSat.pde" />
@@ -22,9 +25,6 @@
       <Filter>_EventHandler</Filter>
     </ClInclude>
     <ClInclude Include="EventAction.h">
-      <Filter>_EventHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="EventArgs.h">
       <Filter>_EventHandler</Filter>
     </ClInclude>
     <ClInclude Include="EventDictionary.h">
@@ -59,6 +59,12 @@
       <Filter>_Actions</Filter>
     </ClInclude>
     <ClInclude Include="__vm\.DemoSat.vsarduino.h" />
+    <ClInclude Include="Doorman_Actions.h">
+      <Filter>_Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="EventData.h">
+      <Filter>_EventHandler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Event.cpp">
@@ -90,6 +96,9 @@
     </ClCompile>
     <ClCompile Include="Sparkfun_Humid.cpp" />
     <ClCompile Include="external_temperature_actions.cpp">
+      <Filter>_Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="Doorman_actions.cpp">
       <Filter>_Actions</Filter>
     </ClCompile>
   </ItemGroup>

@@ -2,25 +2,37 @@
 #include "Arduino.h"
 #include "Adafruit_BNO055.h"
 
-class EventArgs {
+class EventData {
 public:
-	virtual ~EventArgs() = 0;
+	virtual ~EventData() = 0;
 };
-inline EventArgs::~EventArgs() {}
+inline EventData::~EventData() {}
 
-struct Time : EventArgs {
+struct Time : EventData {
 	byte Hours = 0;
 	byte Minutes = 0;
 	byte Seconds = 0;
 	byte Tenths = 0;
 };
+struct DoorOpen_Data : EventData
+{
+	Time door_open_start;
+	Time door_open_finish;
+	
+};
+struct DoorClose_Data : EventData
+{
+	Time door_close_start;
+	Time door_close_finish;
+	
+};
 
-struct DOOR_DATA : EventArgs
+struct DOOR_DATA : EventData
 {
 	int door_to_open = 0;
 	int door_to_close = 0;
 };
-struct bno_logger_data : EventArgs {
+struct bno_logger_data : EventData {
 	imu::Vector<3> Gyro;
 	imu::Vector<3> Mag;
 	imu::Vector<3> Grav;
@@ -30,41 +42,41 @@ struct bno_logger_data : EventArgs {
 	imu::Quaternion Quat;
 	imu::Vector<3> linearAccel;
 };
-struct bno_temp_args : EventArgs {
+struct bno_temp_args : EventData {
 	uint8_t Temp;
 };
-struct gravitometer_args : EventArgs {
+struct gravitometer_args : EventData {
 	imu::Vector<3> Grav;
 };
-struct gyro_data : EventArgs {
+struct gyro_data : EventData {
 	imu::Vector<3> Gyro;
 };
-struct position_args : EventArgs {
+struct position_args : EventData {
 	imu::Vector<3> Euler;
 	imu::Quaternion Quat;
 };
-struct magnetometer_args : EventArgs {
+struct magnetometer_args : EventData {
 	imu::Vector<3> Mag;
 };
-struct accelerometer_args : EventArgs {
+struct accelerometer_args : EventData {
 	imu::Vector<3> Accel;
 	imu::Vector<3> linearAccel;
 };
-struct altitude_args :EventArgs {
+struct altitude_args :EventData {
 	float Pressure;
 	float Temp;
 	float Altitude;
 };
-//struct bmp_alt_args :EventArgs {
+//struct bmp_alt_args :EventData {
 //	float Pressure;
 //	float Altitude;
 //};
 
-struct externalTemp_args : EventArgs {
+struct externalTemp_args : EventData {
 	int8_t EXT_Temp;
 };
 
-struct temperature_args : EventArgs
+struct temperature_args : EventData
 {
 	float BNO_Temp;
 	float BMP_Temp;

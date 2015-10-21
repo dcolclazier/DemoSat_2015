@@ -2,10 +2,10 @@
 #include "EventDictionary.h"
 #include "EventAction.h"
 #include "Event.h"
-#include "EventArgs.h"
+#include "EventData.h"
 //class Event;
 //class EventAction;
-//class EventArgs;
+//class EventData;
 
 class EventHandler {
 public:
@@ -18,8 +18,8 @@ public:
 	void add_eventAction(const char* name, EventAction* action);
 	bool contains(const char* name);
 	Event* get(const char* name);
-	void trigger(const char* name, EventArgs* args, void* trigger);
-	void trigger(const char* name, EventArgs* args);
+	void trigger(const char* name, EventData* args, void* trigger);
+	void trigger(const char* name, EventData* args);
 	void trigger(const char* name);
 
 

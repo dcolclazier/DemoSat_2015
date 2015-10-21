@@ -2,11 +2,11 @@
 #include "Vector.h"
 
 class EventAction;
-class EventArgs;
+class EventData;
 
 class Event {
 public:
-	void invoke(EventArgs* args, void* trigger);
+	void invoke(EventData* args, void* trigger);
 	void add_action(EventAction* action);
 
 private:
