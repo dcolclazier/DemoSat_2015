@@ -8,7 +8,14 @@ END_CREATE
 
 CREATE_EVENT_TRIGGERING_ACTION(doorman_open, DoorOpen_Data)
 
-Time _doorOpenTime;
-Time _doorCloseTime;
+Time _doorOpenStart;
+Time _doorOpenFinish;
+
+END_CREATE
+
+CREATE_EVENT_TRIGGERING_ACTION(doorman_close, DoorOpen_Data)
+
+Time _doorCloseStart;
+Time _doorCloseFinish;
 
 END_CREATE

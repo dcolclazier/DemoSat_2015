@@ -8,6 +8,25 @@ SETUP_ACTION_ONE_ARG(doorman_altitude_check, Adafruit_BMP085_Unified bmp)
 	EVENTHANDLER.add_event("close door");
 }
 
+SETUP_ACTION(doorman_open)
+{
+	
+}
+
+EXECUTE_ACTION(doorman_open)
+{
+	
+}
+
+SETUP_ACTION(doorman_close)
+{
+	
+}
+EXECUTE_ACTION(doorman_close)
+{
+	
+}
+
 EXECUTE_ACTION(doorman_altitude_check)
 {
 	sensors_event_t event;
@@ -32,5 +51,5 @@ EXECUTE_ACTION(doorman_altitude_check)
 		EVENTHANDLER.trigger("open door", &_args);
 	}
 
-	
+
 }
