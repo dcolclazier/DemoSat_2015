@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Arduino.h"
 #include "Adafruit_BNO055.h"
+#include <RTClib.h>
 
 class EventData {
 public:
@@ -16,14 +17,14 @@ struct Time : EventData {
 };
 struct DoorOpen_Data : EventData
 {
-	Time door_open_start;
-	Time door_open_finish;
-	
+	DateTime door_open_start;
+	DateTime door_open_finish;
+	int door_number;
 };
 struct DoorClose_Data : EventData
 {
-	Time door_close_start;
-	Time door_close_finish;
+	DateTime door_close_start;
+	DateTime door_close_finish;
 	
 };
 

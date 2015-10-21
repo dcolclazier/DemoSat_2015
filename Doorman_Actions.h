@@ -1,21 +1,25 @@
 #pragma once
 #include "EventAction.h"
 #include "Adafruit_BMP085_U.h"
+#include "RTClib.h"
 #include "EventData.h"
-CREATE_EVENT_TRIGGERING_ACTION_1ARG(doorman_altitude_check, DOOR_DATA, Adafruit_BMP085_Unified bmp)
+class arduino_mega;
+
+CREATE_EVENT_TRIGGERING_ACTION_2ARGS(doorman_altitude_check, DOOR_DATA, Adafruit_BMP085_Unified bmp, arduino_mega* arduino)
 	Adafruit_BMP085_Unified _bmp;
-END_CREATE
+	arduino_mega* _arduino;
+	END_CREATE
 
 CREATE_EVENT_TRIGGERING_ACTION(doorman_open, DoorOpen_Data)
 
-Time _doorOpenStart;
-Time _doorOpenFinish;
+DateTime _doorOpenStart;
+DateTime _doorOpenFinish;
 
 END_CREATE
 
-CREATE_EVENT_TRIGGERING_ACTION(doorman_close, DoorOpen_Data)
+CREATE_EVENT_TRIGGERING_ACTION(doorman_close, DoorClose_Data)
 
-Time _doorCloseStart;
-Time _doorCloseFinish;
+DateTime _doorCloseStart;
+DateTime _doorCloseFinish;
 
 END_CREATE
