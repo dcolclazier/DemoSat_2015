@@ -2,7 +2,9 @@
 #include "heater_actions.h"
 #include "sensor_actions.h"
 #include "logging_actions.h"
+#include "Doorman_Actions.h"
 #include "EventHandler.h"
+
 #include <avr/pgmspace.h>
 #include <RTClib.h>
 #include "external_temperature_actions.h"
@@ -53,6 +55,9 @@ arduino_mega::arduino_mega() : _logger(this), _onboardLED(LED(4)), _bnoSensor(0x
 	EVENTHANDLER.add_eventAction("10s", new get_external_temp);
 	EVENTHANDLER.add_eventAction("external_temp_update", new log_ext_temp(&_logger));
 
+	EVENTHANDLER.add_eventAction("1s", new doorman_altitude_check(_bmpSensor, this));
+	EVENTHANDLER.add_eventAction("open door", new doorman_open);
+	EVENTHANDLER.add_eventAction("close door", new doorman_close);
 
 	EVENTHANDLER.add_eventAction(".5s", new altitude_update(_bmpSensor));
 	EVENTHANDLER.add_eventAction("altitude_update", new log_altitude_update(&_logger));
@@ -68,10 +73,14 @@ DateTime arduino_mega::getTime() {
 	return _realTimeClock.now();
 }
 
+
 /*
 Todo:
 
 Add in led support for calibrating the accel/gyro/fusion/magnetometer
+First i wanna set up 4 leds
+Turn them off to start, then when poweredm, turn to red if non calibrated
+if calibration level increases, change the color of the led to yellow, then to green
 
 
 */

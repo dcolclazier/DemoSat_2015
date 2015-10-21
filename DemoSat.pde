@@ -1,10 +1,10 @@
-
-
-
 #include "EventHandler.h"
-#include "EventArgs.h"
+#include "EventData.h"
 #include "Event.h"
 #include "arduino_mega.h"
+
+#include <avr/wdt.h>//For WatchDog
+#include <Arduino.h>
 
 #include "Wire.h"
 #include "Adafruit_Sensor.h"
@@ -15,7 +15,6 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 #include <SD.h>
-#include <HIH6130.h>
 #include "sd_shield.h"
 //*************INSTRUCTIONS******************
 //The start of the program sets up a clock, that triggers an "event" on different time intervals (.1s, 1s, 5s, etc.)
@@ -76,15 +75,25 @@ void InitClock() {
 	EVENTHANDLER.add_event("30s");
 	EVENTHANDLER.add_event("1m");
 	EVENTHANDLER.add_event("5m");
-
-
 }
 int _prevTime = 0;
 Time RunTime;
 
 void setup() {
+	//Enable WatchDog
+	wdt_disable();
+	delay(250);
+	wdt_enable(WDTO_4S);
+	delay(250);
+	wdt_reset();//"Pat the Dog" Good Boy!
+
 	Serial.begin(9600);
-	
+
+	wdt_disable();
+	delay(100);//Wait for flash event.
+	wdt_enable(WDTO_1S);//Timer for 1000 Milliseconds
+	delay(200);//Wait for flash event.
+
 	Wire.begin();
 	InitClock();
 	
@@ -129,11 +138,8 @@ void loop() {
 	}
 	int loopExecutionTime = millis()/100 - currentTime;
 	_prevTime = currentTime + loopExecutionTime;
+
+	wdt_reset();//pat the dog "good boy!"
+
+	wdt_reset();
 }
-
-
-//action to open doors
-//photo resistors plug into door - action to say door opened
-//event triggered at 4 different altitudes
-//code to calibrate the sensors and run led
-//need the rest of the humidity sensor code

@@ -20,11 +20,11 @@ Event* EventHandler::get(const char* name) {
 	return _events.get(name);
 }
 
-void EventHandler::trigger(const char* name, EventArgs* args, void* trigger) {
+void EventHandler::trigger(const char* name, EventData* args, void* trigger) {
 	if (!contains(name)) return;
 	_events.get(name)->invoke(args, trigger);
 }
-void EventHandler::trigger(const char* name, EventArgs* args) {
+void EventHandler::trigger(const char* name, EventData* args) {
 	if (!contains(name)) return;
 	_events.get(name)->invoke(args, 0);
 }
