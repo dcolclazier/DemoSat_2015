@@ -18,6 +18,7 @@ EXECUTE_ACTION(doorman_open)
 {
 	DOOR_DATA* data = static_cast<DOOR_DATA*>(args);
 	arduino_mega* arduino = static_cast<arduino_mega*>(trigger);
+
 	_args.door_number = data->door_to_open;
 	_args.door_open_start = arduino->getTime();
 
@@ -75,7 +76,15 @@ EXECUTE_ACTION(doorman_altitude_check)
 	}
 	if (altitude == 10000) {
 		_args.door_to_open = 3;
+		_args.door_to_close = 2;
 		EVENTHANDLER.trigger("open door", &_args, &_arduino);
+		EVENTHANDLER.trigger("close door", &_args, &_arduino);
+	}
+	if (altitude == 10000) {
+		_args.door_to_open = 4;
+		_args.door_to_close = 3;
+		EVENTHANDLER.trigger("open door", &_args, &_arduino);
+		EVENTHANDLER.trigger("close door", &_args, &_arduino);
 	}
 
 

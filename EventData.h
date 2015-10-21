@@ -15,12 +15,14 @@ struct Time : EventData {
 	byte Seconds = 0;
 	byte Tenths = 0;
 };
+
 struct DoorOpen_Data : EventData
 {
 	DateTime door_open_start;
 	DateTime door_open_finish;
 	int door_number;
 };
+
 struct DoorClose_Data : EventData
 {
 	DateTime door_close_start;
