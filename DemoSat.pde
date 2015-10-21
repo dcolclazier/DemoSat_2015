@@ -74,8 +74,6 @@ void InitClock() {
 	EVENTHANDLER.add_event("30s");
 	EVENTHANDLER.add_event("1m");
 	EVENTHANDLER.add_event("5m");
-
-
 }
 int _prevTime = 0;
 Time RunTime;
