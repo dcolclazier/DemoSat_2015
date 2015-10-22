@@ -54,10 +54,6 @@
     <ClInclude Include="logging_actions.h">
       <Filter>_Actions</Filter>
     </ClInclude>
-    <ClInclude Include="Sparkfun_Humid.h" />
-    <ClInclude Include="external_temperature_actions.h">
-      <Filter>_Actions</Filter>
-    </ClInclude>
     <ClInclude Include="Doorman_Actions.h">
       <Filter>_Actions</Filter>
     </ClInclude>
@@ -92,10 +88,6 @@
       <Filter>_Components</Filter>
     </ClCompile>
     <ClCompile Include="logging_actions.cpp">
-      <Filter>_Actions</Filter>
-    </ClCompile>
-    <ClCompile Include="Sparkfun_Humid.cpp" />
-    <ClCompile Include="external_temperature_actions.cpp">
       <Filter>_Actions</Filter>
     </ClCompile>
     <ClCompile Include="Doorman_actions.cpp">

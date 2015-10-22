@@ -32,7 +32,7 @@
 //BNO055 GYROSCOPE UPDATE - to trigger, use event name "gyro_update"
 //args should be casted into a gyro_data
 //args contains gyroscope data
-SETUP_ACTION_1ARG(gyro_update, Adafruit_BNO055 bno)  {
+SETUP_ACTION_ONE_ARG(gyro_update, Adafruit_BNO055 bno)  {
 	_bno = bno;
 	EVENTHANDLER.add_event("gyro_update");
 }
@@ -41,11 +41,52 @@ EXECUTE_ACTION(gyro_update) {
 	_args.Gyro = _bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
 	EVENTHANDLER.trigger("gyro_update", &_args);
 }
+SETUP_ACTION_4ARGS(sensor_update, Adafruit_BNO055 bno, Adafruit_BMP085_Unified bmp, DallasTemperature sensor, HIH6130 humid_sensor)
+	: _bno(bno), _bmp(bmp), _extTemp(sensor), _humidSensor(humid_sensor)
+{
+	EVENTHANDLER.add_event("sensor_update");
+}
+EXECUTE_ACTION(sensor_update)
+{
+	sensors_event_t bmp_event;
+	sensors_event_t bno_event;
+	_bmp.getEvent(&bmp_event);
+	_bno.getEvent(&bno_event);
+
+	_args.Accel = _bno.getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER);
+	_args.Pressure = bmp_event.pressure;
+	_bmp.getTemperature(&_args.bmp_Temp);
+	_args.Altitude = _bmp.pressureToAltitude(_seaLevelPressure, bmp_event.pressure, _args.bmp_Temp);
+	_args.Euler = _bno.getVector(Adafruit_BNO055::VECTOR_EULER);
+	_args.Grav = _bno.getVector(Adafruit_BNO055::VECTOR_GRAVITY);
+	_args.Gyro = _bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
+	_args.Quat = _bno.getQuat();
+	_args.linearAccel = _bno.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
+	_args.Mag = _bno.getVector(Adafruit_BNO055::VECTOR_MAGNETOMETER);
+	_args.bno_Temp = _bno.getTemp();
+	_args.ext_Temp = _extTemp.getTempC(0);
+		
+	EVENTHANDLER.trigger("sensor_update", &_args);
+
+}
+
+SETUP_ACTION(get_external_temp) : oneWireBus(OneWire(2)), sensors(&oneWireBus) {
+	EVENTHANDLER.add_event("external_temp_update");
+	//sensors.begin();//Turn on all sensors on IC bus
+}
+
+EXECUTE_ACTION(get_external_temp) {
+
+	sensors.requestTemperatures();//Request reading from probe
+	_args.EXT_Temp = sensors.getTempCByIndex(0);
+	EVENTHANDLER.trigger("external_temp_update", &_args);
+}
+
 
 //BNO055 MAGNETOMETER UPDATE - to trigger, use event name "magnetometer_update"
 //args should be casted into a magnetometer_args
 //args contain magnetometer data
-SETUP_ACTION_1ARG(magnetometer_update, Adafruit_BNO055 bno) {
+SETUP_ACTION_ONE_ARG(magnetometer_update, Adafruit_BNO055 bno) {
 	_bno = bno;
 	EVENTHANDLER.add_event("magnetometer_update");
 }
@@ -58,7 +99,7 @@ EXECUTE_ACTION(magnetometer_update) {
 //BNO055 GRAVITOMETER UPDATE - to trigger, use event name "gravitometer_update"
 //args should be casted into a gravitometer_args
 //args contain gravitometer data
-SETUP_ACTION_1ARG(gravitometer_update, Adafruit_BNO055 bno) {
+SETUP_ACTION_ONE_ARG(gravitometer_update, Adafruit_BNO055 bno) {
 	_bno = bno;
 	EVENTHANDLER.add_event("gravitometer_update");
 }
@@ -71,7 +112,7 @@ EXECUTE_ACTION(gravitometer_update) {
 //BNO055 ACCELERATION UPDATE - to trigger, use event name "accelerometer_update"
 //args should be casted into a accelerometer_args
 //args contain accelerometer and linear acceleration
-SETUP_ACTION_1ARG(accelerometer_update, Adafruit_BNO055 bno) {
+SETUP_ACTION_ONE_ARG(accelerometer_update, Adafruit_BNO055 bno) {
 	_bno = bno;
 	EVENTHANDLER.add_event("accelerometer_update");
 }
@@ -85,7 +126,7 @@ EXECUTE_ACTION(accelerometer_update) {
 //BNO055 POSITION UPDATE - to trigger, use event name "position_update"
 //args should be casted into a position_args
 //args contains both euler heading and quaternion
-SETUP_ACTION_1ARG(position_update, Adafruit_BNO055 bno) {
+SETUP_ACTION_ONE_ARG(position_update, Adafruit_BNO055 bno) {
 	_bno = bno;
 	EVENTHANDLER.add_event("position_update");
 }
@@ -100,7 +141,7 @@ EXECUTE_ACTION(position_update) {
 //args should be casted into a bno_logger_data
 //args contains all possible data from bno_055 sensors 
 //use this for logging data - it's memory intensive.
-SETUP_ACTION_1ARG(bno_logger_update, Adafruit_BNO055 bno)  {
+SETUP_ACTION_ONE_ARG(bno_logger_update, Adafruit_BNO055 bno)  {
 	_bno = bno;
 	EVENTHANDLER.add_event("bno_logger_update");
 }
@@ -120,7 +161,7 @@ EXECUTE_ACTION(bno_logger_update) {
 //BMP SENSOR UPDATE - to trigger, use event name "altitude_update"
 //args should be casted into a altitude_args
 //args contains temperature, pressure and altitude
-SETUP_ACTION_1ARG(altitude_update, Adafruit_BMP085_Unified bmp) :_bmp(bmp) {
+SETUP_ACTION_ONE_ARG(altitude_update, Adafruit_BMP085_Unified bmp) :_bmp(bmp) {
 
 	EVENTHANDLER.add_event("altitude_update");
 }
@@ -136,7 +177,7 @@ EXECUTE_ACTION(altitude_update) {
 //AVG TEMP UPDATE - to trigger, use event name "avg_tmp"
 //args should be casted into a temperature_args
 //args contains temperature, pressure and altitude
-SETUP_ACTION_2ARGS(avg_temp_update, Adafruit_BMP085_Unified bmp, Adafruit_BNO055 bno)
+SETUP_ACTION_TWO_ARGS(avg_temp_update, Adafruit_BMP085_Unified bmp, Adafruit_BNO055 bno)
 	: _bmp(bmp), _bno(bno) {
 	EVENTHANDLER.add_event("avg_temp_update");
 }
@@ -145,50 +186,4 @@ EXECUTE_ACTION(avg_temp_update) {
 	_args.BNO_Temp = _bno.getTemp();
 	_args.AVG_temp = (_args.BNO_Temp + _args.BMP_Temp) / 2;
 	EVENTHANDLER.trigger("avg_temp_update", &_args);
-}
-
-SETUP_ACTION_2ARGS(doorman_update, Adafruit_BMP085_Unified bmp, HIH6130 humid) : _humid(humid), _bmp(bmp) {
-	EVENTHANDLER.add_event("doorman_update");
-
-}
-
-
-EXECUTE_ACTION(doorman_update) {
-	sensors_event_t event;
-	float temp;
-	_bmp.getEvent(&event);
-	_humid.readRHT();
-	_args.altitude = _bmp.pressureToAltitude(seaPressure, event.pressure, _humid.temperature);
-	_args.relative_humidity = _humid.humidity;
-	EVENTHANDLER.trigger("doorman_update", &_args);
-}
-SETUP_ACTION(doorman_check) {
-	EVENTHANDLER.add_event("Open_Door1");
-	EVENTHANDLER.add_event("Open_Door2");
-	EVENTHANDLER.add_event("Open_Door3");
-	EVENTHANDLER.add_event("Open_Door4");
-	EVENTHANDLER.add_event("Close_Door1");
-	EVENTHANDLER.add_event("Close_Door2");
-	EVENTHANDLER.add_event("Close_Door3");
-	EVENTHANDLER.add_event("Close_Door4");
-}
-EXECUTE_ACTION(doorman_check) {
-	altitude_args * data = static_cast<altitude_args*>(args);
-	
-	if(data->Altitude == 5000) {
-		EVENTHANDLER.trigger("Open_Door1");
-	}
-	if(data->Altitude == 10000) {
-		EVENTHANDLER.trigger("Close_Door1");
-		EVENTHANDLER.trigger("Open_Door2");
-	}
-	if(data->Altitude == 15000) {
-		EVENTHANDLER.trigger("Close_Door2");
-		EVENTHANDLER.trigger("Open_Door3");
-	}
-	if(data->Altitude == 20000) {
-		EVENTHANDLER.trigger("Close_Door3");
-		EVENTHANDLER.trigger("Open_Door4");
-	}
-
 }

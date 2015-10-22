@@ -45,6 +45,21 @@ struct bno_logger_data : EventData {
 	imu::Quaternion Quat;
 	imu::Vector<3> linearAccel;
 };
+struct sensor_data : EventData
+{
+	imu::Vector<3> Gyro;
+	imu::Vector<3> Mag;
+	imu::Vector<3> Grav;
+	uint8_t bno_Temp;
+	imu::Vector<3> Accel;
+	imu::Vector<3> Euler;
+	imu::Quaternion Quat;
+	imu::Vector<3> linearAccel;
+	int8_t ext_Temp;
+	float Pressure;
+	float bmp_Temp;
+	float Altitude;
+};
 struct bno_temp_args : EventData {
 	uint8_t Temp;
 };

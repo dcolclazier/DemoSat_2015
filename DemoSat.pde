@@ -9,6 +9,7 @@
 #include "Wire.h"
 #include "Adafruit_Sensor.h"
 #include "Adafruit_BNO055.h"
+#include <HIH6130.h>
 #include <Adafruit_BMP085_U.h>
 #include <SPI.h>
 #include <RTClib.h>
@@ -95,6 +96,9 @@ void setup() {
 	delay(200);//Wait for flash event.
 
 	Wire.begin();
+
+	OneWire oneWireBus(2);
+	
 	InitClock();
 	
 	static arduino_mega mainBoard;

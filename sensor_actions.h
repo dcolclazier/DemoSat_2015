@@ -3,6 +3,7 @@
 #include "Adafruit_BNO055.h"
 #include "Adafruit_BMP085_U.h"
 #include "HIH6130.h"
+#include "DallasTemperature.h"
 
 //Here are some newer actions still - they're called
 // trigger actions. They work the same as the other actions,
@@ -29,6 +30,26 @@ END_CREATE
 //args contain gravitometer data
 CREATE_EVENT_TRIGGERING_ACTION_1ARG(gravitometer_update, gravitometer_args, Adafruit_BNO055 bno)
 	Adafruit_BNO055 _bno;
+END_CREATE
+
+CREATE_EVENT_TRIGGERING_ACTION_4ARGS(sensor_update, sensor_data, Adafruit_BNO055 bno, Adafruit_BMP085_Unified bmp, DallasTemperature sensor, HIH6130 humid_sensor)
+
+Adafruit_BNO055 _bno;
+Adafruit_BMP085_Unified _bmp;
+DallasTemperature _extTemp;
+HIH6130 _humidSensor;
+float _seaLevelPressure = 1012.8f;
+
+END_CREATE
+
+
+
+
+CREATE_EVENT_TRIGGERING_ACTION(get_external_temp, externalTemp_args)
+
+OneWire oneWireBus;
+DallasTemperature sensors;
+
 END_CREATE
 
 //BNO055 ACCELERATION UPDATE - to trigger, use event name "accelerometer_update"
@@ -63,24 +84,4 @@ CREATE_EVENT_TRIGGERING_ACTION_2ARGS(avg_temp_update, temperature_args, Adafruit
 	
 	Adafruit_BMP085_Unified _bmp;
 	Adafruit_BNO055 _bno;
-END_CREATE
-
-
-
-//DOOR MAN CHECK - responsble for checking the doorman_update arguments to see if its time to open a door.
-CREATE_EVENT_TRIGGERING_ACTION(doorman_check, int)
-
-	int door1_alt = 5000;
-	int door2_alt = 10000;
-	int door3_alt = 15000;
-	int door4_alt = 20000;
-
-END_CREATE
-
-
-//DOOR MAN UPDATE - responsible for updating the arguments that the doorman needs in order to open doors.
-CREATE_EVENT_TRIGGERING_ACTION_2ARGS(doorman_update, doorman_args, Adafruit_BMP085_Unified bmp, HIH6130 humid)
-	Adafruit_BMP085_Unified _bmp;
-	HIH6130 _humid;
-	float seaPressure = 1012.8f;
 END_CREATE
