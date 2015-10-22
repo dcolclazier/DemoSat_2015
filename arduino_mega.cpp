@@ -33,9 +33,12 @@ arduino_mega::arduino_mega()
 	EVENTHANDLER.add_eventAction(".2s", new sensor_update(_bnoSensor, _bmpSensor, _extTempSensor, _humidSensor));
 	EVENTHANDLER.add_eventAction("sensor_update", new log_all_data(_logger));
 	
-	EVENTHANDLER.add_eventAction("1s", new doorman_altitude_check(_bmpSensor, this));
+	EVENTHANDLER.add_eventAction(".1s", new doorman_altitude_check(_bmpSensor, this));
 	EVENTHANDLER.add_eventAction("open door", new doorman_open);
 	EVENTHANDLER.add_eventAction("close door", new doorman_close);
+
+	//EVENTHANDLER.add_eventAction("Door opened", new log_door_action(_logger));
+	//EVENTHANDLER.add_eventAction("Door closed", new log_door_action(_logger));
 
 	EVENTHANDLER.add_eventAction("5s", new avg_temp_update(_bmpSensor,_bnoSensor,_humidSensor));
 	EVENTHANDLER.add_eventAction("avg_temp_update", new update_heater_status);
@@ -43,7 +46,7 @@ arduino_mega::arduino_mega()
 	
 }
 
-DateTime arduino_mega::getTime() {
+DateTime arduino_mega::getTime() const {
 	return _realTimeClock.now();
 }
 

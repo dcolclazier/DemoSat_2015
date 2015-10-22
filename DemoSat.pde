@@ -1,3 +1,4 @@
+#include <Adafruit_MotorShield.h>
 #include "EventHandler.h"
 #include "EventData.h"
 #include "Event.h"

@@ -13,3 +13,9 @@ void Event::add_action(EventAction* action) {
 	if (_actionList.contains(action)) return;
 	_actionList.push_back(action);
 }
+
+void Event::remove_action(EventAction* event_action) {
+	if (!_actionList.contains(event_action)) return;
+	_actionList.remove(event_action);
+	
+}

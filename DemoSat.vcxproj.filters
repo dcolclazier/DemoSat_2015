@@ -60,7 +60,7 @@
     <ClInclude Include="EventData.h">
       <Filter>_EventHandler</Filter>
     </ClInclude>
-    <ClInclude Include="__vm\.Demosat.vsarduino.h" />
+    <ClInclude Include="__vm\.DemoSat.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Event.cpp">

@@ -13,7 +13,7 @@ class arduino_mega {
 public:
 
 	arduino_mega();
-	DateTime getTime();
+	DateTime getTime() const;
 private:
 
 	SD_Shield _logger;

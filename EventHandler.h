@@ -21,7 +21,7 @@ public:
 	void trigger(const char* name, EventData* args, void* trigger);
 	void trigger(const char* name, EventData* args);
 	void trigger(const char* name);
-
+	void remove_eventAction(const char* name, EventAction* event_action);
 
 private:
 	EventHandler() {}

@@ -43,7 +43,7 @@ private:\
 	struct name : public EventAction {\
 	SIMPLEBINARYACTIONINIT(name, arg1, arg2);
 
-#define SETUP_ACTION_TWO_ARGS(name, arg1, arg2)\
+#define SETUP_ACTION_2ARGS(name, arg1, arg2)\
 	name::name(arg1, arg2)
 
 #define SIMPLEBINARYACTIONINIT(name, arg1, arg2)\

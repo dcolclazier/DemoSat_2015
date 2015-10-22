@@ -3,6 +3,7 @@
 #include "Adafruit_BNO055.h"
 #include <RTClib.h>
 
+class motor_on;
 class EventData {
 public:
 	virtual ~EventData() = 0;
@@ -18,10 +19,12 @@ struct Time : EventData {
 
 struct DoorOpen_Data : EventData
 {
+	DoorOpen_Data() : door_number(0), door_start_millis(0), motor_action(NULL) {}
 	DateTime door_open_start;
 	DateTime door_open_finish;
 	int door_number;
 	unsigned long door_start_millis;
+	motor_on* motor_action;
 };
 
 struct DoorClose_Data : EventData

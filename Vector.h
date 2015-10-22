@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <stdlib.h>
 #include "string.h"
+#include <Arduino.h>
 
 template<typename T>
 class Vector {
@@ -46,7 +47,18 @@ public:
 
 		return d_size;
 	}; // Size getter
+	void remove(T const &thing) {
+		for (int x = 0; x < d_size; x++)
+			if(d_data[x] == thing) {
+				Serial.println("deleting.");
+				delete d_data[x];
+				for (int y = x + 1; y < d_size; y++) {
+					d_data[x++] = d_data[y];
+				}
+				d_data[--d_size] = NULL;
 
+			}
+	}
 	T const &operator[](long unsigned int idx) const {
 
 		return d_data[idx];
