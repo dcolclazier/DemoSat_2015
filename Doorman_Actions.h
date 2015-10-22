@@ -30,7 +30,7 @@ DateTime _doorCloseFinish;
 END_CREATE
 
 CREATE_EVENT_TRIGGERING_ACTION_2ARGS(motor_on, Door_Data , Door_Data* doorInfo, const arduino_mega* arduino)
-	Door_Data* _data;
+	Door_Data* door;
 	const arduino_mega* _arduino;
 	bool off = false;
 	unsigned long motor_run_time = 2750; // in milliseconds

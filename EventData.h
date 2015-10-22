@@ -40,7 +40,7 @@ struct Door_Data : EventData{
 	bool moving;
 	unsigned long door_start_millis;
 	motor_on* motor_action;
-
+	unsigned long runTime = 2750;
 };
 
 struct DoorClose_Data : EventData

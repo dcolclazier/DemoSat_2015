@@ -23,36 +23,41 @@ EXECUTE_ACTION(doorman_altitude_check) {
 
 
 	if (altitude > 2000 && altitude < 2002) {
-		if(!door1.moving) EVENTHANDLER.trigger("time to open", &door1, &_arduino);
+		if(!door1.moving) EVENTHANDLER.trigger("time to open", &door1, _arduino);
 	}
-	if (altitude > 4000 && altitude < 4002) {
-		if(!door2.moving) EVENTHANDLER.trigger("time to open", &door2, &_arduino);
-		if(!door1.moving) EVENTHANDLER.trigger("time to close", &door1, &_arduino);
+	else if (altitude > 4000 && altitude < 4002) {
+		if(!door2.moving) EVENTHANDLER.trigger("time to open", &door2, _arduino);
+		if(!door1.moving) EVENTHANDLER.trigger("time to close", &door1, _arduino);
 	}
-	if (altitude > 6000 && altitude < 6002) {
-		if(!door3.moving) EVENTHANDLER.trigger("time to open", &door3, &_arduino);
-		if(!door2.moving) EVENTHANDLER.trigger("time to close", &door1, &_arduino);
+	else if (altitude > 6000 && altitude < 6002) {
+		if(!door3.moving) EVENTHANDLER.trigger("time to open", &door3, _arduino);
+		if(!door2.moving) EVENTHANDLER.trigger("time to close", &door1, _arduino);
 	}
-	if (altitude == 8000 && altitude < 8002) {
-		if (!door4.moving) EVENTHANDLER.trigger("time to open", &door4, &_arduino);
-		if (!door3.moving) EVENTHANDLER.trigger("time to close", &door3, &_arduino);
+	else if (altitude == 8000 && altitude < 8002) {
+		if (!door4.moving) EVENTHANDLER.trigger("time to open", &door4, _arduino);
+		if (!door3.moving) EVENTHANDLER.trigger("time to close", &door3, _arduino);
 	}
-
+	else {
+		Serial.println("not ready yet!");
+	}
+	
 
 }
 SETUP_ACTION(doorman_open){}
 EXECUTE_ACTION(doorman_open)
 {
 	Door_Data* data = static_cast<Door_Data*>(args);
+	arduino_mega* arduino = static_cast<arduino_mega*>(trigger);
 	data->direction = FORWARD;
-	EVENTHANDLER.trigger("move_door", data);
+	EVENTHANDLER.trigger("move_door", data, arduino);
 }
 
 SETUP_ACTION(doorman_close) {}
 EXECUTE_ACTION(doorman_close) {
-	Door_Data* data = static_cast<Door_Data*>(args);
-	data->direction = BACKWARD;
-	EVENTHANDLER.trigger("move_door", data);
+	Door_Data* door = static_cast<Door_Data*>(args);
+	arduino_mega* arduino = static_cast<arduino_mega*>(trigger);
+	door->direction = BACKWARD;
+	EVENTHANDLER.trigger("move_door", door, arduino);
 }
 
 
@@ -60,8 +65,13 @@ SETUP_ACTION(move_door) : _args(0) {}
 EXECUTE_ACTION(move_door) {
 	Door_Data * door = static_cast<Door_Data*>(args);
 	arduino_mega* arduino = static_cast<arduino_mega*>(trigger);
-	door->door_open_start = arduino->getTime();
+
+	if (door->direction == FORWARD) door->door_open_start = arduino->getTime();
+	else if (door->direction == BACKWARD) door->door_close_start = arduino->getTime();
 	door->moving = true;
+
+	Serial.println("Turning on motor... vroom.");
+
 	//turn on the motor for the door we're opening.
 	door->door_number; // use this
 	door->direction; // use this
@@ -73,27 +83,27 @@ EXECUTE_ACTION(move_door) {
 
 
 
-SETUP_ACTION_2ARGS(motor_on, Door_Data* data, const arduino_mega* arduino) :_args(0), _data(data), _arduino(arduino) {}
+SETUP_ACTION_2ARGS(motor_on, Door_Data* door_data, const arduino_mega* arduino) :_args(0), door(door_data), _arduino(arduino) {}
 EXECUTE_ACTION(motor_on) {
 	//if we shouldn't turn off the motor, don't.
-	if (millis() - _data->door_start_millis < motor_run_time) return;
+	if (millis() - door->door_start_millis < door->runTime) return;
 	if (off) return;
 
 	//turn off motor 
 	//NEED TURN OFF MOTOR HERE.
-	_data->moving = false;
-	_data->door_number; //use this
-	_data->direction; // use this
-	
+	door->door_number; //use this
+	door->direction; // use this
+	Serial.println("Turning off motor... eeeerrrccheek!");
 	//update door open data with the time the door open finished, set our backup flag.
+	door->moving = false;
 	off = true;
-	if(_data->direction ==FORWARD) _data->door_open_finish = _arduino->getTime();
-	else if (_data->direction == BACKWARD) _data->door_close_finish = _arduino->getTime();
+	if(door->direction ==FORWARD) door->door_open_finish = _arduino->getTime();
+	else if (door->direction == BACKWARD) door->door_close_finish = _arduino->getTime();
 	
 	//trigger a final door event, for logging purposes
-	EVENTHANDLER.trigger("door moved", _data);
+	EVENTHANDLER.trigger("door moved", door);
 
-	//now delete me - this shouldn't exist anymore...
+	//now delete me - I shouldn't exist now.. but even if I don't get deleted, we should be good.
 	EVENTHANDLER.remove_eventAction(".1s",this);
 }
 
