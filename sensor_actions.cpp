@@ -41,6 +41,47 @@ EXECUTE_ACTION(gyro_update) {
 	_args.Gyro = _bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
 	EVENTHANDLER.trigger("gyro_update", &_args);
 }
+SETUP_ACTION_4ARGS(sensor_update, Adafruit_BNO055 bno, Adafruit_BMP085_Unified bmp, DallasTemperature sensor, HIH6130 humid_sensor)
+	: _bno(bno), _bmp(bmp), _extTemp(sensor), _humidSensor(humid_sensor)
+{
+	EVENTHANDLER.add_event("sensor_update");
+}
+EXECUTE_ACTION(sensor_update)
+{
+	sensors_event_t bmp_event;
+	sensors_event_t bno_event;
+	_bmp.getEvent(&bmp_event);
+	_bno.getEvent(&bno_event);
+
+	_args.Accel = _bno.getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER);
+	_args.Pressure = bmp_event.pressure;
+	_bmp.getTemperature(&_args.bmp_Temp);
+	_args.Altitude = _bmp.pressureToAltitude(_seaLevelPressure, bmp_event.pressure, _args.bmp_Temp);
+	_args.Euler = _bno.getVector(Adafruit_BNO055::VECTOR_EULER);
+	_args.Grav = _bno.getVector(Adafruit_BNO055::VECTOR_GRAVITY);
+	_args.Gyro = _bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
+	_args.Quat = _bno.getQuat();
+	_args.linearAccel = _bno.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
+	_args.Mag = _bno.getVector(Adafruit_BNO055::VECTOR_MAGNETOMETER);
+	_args.bno_Temp = _bno.getTemp();
+	_args.ext_Temp = _extTemp.getTempC(0);
+		
+	EVENTHANDLER.trigger("sensor_update", &_args);
+
+}
+
+SETUP_ACTION(get_external_temp) : oneWireBus(OneWire(2)), sensors(&oneWireBus) {
+	EVENTHANDLER.add_event("external_temp_update");
+	//sensors.begin();//Turn on all sensors on IC bus
+}
+
+EXECUTE_ACTION(get_external_temp) {
+
+	sensors.requestTemperatures();//Request reading from probe
+	_args.EXT_Temp = sensors.getTempCByIndex(0);
+	EVENTHANDLER.trigger("external_temp_update", &_args);
+}
+
 
 //BNO055 MAGNETOMETER UPDATE - to trigger, use event name "magnetometer_update"
 //args should be casted into a magnetometer_args

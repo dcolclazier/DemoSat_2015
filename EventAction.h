@@ -51,6 +51,22 @@ private:\
 	void execute(EventData* args, void* trigger) override;\
 private:\
 
+#define CREATE_ACTION_3ARGS(name,arg1,arg2,arg3)\
+	struct name : public EventAction {\
+	SIMPLETERENARYACTIONINIT(name, arg1, arg2, arg3)\
+
+#define SIMPLETERENARYACTIONINIT(name,arg1,arg2,arg3)\
+	name(arg1,arg2,arg3);\
+	void execute(EventData* args, void* trigger) override;\
+private:\
+
+#define SETUP_ACTION_3ARGS(name, arg1, arg2, arg3)\
+	name::name(arg1,arg2,arg3)
+
+#define SETUP_ACTION_4ARGS(name, arg1, arg2, arg3, arg4)\
+	name::name(arg1,arg2,arg3,arg4)
+
+
 
 #define CREATE_EVENT_TRIGGERING_ACTION_1ARG(name, out_argtype, in_arg1)\
 	struct name : public EventAction {\
@@ -72,6 +88,26 @@ private:\
 
 #define BINARYACTIONINIT(name, argtype, arg1, arg2)\
 	name(arg1, arg2);\
+	void execute(EventData* args, void* trigger) override;\
+private:\
+	argtype _args\
+
+#define CREATE_EVENT_TRIGGERING_ACTION_3ARGS(name, out_argtype, in_arg1, in_arg2, in_arg3)\
+	struct name : public EventAction {\
+	TERENARYACTIONINIT(name, out_argtype, in_arg1, in_arg2, in_arg3);
+
+#define TERENARYACTIONINIT(name, argtype, arg1, arg2, arg3)\
+	name(arg1, arg2, arg3);\
+	void execute(EventData* args, void* trigger) override;\
+private:\
+	argtype _args\
+
+#define CREATE_EVENT_TRIGGERING_ACTION_4ARGS(name, out_argtype, in_arg1, in_arg2, in_arg3, in_arg4)\
+	struct name : public EventAction {\
+	QUADACTIONINIT(name, out_argtype, in_arg1, in_arg2, in_arg3, in_arg4);
+
+#define QUADACTIONINIT(name, argtype, arg1, arg2, arg3, arg4)\
+	name(arg1, arg2, arg3, arg4);\
 	void execute(EventData* args, void* trigger) override;\
 private:\
 	argtype _args\
