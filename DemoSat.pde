@@ -90,10 +90,10 @@ void setup() {
 
 	Serial.begin(9600);
 
-	wdt_disable();
-	delay(100);//Wait for flash event.
-	wdt_enable(WDTO_1S);//Timer for 1000 Milliseconds
-	delay(200);//Wait for flash event.
+	//wdt_disable();
+	//delay(100);//Wait for flash event.
+	//wdt_enable(WDTO_1S);//Timer for 1000 Milliseconds
+	//delay(200);//Wait for flash event.
 
 	Wire.begin();
 
@@ -111,7 +111,7 @@ void loop() {
 	if (currentTime - _prevTime < 1) return;
 	RunTime.Tenths++;
 	EVENTHANDLER.trigger(".1s", &RunTime, 0);
-	if (RunTime.Tenths % 5 == 0) EVENTHANDLER.trigger(".5s", &RunTime, 0);
+	if (RunTime.Tenths % 5 == 0) EVENTHANDLER.trigger(".5s");
 
 	if(RunTime.Tenths == 10) {
 		
@@ -145,5 +145,5 @@ void loop() {
 
 	wdt_reset();//pat the dog "good boy!"
 
-	wdt_reset();
+	//wdt_reset();
 }

@@ -5,10 +5,6 @@
 //Every action gets a setup function and an execute macro.
 //Match the name with the action name in sensor_actions.h
 
-//SIMPLE - means that the action won't be triggering any new events, meaning we don't need a type_of_args_sent_with_trigger (see below)
-//UNARY - means the action needs one piece of data from somewhere else in the program - could be a sensors, a component, w/e
-//BINARY - means the action needs two pieces of data from somewhere else in the program 
-
 // SETUP_TRIGGERACTION_ONE_ARG(name_of_action, piece_of_data){
 //		put setup code here... if you're going to trigger an event, create that event here. 
 //		Also assign your piece_of_data to the private variable you created for it.
@@ -29,18 +25,7 @@
 //		event your action is responding to. You can copy/paste from another action until you get used to the syntax.
 // }
 
-//BNO055 GYROSCOPE UPDATE - to trigger, use event name "gyro_update"
-//args should be casted into a gyro_data
-//args contains gyroscope data
-SETUP_ACTION_ONE_ARG(gyro_update, Adafruit_BNO055 bno)  {
-	_bno = bno;
-	EVENTHANDLER.add_event("gyro_update");
-}
-EXECUTE_ACTION(gyro_update) {
 
-	_args.Gyro = _bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
-	EVENTHANDLER.trigger("gyro_update", &_args);
-}
 SETUP_ACTION_4ARGS(sensor_update, Adafruit_BNO055 bno, Adafruit_BMP085_Unified bmp, DallasTemperature sensor, HIH6130 humid_sensor)
 	: _bno(bno), _bmp(bmp), _extTemp(sensor), _humidSensor(humid_sensor)
 {
