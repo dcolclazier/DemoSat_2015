@@ -19,7 +19,7 @@ END_CREATE
 
 //AVG TEMP UPDATE - to trigger, use event name "avg_tmp"
 //args contains temperature, pressure and altitude
-CREATE_EVENT_TRIGGERING_ACTION_3ARGS(avg_temp_update, temperature_args, const Adafruit_BMP085_Unified& bmp, const Adafruit_BNO055& bno, const HIH6130& humid)
+CREATE_EVENT_TRIGGERING_ACTION_3ARGS(avg_temp_update, temperature_data, const Adafruit_BMP085_Unified& bmp, const Adafruit_BNO055& bno, const HIH6130& humid)
 
 	HIH6130 _humid;
 	Adafruit_BMP085_Unified _bmp;

@@ -37,7 +37,7 @@ EXECUTE_ACTION(sensor_update)
 
 
 //AVG TEMP UPDATE - to trigger, use event name "avg_tmp"
-//args should be casted into a temperature_args
+//args should be casted into a temperature_data
 //args contains temperature, pressure and altitude
 SETUP_ACTION_3ARGS(avg_temp_update, const Adafruit_BMP085_Unified& bmp, const Adafruit_BNO055& bno,const HIH6130& humid)
 	: _bmp(bmp), _bno(bno), _humid(humid) {

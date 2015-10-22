@@ -88,7 +88,7 @@ struct sensor_data : EventData
 //	int8_t EXT_Temp;
 //};
 
-struct temperature_args : EventData
+struct temperature_data : EventData
 {
 	float BNO_Temp;
 	float BMP_Temp;
