@@ -22,9 +22,25 @@ struct DoorOpen_Data : EventData
 	DoorOpen_Data() : door_number(0), door_start_millis(0), motor_action(NULL) {}
 	DateTime door_open_start;
 	DateTime door_open_finish;
+	DateTime door_close_start;
+	DateTime door_close_finish;
 	int door_number;
 	unsigned long door_start_millis;
 	motor_on* motor_action;
+};
+
+struct Door_Data : EventData{
+	Door_Data(int door_num) : door_number(door_num) {}
+	DateTime door_open_start;
+	DateTime door_open_finish;
+	DateTime door_close_start;
+	DateTime door_close_finish;
+	int door_number;
+	int direction;
+	bool moving;
+	unsigned long door_start_millis;
+	motor_on* motor_action;
+
 };
 
 struct DoorClose_Data : EventData
