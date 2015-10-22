@@ -105,7 +105,13 @@ void setup() {
 	static arduino_mega mainBoard;
 }
 
-
+//trigger the door open action, which starts the motor
+//then that action adds an eventaction to ".1s" event, "motor_on" with a ref to motor, and the current millis() package w/ "first" bool
+//another action responds to "motor_on", receiving motor and millis() from trigger
+// if first time, start time = millis()
+// if not time, runtime = millis() - start time
+// if runtime = optimum motor runtime, remove "motor_on" event from event handler
+// turn off motor
 
 void loop() {
 	int currentTime = millis()/100;
@@ -143,6 +149,7 @@ void loop() {
 		}
 	}
 	int loopExecutionTime = millis()/100 - currentTime;
+	//Serial.println(loopExecutionTime);
 	_prevTime = currentTime + loopExecutionTime;
 
 	wdt_reset();//pat the dog "good boy!"
