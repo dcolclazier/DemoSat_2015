@@ -2,7 +2,7 @@
 #include "EventData.h"
 #include "Event.h"
 #include "arduino_mega.h"
-
+#include <avr/pgmspace.h>
 #include <avr/wdt.h>//For WatchDog
 #include <Arduino.h>
 
@@ -68,6 +68,7 @@
 void InitClock() {
 
 	EVENTHANDLER.add_event(".1s");
+	EVENTHANDLER.add_event(".2s");
 	EVENTHANDLER.add_event(".5s");
 	EVENTHANDLER.add_event("1s");
 	EVENTHANDLER.add_event("5s");
@@ -111,6 +112,7 @@ void loop() {
 	if (currentTime - _prevTime < 1) return;
 	RunTime.Tenths++;
 	EVENTHANDLER.trigger(".1s", &RunTime, 0);
+	if (RunTime.Tenths % 2 == 0) EVENTHANDLER.trigger(".2s");
 	if (RunTime.Tenths % 5 == 0) EVENTHANDLER.trigger(".5s");
 
 	if(RunTime.Tenths == 10) {

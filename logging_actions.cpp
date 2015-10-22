@@ -2,13 +2,13 @@
 #include "RTClib.h"
 
 
-SETUP_ACTION_ONE_ARG(log_all_data, SD_Shield* logger)
+SETUP_ACTION_1ARG(log_all_data,const SD_Shield& logger)
 {
 	Serial.println("starting file check...");
 	char filename[] = "DATA00.CSV";
 	for (uint8_t i = 0; i < 100; i++) {
-		filename[3] = i / 10 + '0';
-		filename[4] = i % 10 + '0';
+		filename[4] = i / 10 + '0';
+		filename[5] = i % 10 + '0';
 		if (!SD.exists(filename)) {
 			// only open a new file if it doesn't exist
 			_logfile = SD.open(filename, O_CREAT | O_WRITE);
@@ -18,7 +18,7 @@ SETUP_ACTION_ONE_ARG(log_all_data, SD_Shield* logger)
 		}
 	}
 	//pressure, temp, altitude, ext_temp
-	_logfile.println(F("millis,datetime,gyro_x,gyro_y,gyro_z,mag_x,mag_y,mag_z,grav_x,grav_y,grav_z,temp_c,accel_x,accel_y,accel_z,euler_x,euler_y,euler_z,quat_x,quat_y,quat_z,quat_w,linear_x,linear_y,linear_z,pressure,bmp_temp,altitude,external_temp"));
+	_logfile.println(F("millis,datetime,gyro_x,gyro_y,gyro_z,mag_x,mag_y,mag_z,grav_x,grav_y,grav_z,temp_c,accel_x,accel_y,accel_z,euler_x,euler_y,euler_z,quat_x,quat_y,quat_z,quat_w,linear_x,linear_y,linear_z,pressure,bmp_temp,altitude,external_temp,rel_humid,humid_temp"));
 	_logfile.close();
 }
 EXECUTE_ACTION(log_all_data)
@@ -96,6 +96,10 @@ EXECUTE_ACTION(log_all_data)
 	_logfile.print(data->Altitude);
 	_logfile.print(F(", "));
 	_logfile.print(data->ext_Temp);
+	_logfile.print(F(", "));
+	_logfile.print(data->Rel_Humidity);
+	_logfile.print(F(", "));
+	_logfile.print(data->Humid_Temp);
 	_logfile.println();
 	_logfile.close();
 }

@@ -8,7 +8,7 @@
 //You looked? Good. Now, let's setup the action: All I'm doing in this case
 //is telling the arduino that the pin to our heater is an output pin,
 //and then I set its dutycycle (0 - 255, 0 being off) to 0.
-SETUP_ACTION(update_heater_status) {
+SETUP_ACTION(update_heater_status){
 	//Heater_control pin is 3, set to output?
 	pinMode(heater_control, OUTPUT); 
 

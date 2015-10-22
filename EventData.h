@@ -59,6 +59,8 @@ struct sensor_data : EventData
 	float Pressure;
 	float bmp_Temp;
 	float Altitude;
+	float Rel_Humidity;
+	float Humid_Temp;
 };
 struct bno_temp_args : EventData {
 	uint8_t Temp;
@@ -98,5 +100,6 @@ struct temperature_args : EventData
 {
 	float BNO_Temp;
 	float BMP_Temp;
+	float HUM_Temp;
 	float AVG_temp;
 };

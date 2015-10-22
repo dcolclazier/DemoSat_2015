@@ -9,7 +9,10 @@
 #include <RTClib.h>
 
 
-arduino_mega::arduino_mega() : _logger(this), _onboardLED(LED(4)), _extTempSensor(&_OneWireBus), _bnoSensor(0x28), _bmpSensor(0x55), _humidSensor(0x27), _OneWireBus(OneWire(2)){
+arduino_mega::arduino_mega() 
+			: _logger(this), _onboardLED(LED(4)), _extTempSensor(&_OneWireBus), 
+			_bnoSensor(0x28), _bmpSensor(0x55), _humidSensor(0x27), _OneWireBus(OneWire(2)){
+	
 	//start bno055 
 	if (!_bnoSensor.begin()) {
 		Serial.print(F("9dof sensor not detected..."));
@@ -27,12 +30,15 @@ arduino_mega::arduino_mega() : _logger(this), _onboardLED(LED(4)), _extTempSenso
 	_extTempSensor.begin();
 	
 	_bnoSensor.setExtCrystalUse(true);
-	EVENTHANDLER.add_eventAction(".1s", new sensor_update(_bnoSensor, _bmpSensor, _extTempSensor, _humidSensor));
-	EVENTHANDLER.add_eventAction("sensor_update", new log_all_data(&_logger));
+	EVENTHANDLER.add_eventAction(".2s", new sensor_update(_bnoSensor, _bmpSensor, _extTempSensor, _humidSensor));
+	EVENTHANDLER.add_eventAction("sensor_update", new log_all_data(_logger));
 	
 	EVENTHANDLER.add_eventAction("1s", new doorman_altitude_check(_bmpSensor, this));
 	EVENTHANDLER.add_eventAction("open door", new doorman_open);
 	EVENTHANDLER.add_eventAction("close door", new doorman_close);
+
+	EVENTHANDLER.add_eventAction("5s", new avg_temp_update(_bmpSensor,_bnoSensor,_humidSensor));
+	EVENTHANDLER.add_eventAction("avg_temp_update", new update_heater_status);
 
 	
 }

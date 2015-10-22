@@ -27,11 +27,11 @@ private:\
 	void execute(EventData* args, void* trigger) override;\
 	private:\
 
-#define CREATE_ACTION_ONE_ARG(name, arg1)\
+#define CREATE_ACTION_1ARG(name, arg1)\
 	struct name : public EventAction {\
 	SIMPLEUNARYACTIONINIT(name, arg1);
 
-#define SETUP_ACTION_ONE_ARG(name, arg1)\
+#define SETUP_ACTION_1ARG(name, arg1)\
 	name::name(arg1)
 
 #define SIMPLEUNARYACTIONINIT(name, arg1)\
