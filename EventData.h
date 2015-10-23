@@ -76,6 +76,7 @@ struct sensor_data : EventData
 	float Altitude;
 	float Rel_Humidity;
 	float Humid_Temp;
+	uint8_t calib_fusion, calib_gyro, calib_accel, calib_mag = 0;
 };
 //struct bno_temp_args : EventData {
 //	uint8_t Temp;

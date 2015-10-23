@@ -18,7 +18,7 @@ SETUP_ACTION_1ARG(log_all_data,const SD_Shield& logger)
 		}
 	}
 	//pressure, temp, altitude, ext_temp
-	_logfile.println(F("millis,datetime,gyro_x,gyro_y,gyro_z,mag_x,mag_y,mag_z,grav_x,grav_y,grav_z,temp_c,accel_x,accel_y,accel_z,euler_x,euler_y,euler_z,quat_x,quat_y,quat_z,quat_w,linear_x,linear_y,linear_z,pressure,bmp_temp,altitude,external_temp,rel_humid,humid_temp"));
+	_logfile.println(F("millis,datetime,calib_fusion,calib_gyro,calib_accel,calib_mag,gyro_x,gyro_y,gyro_z,mag_x,mag_y,mag_z,grav_x,grav_y,grav_z,temp_c,accel_x,accel_y,accel_z,euler_x,euler_y,euler_z,quat_x,quat_y,quat_z,quat_w,linear_x,linear_y,linear_z,pressure,bmp_temp,altitude,external_temp,rel_humid,humid_temp"));
 	_logfile.close();
 }
 EXECUTE_ACTION(log_all_data)
@@ -42,6 +42,14 @@ EXECUTE_ACTION(log_all_data)
 	_logfile.print(F(":"));
 	_logfile.print(now.second(), DEC);
 	_logfile.print(F("\""));
+	_logfile.print(F(", "));
+	_logfile.print(data->calib_fusion);
+	_logfile.print(F(", "));
+	_logfile.print(data->calib_gyro);
+	_logfile.print(F(", "));
+	_logfile.print(data->calib_accel);
+	_logfile.print(F(", "));
+	_logfile.print(data->calib_mag);
 	_logfile.print(F(", "));
 	_logfile.print(data->Gyro.x(), DEC);
 	_logfile.print(F(", "));

@@ -34,7 +34,8 @@ EXECUTE_ACTION(sensor_update)
 	_humidSensor.readRHT();
 	_args.Rel_Humidity = _humidSensor.humidity;
 	_args.Humid_Temp = _humidSensor.temperature;
-		
+	
+	_bno.getCalibration(&_args.calib_fusion, &_args.calib_gyro, &_args.calib_accel, &_args.calib_mag);
 	EVENTHANDLER.trigger("sensor_update", &_args);
 
 }
