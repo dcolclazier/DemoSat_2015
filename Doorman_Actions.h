@@ -18,7 +18,7 @@ DateTime _doorOpenFinish;
 
 END_CREATE
 
-CREATE_ACTION(move_door)
+CREATE_ACTION(turn_motor_on)
 
 END_CREATE
 
@@ -29,7 +29,7 @@ DateTime _doorCloseFinish;
 
 END_CREATE
 
-CREATE_ACTION_TWO_ARGS(motor_on, Door_Data* doorInfo, const arduino_mega* arduino)
+CREATE_ACTION_TWO_ARGS(turn_motor_off, Door_Data* doorInfo, const arduino_mega* arduino)
 	Door_Data* door;
 	const arduino_mega* _arduino;
 	bool off = false;
