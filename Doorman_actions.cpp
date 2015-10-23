@@ -72,12 +72,16 @@ SETUP_ACTION(move_door) {}
 EXECUTE_ACTION(move_door) {
 	Door_Data * door = static_cast<Door_Data*>(args);
 	arduino_mega* arduino = static_cast<arduino_mega*>(trigger);
+	Adafruit_MotorShield AFMS = Adafruit_MotorShield();
+
 	if (door->moving) return;
 
 	if (door->direction == FORWARD) door->door_open_start = arduino->getTime();
 	else if (door->direction == BACKWARD) door->door_close_start = arduino->getTime();
 	door->moving = true;
 
+	AFMS.getMotor(door->door_number)->run(door->direction);
+	AFMS.getMotor(door->door_number)->setSpeed(8);
 	Serial.println("Turning on motor... vroom.");
 
 	//turn on the motor for the door we're opening.
@@ -94,7 +98,7 @@ SETUP_ACTION_2ARGS(motor_on,
 				   const arduino_mega* arduino) : door(door_data), _arduino(arduino) {}
 EXECUTE_ACTION(motor_on) {
 	//if we shouldn't turn off the motor, don't.
-
+	
 	unsigned long time = millis() - door->door_start_millis;
 	Serial.print("motor runtime: ");
 	Serial.println(time);
@@ -108,13 +112,14 @@ EXECUTE_ACTION(motor_on) {
 	default: return;
 
 	}
-
+	Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 	/*if (time < door->direction == FORWARD ? door->openTime : door->direction == BACKWARD ? door->closeTime : 0 || off) return;*/
 
 	//turn off motor 
 	//NEED TURN OFF MOTOR HERE.
 	door->door_number; //use this
 	door->direction; // use this
+	AFMS.getMotor(door->door_number)->setSpeed(0);
 	Serial.println("Turning off motor... eeeerrrccheek!");
 	//update door open data with the time the door open finished, set our backup flag.
 	door->moving = false;
