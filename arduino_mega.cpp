@@ -3,6 +3,7 @@
 #include "sensor_actions.h"
 #include "logging_actions.h"
 #include "Doorman_Actions.h"
+#include "CameraActions.h"
 #include "EventHandler.h"
 
 #include <avr/pgmspace.h>
@@ -39,7 +40,7 @@ arduino_mega::arduino_mega()
 	EVENTHANDLER.add_eventAction("5s", new avg_temp_update(_bmpSensor,_bnoSensor,_humidSensor));
 	EVENTHANDLER.add_eventAction("avg_temp_update", new update_heater_status);
 
-	
+	EVENTHANDLER.add_eventAction("take a picture", new take_picture);
 }
 
 DateTime arduino_mega::getTime() const {
