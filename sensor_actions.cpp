@@ -17,7 +17,7 @@ EXECUTE_ACTION(sensor_update)
 	_args.Accel = _bno.getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER);
 	_args.Pressure = bmp_event.pressure;
 	_bmp.getTemperature(&_args.bmp_Temp);
-	_args.Altitude = _bmp.pressureToAltitude(_seaLevelPressure, bmp_event.pressure, _args.bmp_Temp);
+	_args.Altitude = _bmp.pressureToAltitude(_seaLevelPressure, bmp_event.pressure);
 	_args.Euler = _bno.getVector(Adafruit_BNO055::VECTOR_EULER);
 	_args.Grav = _bno.getVector(Adafruit_BNO055::VECTOR_GRAVITY);
 	_args.Gyro = _bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);

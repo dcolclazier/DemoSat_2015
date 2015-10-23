@@ -19,7 +19,7 @@ EXECUTE_ACTION(doorman_altitude_check) {
 	float temp;
 	_bmp.getEvent(&event);
 	_bmp.getTemperature(&temp);
-	float altitude = _bmp.pressureToAltitude(1012.8f, event.pressure, temp);
+	float altitude = _bmp.pressureToAltitude(1012.8f, event.pressure);
 
 
 
