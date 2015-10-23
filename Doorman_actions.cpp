@@ -91,9 +91,9 @@ EXECUTE_ACTION(move_door) {
 	door->door_number; // use this
 	door->direction; // use this
 
-
+	door->door_start_millis = millis();
 	_args.motor_action = new motor_on(door, arduino);
-	EVENTHANDLER.add_eventAction("1s", _args.motor_action);
+	EVENTHANDLER.add_eventAction(".1s", _args.motor_action);
 }
 
 
@@ -101,7 +101,7 @@ EXECUTE_ACTION(move_door) {
 SETUP_ACTION_2ARGS(motor_on, Door_Data* door_data, const arduino_mega* arduino) :_args(0), door(door_data), _arduino(arduino) {}
 EXECUTE_ACTION(motor_on) {
 	//if we shouldn't turn off the motor, don't.
-	if (off) return;
+	//if (off) return;
 	unsigned long time = millis() - door->door_start_millis;
 	Serial.print("motor runtime: ");
 	Serial.println(time);
@@ -130,6 +130,6 @@ EXECUTE_ACTION(motor_on) {
 	EVENTHANDLER.trigger("door moved", door);
 	
 	//now delete me - I shouldn't exist now.. but even if I don't get deleted, we should be good.
-	EVENTHANDLER.remove_eventAction("1s", this);
+	EVENTHANDLER.remove_eventAction(".1s", this);
 }
 
