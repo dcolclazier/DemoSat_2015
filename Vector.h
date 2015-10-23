@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <stdlib.h>
 #include "string.h"
-#include <Arduino.h>
+//#include <Arduino.h>
 
 template<typename T>
 class Vector {
@@ -24,10 +24,10 @@ public:
 	bool contains(T const &thing) {
 		for (int i = 0; i < d_size; i++) {
 			if (d_data[i] == thing) return true;
-			Serial.print("d_data[i]: ");
-			Serial.println((uint16_t)d_data[i], HEX);
-			Serial.print("thing: ");
-			Serial.println((uint16_t)thing,HEX);
+			//Serial.print("d_data[i]: ");
+			//Serial.println((uint16_t)d_data[i], HEX);
+			//Serial.print("thing: ");
+			//Serial.println((uint16_t)thing,HEX);
 		}
 		return false;
 	}

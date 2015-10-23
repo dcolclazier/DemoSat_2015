@@ -14,7 +14,7 @@ SETUP_ACTION_2ARGS(doorman_altitude_check,
 
 	EVENTHANDLER.add_eventAction("time to open", new doorman_open);
 	EVENTHANDLER.add_eventAction("time to close", new doorman_close);
-	EVENTHANDLER.add_eventAction("move door", new move_door);
+	EVENTHANDLER.add_eventAction("move door", new turn_motor_on);
 }
 EXECUTE_ACTION(doorman_altitude_check) {
 	sensors_event_t event;
@@ -24,19 +24,19 @@ EXECUTE_ACTION(doorman_altitude_check) {
 	float altitude = _bmp.pressureToAltitude(1012.8f, event.pressure);
 	
 	if (altitude > 1641.0f && altitude < 1844.0f) {
-		if(!door1.moving) EVENTHANDLER.trigger("time to open", &door1, _arduino);
+		if(!door1.moving && door1.closed) EVENTHANDLER.trigger("time to open", &door1, _arduino);
 	}
 	else if (altitude > 4000 && altitude < 4002) {
-		if(!door2.moving) EVENTHANDLER.trigger("time to open", &door2, _arduino);
-		if(!door1.moving) EVENTHANDLER.trigger("time to close", &door1, _arduino);
+		if(!door2.moving && door2.closed) EVENTHANDLER.trigger("time to open", &door2, _arduino);
+		if(!door1.moving && !door1.closed) EVENTHANDLER.trigger("time to close", &door1, _arduino);
 	}
 	else if (altitude > 6000 && altitude < 6002) {
-		if(!door3.moving) EVENTHANDLER.trigger("time to open", &door3, _arduino);
-		if(!door2.moving) EVENTHANDLER.trigger("time to close", &door1, _arduino);
+		if(!door3.moving && door3.closed) EVENTHANDLER.trigger("time to open", &door3, _arduino);
+		if(!door2.moving && !door2.closed) EVENTHANDLER.trigger("time to close", &door2, _arduino);
 	}
 	else if (altitude == 8000 && altitude < 8002) {
-		if (!door4.moving) EVENTHANDLER.trigger("time to open", &door4, _arduino);
-		if (!door3.moving) EVENTHANDLER.trigger("time to close", &door3, _arduino);
+		if (!door4.moving && door4.closed) EVENTHANDLER.trigger("time to open", &door4, _arduino);
+		if (!door3.moving && !door3.closed) EVENTHANDLER.trigger("time to close", &door3, _arduino);
 	}
 }
 
@@ -47,11 +47,9 @@ EXECUTE_ACTION(doorman_open)
 	Door_Data* door = static_cast<Door_Data*>(args);
 	arduino_mega* arduino = static_cast<arduino_mega*>(trigger);
 	door->direction = FORWARD;
-	//door->moving = true;
 	Serial.print("Opening door number: ");
 	Serial.println(door->door_number);
 	if(door->closed) EVENTHANDLER.trigger("move door", door, arduino);
-	else;// Serial.println("door already open!");
 }
 
 SETUP_ACTION(doorman_close) {}
@@ -65,12 +63,11 @@ EXECUTE_ACTION(doorman_close) {
 	door->direction = BACKWARD;
 	
 	if (!door->closed) EVENTHANDLER.trigger("move door", door, arduino);
-	else; Serial.println("door already closed!");
 }
 
-SETUP_ACTION(move_door) {
+SETUP_ACTION(turn_motor_on) {
 }
-EXECUTE_ACTION(move_door) {
+EXECUTE_ACTION(turn_motor_on) {
 	Door_Data * door = static_cast<Door_Data*>(args);
 	arduino_mega* arduino = static_cast<arduino_mega*>(trigger);
 	Adafruit_MotorShield AFMS = Adafruit_MotorShield();
@@ -82,36 +79,26 @@ EXECUTE_ACTION(move_door) {
 	else if (door->direction == BACKWARD) door->door_close_start = arduino->getTime();
 	door->moving = true;
 
-	//AFMS.getMotor(door->door_number)->run(RELEASE);
-	//AFMS.getMotor(door->door_number)->run(door->direction);
-	Serial.println("Turning on motor... vroom.");
-	
-	unsigned long softTime = millis();
-
-	//for (int i = 0; i <= 150; i++) {
-	//Adafruit_DCMotor *Motor1 = AFMS.getMotor(1);
-	//Motor1->setSpeed(150);
-	//AFMS.getMotor(2)->run(255);
+		
 	Adafruit_DCMotor *motor = AFMS.getMotor(door->door_number);
 	
+	Serial.println("Turning on motor... vroom.");
 	motor->run(door->direction);
-	//for (int i = 0; i < 150; i++) {
-		motor->setSpeed(150);
-	//}
+	motor->setSpeed(150);
 
 	//turn on the motor for the door we're opening.
 	door->door_number; // use this
 	door->direction; // use this
 
 	door->door_start_millis = millis();
-	door->motor_action = new motor_on(door, arduino);
+	door->motor_action = new turn_motor_off(door, arduino);
 	EVENTHANDLER.add_eventAction(".1s", door->motor_action);
 }
 
-SETUP_ACTION_2ARGS(motor_on, 
+SETUP_ACTION_2ARGS(turn_motor_off,
 					Door_Data* door_data, 
 				   const arduino_mega* arduino) : door(door_data), _arduino(arduino) {}
-EXECUTE_ACTION(motor_on) {
+EXECUTE_ACTION(turn_motor_off) {
 	//if we shouldn't turn off the motor, don't.
 	
 	unsigned long time = millis() - door->door_start_millis;
@@ -119,10 +106,10 @@ EXECUTE_ACTION(motor_on) {
 	Serial.println(time);
 	switch (door->direction) {
 	case FORWARD:
-		if (time < door->openTime || off) return;
+		if (time < door->openTime) return;
 		break;
 	case BACKWARD:
-		if (time < door->closeTime || off) return;
+		if (time < door->closeTime) return;
 		break;
 	default: return;
 
@@ -130,25 +117,15 @@ EXECUTE_ACTION(motor_on) {
 	Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 	AFMS.begin();
 
-	//turn off motor 
-	//NEED TURN OFF MOTOR HERE.
-	//door->door_number; //use this
-	//door->direction; // use this
-
-	//unsigned long softTime = millis();
-
 	Adafruit_DCMotor *motor = AFMS.getMotor(door->door_number);
 
-	motor->run(door->direction);
-	//for (int i = 150; i > 0; i++) {
-		motor->setSpeed(0);
-	//}
-
 	Serial.println("Turning off motor... eeeerrrccheek!");
+	motor->run(door->direction);
+	motor->setSpeed(0);
+
 	//update door open data with the time the door open finished, set our backup flag.
 	door->moving = false;
 	
-	off = true;
 	if(door->direction ==FORWARD) {
 		door->closed = false;
 		door->door_open_finish = _arduino->getTime();
@@ -162,7 +139,7 @@ EXECUTE_ACTION(motor_on) {
 	//trigger a final door event, for logging purposes
 	EVENTHANDLER.trigger("door moved", door);
 	
-	//now delete me - I shouldn't exist now.. but even if I don't get deleted, we should be good.
+	//now delete me - I shouldn't exist now.
 	EVENTHANDLER.remove_eventAction(".1s", this);
 }
 
