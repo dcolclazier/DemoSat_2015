@@ -17,21 +17,21 @@ struct Time : EventData {
 	byte Tenths = 0;
 };
 
-struct DoorOpen_Data : EventData
-{
-	DoorOpen_Data() : door_number(0), door_start_millis(0), motor_action(NULL) {}
-	DateTime door_open_start;
-	DateTime door_open_finish;
-	DateTime door_close_start;
-	DateTime door_close_finish;
-	int door_number;
-	unsigned long door_start_millis;
-	motor_on* motor_action;
-};
+//struct DoorOpen_Data : EventData
+//{
+//	DoorOpen_Data() : door_number(0), door_start_millis(0), motor_action(NULL) {}
+//	DateTime door_open_start;
+//	DateTime door_open_finish;
+//	DateTime door_close_start;
+//	DateTime door_close_finish;
+//	int door_number;
+//	unsigned long door_start_millis;
+//	motor_on* motor_action;
+//};
 
 struct Door_Data : EventData{
-	Door_Data(int door_num) : door_number(door_num) {}
-	
+	//Door_Data(int door_num) : door_number(door_num) {}
+	Door_Data(int door_num, unsigned long open_time, unsigned long close_time) : door_number(door_num), openTime(open_time), closeTime(close_time) {}
 	DateTime door_open_start;
 	DateTime door_open_finish;
 	DateTime door_close_start;
@@ -42,22 +42,23 @@ struct Door_Data : EventData{
 	bool moving = false;
 	unsigned long door_start_millis = 0;
 	motor_on* motor_action = 0;
-	unsigned long runTime = 3750;
+	unsigned long openTime = 3750;
+	unsigned long closeTime = 3750;
 	bool closed = true;
 };
-
-struct DoorClose_Data : EventData
-{
-	DateTime door_close_start;
-	DateTime door_close_finish;
-	int door_number;
-};
-
-struct DOOR_DATA : EventData
-{
-	int door_to_open = 0;
-	int door_to_close = 0;
-};
+//
+//struct DoorClose_Data : EventData
+//{
+//	DateTime door_close_start;
+//	DateTime door_close_finish;
+//	int door_number;
+//};
+//
+//struct DOOR_DATA : EventData
+//{
+//	int door_to_open = 0;
+//	int door_to_close = 0;
+//};
 
 struct sensor_data : EventData
 {

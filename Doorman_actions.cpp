@@ -2,10 +2,10 @@
 #include <Adafruit_MotorShield.h>
 #include "EventHandler.h"
 #include "arduino_mega.h"
-SETUP_ACTION_2ARGS(doorman_altitude_check, 
-					Adafruit_BMP085_Unified bmp, 
-					arduino_mega* arduino) 
-	: _bmp(bmp), _arduino(arduino), door1(1), door2(2), door3(3), door4(4)
+SETUP_ACTION_2ARGS(doorman_altitude_check,
+				   Adafruit_BMP085_Unified bmp,
+				   arduino_mega* arduino)
+	: _bmp(bmp), _arduino(arduino), door1(1, 3750, 3750), door2(2, 3750, 3750), door3(3, 3750, 3750), door4(4, 3750, 3750)
 {
 	EVENTHANDLER.add_event("time to open");
 	EVENTHANDLER.add_event("time to close");
@@ -68,7 +68,7 @@ EXECUTE_ACTION(doorman_close) {
 	else; Serial.println("door already closed!");
 }
 
-SETUP_ACTION(move_door) : _args(0) {}
+SETUP_ACTION(move_door) {}
 EXECUTE_ACTION(move_door) {
 	Door_Data * door = static_cast<Door_Data*>(args);
 	arduino_mega* arduino = static_cast<arduino_mega*>(trigger);
@@ -85,20 +85,31 @@ EXECUTE_ACTION(move_door) {
 	door->direction; // use this
 
 	door->door_start_millis = millis();
-	_args.motor_action = new motor_on(door, arduino);
-	EVENTHANDLER.add_eventAction(".1s", _args.motor_action);
+	door->motor_action = new motor_on(door, arduino);
+	EVENTHANDLER.add_eventAction(".1s", door->motor_action);
 }
 
 SETUP_ACTION_2ARGS(motor_on, 
 					Door_Data* door_data, 
-				   const arduino_mega* arduino) :_args(0), door(door_data), _arduino(arduino) {}
+				   const arduino_mega* arduino) : door(door_data), _arduino(arduino) {}
 EXECUTE_ACTION(motor_on) {
 	//if we shouldn't turn off the motor, don't.
 
 	unsigned long time = millis() - door->door_start_millis;
 	Serial.print("motor runtime: ");
 	Serial.println(time);
-	if (time < door->runTime || off) return;
+	switch (door->direction) {
+	case FORWARD:
+		if (time < door->openTime || off) return;
+		break;
+	case BACKWARD:
+		if (time < door->closeTime || off) return;
+		break;
+	default: return;
+
+	}
+
+	/*if (time < door->direction == FORWARD ? door->openTime : door->direction == BACKWARD ? door->closeTime : 0 || off) return;*/
 
 	//turn off motor 
 	//NEED TURN OFF MOTOR HERE.
