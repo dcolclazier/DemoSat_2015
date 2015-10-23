@@ -95,12 +95,9 @@ EXECUTE_ACTION(move_door) {
 	Adafruit_DCMotor *motor = AFMS.getMotor(door->door_number);
 	
 	motor->run(door->direction);
-	for (int i = 0; i < 150; i++) {
-		motor->setSpeed(i);
-		while (millis() - softTime < 5) {
-			//Wait for motor to catch up
-		}
-	}
+	//for (int i = 0; i < 150; i++) {
+		motor->setSpeed(150);
+	//}
 
 	//turn on the motor for the door we're opening.
 	door->door_number; // use this
@@ -132,24 +129,20 @@ EXECUTE_ACTION(motor_on) {
 	}
 	Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 	AFMS.begin();
-	/*if (time < door->direction == FORWARD ? door->openTime : door->direction == BACKWARD ? door->closeTime : 0 || off) return;*/
 
 	//turn off motor 
 	//NEED TURN OFF MOTOR HERE.
 	//door->door_number; //use this
 	//door->direction; // use this
 
-	unsigned long softTime = millis();
+	//unsigned long softTime = millis();
 
 	Adafruit_DCMotor *motor = AFMS.getMotor(door->door_number);
 
 	motor->run(door->direction);
-	for (int i = 0; i < 150; i++) {
-		motor->setSpeed(i);
-		while (millis() - softTime < 5) {
-			//Wait for motor to catch up
-		}
-	}
+	//for (int i = 150; i > 0; i++) {
+		motor->setSpeed(0);
+	//}
 
 	Serial.println("Turning off motor... eeeerrrccheek!");
 	//update door open data with the time the door open finished, set our backup flag.
