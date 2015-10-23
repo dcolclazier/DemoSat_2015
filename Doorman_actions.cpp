@@ -14,7 +14,7 @@ SETUP_ACTION_2ARGS(doorman_altitude_check,
 
 	EVENTHANDLER.add_eventAction("time to open", new doorman_open);
 	EVENTHANDLER.add_eventAction("time to close", new doorman_close);
-	EVENTHANDLER.add_eventAction("move door", new turn_motor_on);
+	EVENTHANDLER.add_eventAction("move door", new move_door);
 }
 EXECUTE_ACTION(doorman_altitude_check) {
 	sensors_event_t event;
@@ -24,7 +24,7 @@ EXECUTE_ACTION(doorman_altitude_check) {
 	float altitude = _bmp.pressureToAltitude(1012.8f, event.pressure);
 	
 	if (altitude > 1641.0f && altitude < 1844.0f) {
-		if(!door1.moving && door1.closed) EVENTHANDLER.trigger("time to open", &door1, _arduino);
+		if(!door1.moving) EVENTHANDLER.trigger("time to open", &door1, _arduino);
 	}
 	else if (altitude > 4000 && altitude < 4002) {
 		if(!door2.moving) EVENTHANDLER.trigger("time to open", &door2, _arduino);
@@ -68,8 +68,9 @@ EXECUTE_ACTION(doorman_close) {
 	else; Serial.println("door already closed!");
 }
 
-SETUP_ACTION(turn_motor_on) {}
-EXECUTE_ACTION(turn_motor_on) {
+SETUP_ACTION(move_door) {
+}
+EXECUTE_ACTION(move_door) {
 	Door_Data * door = static_cast<Door_Data*>(args);
 	arduino_mega* arduino = static_cast<arduino_mega*>(trigger);
 	Adafruit_MotorShield AFMS = Adafruit_MotorShield();
@@ -87,26 +88,30 @@ EXECUTE_ACTION(turn_motor_on) {
 	
 	unsigned long softTime = millis();
 
+	//for (int i = 0; i <= 150; i++) {
+	//Adafruit_DCMotor *Motor1 = AFMS.getMotor(1);
+	//Motor1->setSpeed(150);
+	//AFMS.getMotor(2)->run(255);
 	Adafruit_DCMotor *motor = AFMS.getMotor(door->door_number);
+	
 	motor->run(door->direction);
+	//for (int i = 0; i < 150; i++) {
+		motor->setSpeed(150);
+	//}
 
-	for (int i = 0; i < 150; i++) {
-		motor->setSpeed(i);
-		while (millis() - softTime < 5) {
-			//Wait for motor to catch up
-		}
-	}
-
+	//turn on the motor for the door we're opening.
+	door->door_number; // use this
+	door->direction; // use this
 
 	door->door_start_millis = millis();
-	door->motor_action = new turn_motor_off(door, arduino);
+	door->motor_action = new motor_on(door, arduino);
 	EVENTHANDLER.add_eventAction(".1s", door->motor_action);
 }
 
-SETUP_ACTION_2ARGS(turn_motor_off,
+SETUP_ACTION_2ARGS(motor_on, 
 					Door_Data* door_data, 
 				   const arduino_mega* arduino) : door(door_data), _arduino(arduino) {}
-EXECUTE_ACTION(turn_motor_off) {
+EXECUTE_ACTION(motor_on) {
 	//if we shouldn't turn off the motor, don't.
 	
 	unsigned long time = millis() - door->door_start_millis;
@@ -124,24 +129,20 @@ EXECUTE_ACTION(turn_motor_off) {
 	}
 	Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 	AFMS.begin();
-	/*if (time < door->direction == FORWARD ? door->openTime : door->direction == BACKWARD ? door->closeTime : 0 || off) return;*/
 
 	//turn off motor 
 	//NEED TURN OFF MOTOR HERE.
 	//door->door_number; //use this
 	//door->direction; // use this
 
-	unsigned long softTime = millis();
+	//unsigned long softTime = millis();
 
 	Adafruit_DCMotor *motor = AFMS.getMotor(door->door_number);
 
 	motor->run(door->direction);
-	for (int i = 0; i < 150; i++) {
-		motor->setSpeed(i);
-		while (millis() - softTime < 5) {
-			//Wait for motor to catch up
-		}
-	}
+	//for (int i = 150; i > 0; i++) {
+		motor->setSpeed(0);
+	//}
 
 	Serial.println("Turning off motor... eeeerrrccheek!");
 	//update door open data with the time the door open finished, set our backup flag.
