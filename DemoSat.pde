@@ -1,3 +1,4 @@
+#include <Adafruit_VC0706.h>
 #include <Adafruit_MotorShield.h>
 #include "EventHandler.h"
 #include "EventData.h"
@@ -8,6 +9,7 @@
 #include <Arduino.h>
 
 #include "Wire.h"
+#include <SoftwareSerial.h>
 #include "Adafruit_Sensor.h"
 #include "Adafruit_BNO055.h"
 #include <HIH6130.h>

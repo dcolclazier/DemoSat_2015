@@ -37,3 +37,8 @@ void EventHandler::trigger(const char* name) {
 	_events.get(name)->invoke(0, 0);
 }
 
+void EventHandler::trigger(const char* name, void* trigger) {
+	if (!contains(name)) return;
+	_events.get(name)->invoke(0, trigger);
+}
+
