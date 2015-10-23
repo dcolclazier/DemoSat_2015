@@ -128,39 +128,7 @@ EXECUTE_ACTION(motor_on) {
 	door->closed = false;
 	//trigger a final door event, for logging purposes
 	EVENTHANDLER.trigger("door moved", door);
-	Serial.print("DOOR NUMBER: ");
-	Serial.print(door->door_number);
-	Serial.println();
-	Serial.print("DOOR OPEN START: ");
-	Serial.print(F("\""));
-	Serial.print(door->door_open_start.year(), DEC);
-	Serial.print(F("/"));
-	Serial.print(door->door_open_start.month(), DEC);
-	Serial.print(F("/"));
-	Serial.print(door->door_open_start.day(), DEC);
-	Serial.print(F(" "));
-	Serial.print(door->door_open_start.hour(), DEC);
-	Serial.print(F(":"));
-	Serial.print(door->door_open_start.minute(), DEC);
-	Serial.print(F(":"));
-	Serial.print(door->door_open_start.second(), DEC);
-	Serial.print(F("\""));
-	Serial.println();
-	Serial.print("DOOR OPEN FINISH: ");
-	Serial.print(F("\""));
-	Serial.print(door->door_open_finish.year(), DEC);
-	Serial.print(F("/"));		 
-	Serial.print(door->door_open_finish.month(), DEC);
-	Serial.print(F("/"));		 
-	Serial.print(door->door_open_finish.day(), DEC);
-	Serial.print(F(" "));		 
-	Serial.print(door->door_open_finish.hour(), DEC);
-	Serial.print(F(":"));		 
-	Serial.print(door->door_open_finish.minute(), DEC);
-	Serial.print(F(":"));		 
-	Serial.print(door->door_open_finish.second(), DEC);
-	Serial.print(F("\""));
-
+	
 	//now delete me - I shouldn't exist now.. but even if I don't get deleted, we should be good.
 	EVENTHANDLER.remove_eventAction("1s", this);
 }

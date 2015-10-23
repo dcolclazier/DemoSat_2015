@@ -34,6 +34,7 @@ arduino_mega::arduino_mega()
 	EVENTHANDLER.add_eventAction("sensor_update", new log_all_data(_logger));
 	
 	EVENTHANDLER.add_eventAction(".1s", new doorman_altitude_check(_bmpSensor, this));
+	EVENTHANDLER.add_eventAction("door moved", new log_door_data(_logger));
 		
 	EVENTHANDLER.add_eventAction("5s", new avg_temp_update(_bmpSensor,_bnoSensor,_humidSensor));
 	EVENTHANDLER.add_eventAction("avg_temp_update", new update_heater_status);
