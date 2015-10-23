@@ -103,3 +103,57 @@ EXECUTE_ACTION(log_all_data)
 	_logfile.println();
 	_logfile.close();
 }
+
+SETUP_ACTION_1ARG(log_door_data, const SD_Shield& logger) {
+	Serial.println("starting file check...");
+	char filename[] = "DOOR00.txt";
+	for (uint8_t i = 0; i < 100; i++) {
+		filename[4] = i / 10 + '0';
+		filename[5] = i % 10 + '0';
+		if (!SD.exists(filename)) {
+			// only open a new file if it doesn't exist
+			_logfile = SD.open(filename, O_CREAT | O_WRITE);
+			_filename = filename;
+			Serial.println(_filename);
+			break;  // leave the loop!
+		}
+	}
+
+	_logfile.close();
+}
+EXECUTE_ACTION(log_door_data) {
+	Door_Data* door = static_cast<Door_Data*>(args);
+
+	_logfile = SD.open(_filename.c_str(), O_CREAT | O_WRITE);
+	Serial.print("DOOR ");
+	Serial.print(door->door_number);
+	Serial.println(" OPEN START: ");
+	Serial.print(F("\""));
+	Serial.print(door->door_open_start.year(), DEC);
+	Serial.print(F("/"));
+	Serial.print(door->door_open_start.month(), DEC);
+	Serial.print(F("/"));
+	Serial.print(door->door_open_start.day(), DEC);
+	Serial.print(F(" "));
+	Serial.print(door->door_open_start.hour(), DEC);
+	Serial.print(F(":"));
+	Serial.print(door->door_open_start.minute(), DEC);
+	Serial.print(F(":"));
+	Serial.print(door->door_open_start.second(), DEC);
+	Serial.print(F("\""));
+	Serial.println();
+	Serial.print("DOOR OPEN FINISH: ");
+	Serial.print(F("\""));
+	Serial.print(door->door_open_finish.year(), DEC);
+	Serial.print(F("/"));
+	Serial.print(door->door_open_finish.month(), DEC);
+	Serial.print(F("/"));
+	Serial.print(door->door_open_finish.day(), DEC);
+	Serial.print(F(" "));
+	Serial.print(door->door_open_finish.hour(), DEC);
+	Serial.print(F(":"));
+	Serial.print(door->door_open_finish.minute(), DEC);
+	Serial.print(F(":"));
+	Serial.print(door->door_open_finish.second(), DEC);
+	Serial.print(F("\""));
+}

@@ -15,7 +15,11 @@ void Event::add_action(EventAction* action) {
 }
 
 void Event::remove_action(EventAction* event_action) {
-	if (!_actionList.contains(event_action)) return;
+	if (!_actionList.contains(event_action)){
+		Serial.println("Couldn't find event action... in Event::remove_action");
+		return;
+	}
+	Serial.println("About to remove action...");
 	_actionList.remove(event_action);
 	
 }

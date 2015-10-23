@@ -22,7 +22,8 @@ EXECUTE_ACTION(doorman_altitude_check) {
 	float altitude = _bmp.pressureToAltitude(1012.8f, event.pressure, temp);
 
 
-	if (altitude > 2000 && altitude < 2002) {
+
+	if (altitude > 1641.0f && altitude < 1644.0f) {
 		if(!door1.moving) EVENTHANDLER.trigger("time to open", &door1, _arduino);
 	}
 	else if (altitude > 4000 && altitude < 4002) {
@@ -38,7 +39,9 @@ EXECUTE_ACTION(doorman_altitude_check) {
 		if (!door3.moving) EVENTHANDLER.trigger("time to close", &door3, _arduino);
 	}
 	else {
-		Serial.println("not ready yet!");
+		/*Serial.print("not ready yet: altitude = ");
+		Serial.print(altitude);
+		Serial.println();*/
 	}
 	
 
@@ -46,18 +49,29 @@ EXECUTE_ACTION(doorman_altitude_check) {
 SETUP_ACTION(doorman_open){}
 EXECUTE_ACTION(doorman_open)
 {
-	Door_Data* data = static_cast<Door_Data*>(args);
+	
+	Door_Data* door = static_cast<Door_Data*>(args);
 	arduino_mega* arduino = static_cast<arduino_mega*>(trigger);
-	data->direction = FORWARD;
-	EVENTHANDLER.trigger("move_door", data, arduino);
+	door->direction = FORWARD;
+	//door->moving = true;
+	Serial.print("Opening door number: ");
+	Serial.println(door->door_number);
+	if(door->closed) EVENTHANDLER.trigger("move door", door, arduino);
+	else;// Serial.println("door already open!");
 }
 
 SETUP_ACTION(doorman_close) {}
 EXECUTE_ACTION(doorman_close) {
 	Door_Data* door = static_cast<Door_Data*>(args);
 	arduino_mega* arduino = static_cast<arduino_mega*>(trigger);
+	
+	Serial.print("Closing door number: ");
+	Serial.println(door->door_number);
+
 	door->direction = BACKWARD;
-	EVENTHANDLER.trigger("move_door", door, arduino);
+	
+	if (!door->closed) EVENTHANDLER.trigger("move door", door, arduino);
+	else; Serial.println("door already closed!");
 }
 
 
@@ -65,6 +79,7 @@ SETUP_ACTION(move_door) : _args(0) {}
 EXECUTE_ACTION(move_door) {
 	Door_Data * door = static_cast<Door_Data*>(args);
 	arduino_mega* arduino = static_cast<arduino_mega*>(trigger);
+	if (door->moving) return;
 
 	if (door->direction == FORWARD) door->door_open_start = arduino->getTime();
 	else if (door->direction == BACKWARD) door->door_close_start = arduino->getTime();
@@ -78,7 +93,7 @@ EXECUTE_ACTION(move_door) {
 
 
 	_args.motor_action = new motor_on(door, arduino);
-	EVENTHANDLER.add_eventAction(".1s", _args.motor_action);
+	EVENTHANDLER.add_eventAction("1s", _args.motor_action);
 }
 
 
@@ -86,8 +101,11 @@ EXECUTE_ACTION(move_door) {
 SETUP_ACTION_2ARGS(motor_on, Door_Data* door_data, const arduino_mega* arduino) :_args(0), door(door_data), _arduino(arduino) {}
 EXECUTE_ACTION(motor_on) {
 	//if we shouldn't turn off the motor, don't.
-	if (millis() - door->door_start_millis < door->runTime) return;
 	if (off) return;
+	unsigned long time = millis() - door->door_start_millis;
+	Serial.print("motor runtime: ");
+	Serial.println(time);
+	if (time < door->runTime) return;
 
 	//turn off motor 
 	//NEED TURN OFF MOTOR HERE.
@@ -96,14 +114,54 @@ EXECUTE_ACTION(motor_on) {
 	Serial.println("Turning off motor... eeeerrrccheek!");
 	//update door open data with the time the door open finished, set our backup flag.
 	door->moving = false;
-	off = true;
-	if(door->direction ==FORWARD) door->door_open_finish = _arduino->getTime();
-	else if (door->direction == BACKWARD) door->door_close_finish = _arduino->getTime();
 	
+	off = true;
+	if(door->direction ==FORWARD) {
+		door->closed = false;
+		door->door_open_finish = _arduino->getTime();
+	}
+	else if (door->direction == BACKWARD) {
+		door->closed = true;
+		door->door_close_finish = _arduino->getTime();
+	}
+	
+	door->closed = false;
 	//trigger a final door event, for logging purposes
 	EVENTHANDLER.trigger("door moved", door);
+	Serial.print("DOOR NUMBER: ");
+	Serial.print(door->door_number);
+	Serial.println();
+	Serial.print("DOOR OPEN START: ");
+	Serial.print(F("\""));
+	Serial.print(door->door_open_start.year(), DEC);
+	Serial.print(F("/"));
+	Serial.print(door->door_open_start.month(), DEC);
+	Serial.print(F("/"));
+	Serial.print(door->door_open_start.day(), DEC);
+	Serial.print(F(" "));
+	Serial.print(door->door_open_start.hour(), DEC);
+	Serial.print(F(":"));
+	Serial.print(door->door_open_start.minute(), DEC);
+	Serial.print(F(":"));
+	Serial.print(door->door_open_start.second(), DEC);
+	Serial.print(F("\""));
+	Serial.println();
+	Serial.print("DOOR OPEN FINISH: ");
+	Serial.print(F("\""));
+	Serial.print(door->door_open_finish.year(), DEC);
+	Serial.print(F("/"));		 
+	Serial.print(door->door_open_finish.month(), DEC);
+	Serial.print(F("/"));		 
+	Serial.print(door->door_open_finish.day(), DEC);
+	Serial.print(F(" "));		 
+	Serial.print(door->door_open_finish.hour(), DEC);
+	Serial.print(F(":"));		 
+	Serial.print(door->door_open_finish.minute(), DEC);
+	Serial.print(F(":"));		 
+	Serial.print(door->door_open_finish.second(), DEC);
+	Serial.print(F("\""));
 
 	//now delete me - I shouldn't exist now.. but even if I don't get deleted, we should be good.
-	EVENTHANDLER.remove_eventAction(".1s",this);
+	EVENTHANDLER.remove_eventAction("1s", this);
 }
 

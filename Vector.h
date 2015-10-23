@@ -21,9 +21,13 @@ public:
 		delete[] d_data;
 		//free(d_data);
 	}; // Destructor
-	bool contains(T thing) {
+	bool contains(T const &thing) {
 		for (int i = 0; i < d_size; i++) {
 			if (d_data[i] == thing) return true;
+			Serial.print("d_data[i]: ");
+			Serial.println((uint16_t)d_data[i], HEX);
+			Serial.print("thing: ");
+			Serial.println((uint16_t)thing,HEX);
 		}
 		return false;
 	}
@@ -48,7 +52,7 @@ public:
 		return d_size;
 	}; // Size getter
 	void remove(T const &thing) {
-		for (int x = 0; x < d_size; x++)
+		for (int x = 0; x < d_size; x++){
 			if(d_data[x] == thing) {
 				Serial.println("deleting.");
 				delete d_data[x];
@@ -58,6 +62,8 @@ public:
 				d_data[--d_size] = NULL;
 
 			}
+			else Serial.println("couldn't find...");
+		}
 	}
 	T const &operator[](long unsigned int idx) const {
 
