@@ -2,7 +2,10 @@
 #include <Adafruit_MotorShield.h>
 #include "EventHandler.h"
 #include "arduino_mega.h"
-SETUP_ACTION_2ARGS(doorman_altitude_check, Adafruit_BMP085_Unified bmp, arduino_mega* arduino) : _bmp(bmp), _arduino(arduino), door1(1), door2(2), door3(3), door4(4)
+SETUP_ACTION_2ARGS(doorman_altitude_check, 
+					Adafruit_BMP085_Unified bmp, 
+					arduino_mega* arduino) 
+	: _bmp(bmp), _arduino(arduino), door1(1), door2(2), door3(3), door4(4)
 {
 	EVENTHANDLER.add_event("time to open");
 	EVENTHANDLER.add_event("time to close");
@@ -13,16 +16,13 @@ SETUP_ACTION_2ARGS(doorman_altitude_check, Adafruit_BMP085_Unified bmp, arduino_
 	EVENTHANDLER.add_eventAction("time to close", new doorman_close);
 	EVENTHANDLER.add_eventAction("move door", new move_door);
 }
-
 EXECUTE_ACTION(doorman_altitude_check) {
 	sensors_event_t event;
 	float temp;
 	_bmp.getEvent(&event);
 	_bmp.getTemperature(&temp);
 	float altitude = _bmp.pressureToAltitude(1012.8f, event.pressure);
-
-
-
+	
 	if (altitude > 1641.0f && altitude < 1644.0f) {
 		if(!door1.moving) EVENTHANDLER.trigger("time to open", &door1, _arduino);
 	}
@@ -38,14 +38,8 @@ EXECUTE_ACTION(doorman_altitude_check) {
 		if (!door4.moving) EVENTHANDLER.trigger("time to open", &door4, _arduino);
 		if (!door3.moving) EVENTHANDLER.trigger("time to close", &door3, _arduino);
 	}
-	else {
-		/*Serial.print("not ready yet: altitude = ");
-		Serial.print(altitude);
-		Serial.println();*/
-	}
-	
-
 }
+
 SETUP_ACTION(doorman_open){}
 EXECUTE_ACTION(doorman_open)
 {
@@ -74,7 +68,6 @@ EXECUTE_ACTION(doorman_close) {
 	else; Serial.println("door already closed!");
 }
 
-
 SETUP_ACTION(move_door) : _args(0) {}
 EXECUTE_ACTION(move_door) {
 	Door_Data * door = static_cast<Door_Data*>(args);
@@ -96,16 +89,16 @@ EXECUTE_ACTION(move_door) {
 	EVENTHANDLER.add_eventAction(".1s", _args.motor_action);
 }
 
-
-
-SETUP_ACTION_2ARGS(motor_on, Door_Data* door_data, const arduino_mega* arduino) :_args(0), door(door_data), _arduino(arduino) {}
+SETUP_ACTION_2ARGS(motor_on, 
+					Door_Data* door_data, 
+				   const arduino_mega* arduino) :_args(0), door(door_data), _arduino(arduino) {}
 EXECUTE_ACTION(motor_on) {
 	//if we shouldn't turn off the motor, don't.
-	//if (off) return;
+
 	unsigned long time = millis() - door->door_start_millis;
 	Serial.print("motor runtime: ");
 	Serial.println(time);
-	if (time < door->runTime) return;
+	if (time < door->runTime || off) return;
 
 	//turn off motor 
 	//NEED TURN OFF MOTOR HERE.

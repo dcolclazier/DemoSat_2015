@@ -54,15 +54,12 @@ public:
 	void remove(T const &thing) {
 		for (int x = 0; x < d_size; x++){
 			if(d_data[x] == thing) {
-				Serial.println("deleting.");
 				delete d_data[x];
 				for (int y = x + 1; y < d_size; y++) {
 					d_data[x++] = d_data[y];
 				}
 				d_data[--d_size] = NULL;
-
 			}
-			else Serial.println("couldn't find...");
 		}
 	}
 	T const &operator[](long unsigned int idx) const {

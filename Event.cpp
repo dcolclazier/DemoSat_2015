@@ -8,18 +8,11 @@ void Event::invoke(EventData* args, void* trigger) {
 		action->execute(args, trigger);
 	}
 }
-
 void Event::add_action(EventAction* action) {
 	if (_actionList.contains(action)) return;
 	_actionList.push_back(action);
 }
-
 void Event::remove_action(EventAction* event_action) {
-	if (!_actionList.contains(event_action)){
-		Serial.println("Couldn't find event action... in Event::remove_action");
-		return;
-	}
-	Serial.println("About to remove action...");
+	if (!_actionList.contains(event_action)) return;
 	_actionList.remove(event_action);
-	
 }

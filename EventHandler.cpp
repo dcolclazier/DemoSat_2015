@@ -11,12 +11,9 @@ void EventHandler::add_eventAction(const char* name, EventAction* action) {
 	_events.get(name)->add_action(action);
 }
 void EventHandler::remove_eventAction(const char* event_name, EventAction* event_action) {
-	if (!contains(event_name)) {
-		return;
-	}
+	if (!contains(event_name)) return;
 	_events.get(event_name)->remove_action(event_action);
 }
-
 
 bool EventHandler::contains(const char* name) {
 	return _events.contains(name);

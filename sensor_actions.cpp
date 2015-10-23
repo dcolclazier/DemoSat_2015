@@ -2,7 +2,11 @@
 #include "EventHandler.h"
 #include <Adafruit_BMP085_U.h>
 
-SETUP_ACTION_4ARGS(sensor_update,const Adafruit_BNO055& bno, const Adafruit_BMP085_Unified& bmp, const DallasTemperature& sensor, const HIH6130& humid_sensor)
+SETUP_ACTION_4ARGS(sensor_update,
+				   const Adafruit_BNO055& bno, 
+				   const Adafruit_BMP085_Unified& bmp, 
+				   const DallasTemperature& sensor, 
+				   const HIH6130& humid_sensor)
 	: _bno(bno), _bmp(bmp), _extTemp(sensor), _humidSensor(humid_sensor)
 {
 	EVENTHANDLER.add_event("sensor_update");
@@ -35,11 +39,10 @@ EXECUTE_ACTION(sensor_update)
 
 }
 
-
-//AVG TEMP UPDATE - to trigger, use event name "avg_tmp"
-//args should be casted into a temperature_data
-//args contains temperature, pressure and altitude
-SETUP_ACTION_3ARGS(avg_temp_update, const Adafruit_BMP085_Unified& bmp, const Adafruit_BNO055& bno,const HIH6130& humid)
+SETUP_ACTION_3ARGS(avg_temp_update, 
+				   const Adafruit_BMP085_Unified& bmp, 
+				   const Adafruit_BNO055& bno,
+				   const HIH6130& humid)
 	: _bmp(bmp), _bno(bno), _humid(humid) {
 	EVENTHANDLER.add_event("avg_temp_update");
 }
