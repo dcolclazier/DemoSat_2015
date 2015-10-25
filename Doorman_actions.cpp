@@ -5,7 +5,7 @@
 SETUP_ACTION_2ARGS(doorman_altitude_check,
 				   Adafruit_BMP085_Unified bmp,
 				   arduino_mega* arduino)
-	: _bmp(bmp), _arduino(arduino), door1(1, 2380, 3000), door2(2, 3750, 3750), door3(3, 3750, 3750), door4(4, 3750, 3750)
+	: _bmp(bmp), _arduino(arduino), door1(1, 2380, 3000), door2(2, 2380, 7000), door3(3, 3750, 3750), door4(4, 3750, 3750)
 {
 	EVENTHANDLER.add_event("time to open");
 	EVENTHANDLER.add_event("time to close");
@@ -23,10 +23,11 @@ EXECUTE_ACTION(doorman_altitude_check) {
 	_bmp.getTemperature(&temp);
 	float altitude = _bmp.pressureToAltitude(1012.8f, event.pressure);
 	
-	if (altitude > 1641.0f && altitude < 1844.0f) {
+	if (altitude >500 && altitude < 1550) {
 		if(!door1.moving && door1.closed) EVENTHANDLER.trigger("time to open", &door1, _arduino);
+		if (!door2.moving && !door2.closed) EVENTHANDLER.trigger("time to close", &door2, _arduino);
 	}
-	else if (altitude > 4000 && altitude < 4002) {
+	else if (altitude > 1550 && altitude < 4002) {
 		if(!door2.moving && door2.closed) EVENTHANDLER.trigger("time to open", &door2, _arduino);
 		if(!door1.moving && !door1.closed) EVENTHANDLER.trigger("time to close", &door1, _arduino);
 	}
@@ -135,7 +136,7 @@ EXECUTE_ACTION(turn_motor_off) {
 		door->door_close_finish = _arduino->getTime();
 	}
 	
-	door->closed = false;
+	//door->closed = false; //Setting door closed to false after setting true makes it try to close forever
 	//trigger a final door event, for logging purposes
 	EVENTHANDLER.trigger("door moved", door);
 	
