@@ -23,11 +23,11 @@ EXECUTE_ACTION(doorman_altitude_check) {
 	_bmp.getTemperature(&temp);
 	float altitude = _bmp.pressureToAltitude(1012.8f, event.pressure);
 	
-	if (altitude > 500 && altitude < 1680) {//Door 1 open all others closed
+	if (altitude > DOOR1_OPEN_ALT && altitude < DOOR1_CLOSE_ALT) {//Door 1 open all others closed
 		if (!door1.moving && !door2.moving && door1.closed) EVENTHANDLER.trigger("time to open", &door1, _arduino);
 		if (!door1.moving && !door2.moving && !door2.closed) EVENTHANDLER.trigger("time to close", &door2, _arduino);
 	}
-	else if (altitude > 1680 && altitude < 4002) {//Door 2 open all others closed
+	else if (altitude > DOOR2_OPEN_ALT && altitude < DOOR2_CLOSE_ALT) {//Door 2 open all others closed
 		if(!door1.moving && !door2.moving && door2.closed) EVENTHANDLER.trigger("time to open", &door2, _arduino);
 		if(!door1.moving && !door2.moving && !door1.closed) EVENTHANDLER.trigger("time to close", &door1, _arduino);
 	}
