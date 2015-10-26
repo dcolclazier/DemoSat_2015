@@ -30,11 +30,14 @@ arduino_mega::arduino_mega()
 	//start external temp sensor
 	_extTempSensor.begin();
 	
+	EVENTHANDLER.add_event("altitude update");
+
+
 	_bnoSensor.setExtCrystalUse(true);
-	EVENTHANDLER.add_eventAction(".2s", new sensor_update(_bnoSensor, _bmpSensor, _extTempSensor, _humidSensor));
+	EVENTHANDLER.add_eventAction(".1s", new sensor_update(_bnoSensor, _bmpSensor, _extTempSensor, _humidSensor));
 	EVENTHANDLER.add_eventAction("sensor_update", new log_all_data(_logger));
 	
-	EVENTHANDLER.add_eventAction(".1s", new doorman_altitude_check(_bmpSensor, this));
+	EVENTHANDLER.add_eventAction(".2s", new doorman_altitude_check(_bmpSensor, this));
 	EVENTHANDLER.add_eventAction("door moved", new log_door_data(_logger));
 		
 	EVENTHANDLER.add_eventAction("5s", new avg_temp_update(_bmpSensor,_bnoSensor,_humidSensor));

@@ -144,7 +144,9 @@ EXECUTE_ACTION(initMotorShield) {
 	if (isInit) return;
 	AltitudeData* data = static_cast<AltitudeData*>(args);
 	if (data->current_alt_in_meters > MOTORSHIELD_INIT_ALTITUDE && !isInit) {
+		Serial.println("About to init the Motor shield...");
 		_afms.begin();
+		Serial.println("Init the motor shield.");
 		EVENTHANDLER.remove_eventAction("altitude update", this);
 	}
 }
