@@ -5,7 +5,7 @@
 SETUP_ACTION_2ARGS(doorman_altitude_check,
 				   Adafruit_BMP085_Unified bmp,
 				   arduino_mega* arduino)
-	: _bmp(bmp), _arduino(arduino), door1(1, 2380, 3000), door2(2, 2380, 7000), door3(3, 3750, 3750), door4(4, 3750, 3750)
+	: _bmp(bmp), _arduino(arduino), door1(1, 1700, 4000), door2(2, 1700, 4000)
 {
 	EVENTHANDLER.add_event("time to open");
 	EVENTHANDLER.add_event("time to close");
@@ -23,21 +23,13 @@ EXECUTE_ACTION(doorman_altitude_check) {
 	_bmp.getTemperature(&temp);
 	float altitude = _bmp.pressureToAltitude(1012.8f, event.pressure);
 	
-	if (altitude >500 && altitude < 1550) {
-		if(!door1.moving && door1.closed) EVENTHANDLER.trigger("time to open", &door1, _arduino);
-		if (!door2.moving && !door2.closed) EVENTHANDLER.trigger("time to close", &door2, _arduino);
+	if (altitude > 500 && altitude < 1680) {//Door 1 open all others closed
+		if (!door1.moving && !door2.moving && door1.closed) EVENTHANDLER.trigger("time to open", &door1, _arduino);
+		if (!door1.moving && !door2.moving && !door2.closed) EVENTHANDLER.trigger("time to close", &door2, _arduino);
 	}
-	else if (altitude > 1550 && altitude < 4002) {
-		if(!door2.moving && door2.closed) EVENTHANDLER.trigger("time to open", &door2, _arduino);
-		if(!door1.moving && !door1.closed) EVENTHANDLER.trigger("time to close", &door1, _arduino);
-	}
-	else if (altitude > 6000 && altitude < 6002) {
-		if(!door3.moving && door3.closed) EVENTHANDLER.trigger("time to open", &door3, _arduino);
-		if(!door2.moving && !door2.closed) EVENTHANDLER.trigger("time to close", &door2, _arduino);
-	}
-	else if (altitude == 8000 && altitude < 8002) {
-		if (!door4.moving && door4.closed) EVENTHANDLER.trigger("time to open", &door4, _arduino);
-		if (!door3.moving && !door3.closed) EVENTHANDLER.trigger("time to close", &door3, _arduino);
+	else if (altitude > 1680 && altitude < 4002) {//Door 2 open all others closed
+		if(!door1.moving && !door2.moving && door2.closed) EVENTHANDLER.trigger("time to open", &door2, _arduino);
+		if(!door1.moving && !door2.moving && !door1.closed) EVENTHANDLER.trigger("time to close", &door1, _arduino);
 	}
 }
 
@@ -85,7 +77,7 @@ EXECUTE_ACTION(turn_motor_on) {
 	
 	Serial.println("Turning on motor... vroom.");
 	motor->run(door->direction);
-	motor->setSpeed(150);
+	motor->setSpeed(200);
 
 	//turn on the motor for the door we're opening.
 	door->door_number; // use this

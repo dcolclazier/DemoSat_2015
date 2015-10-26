@@ -88,16 +88,11 @@ void setup() {
 	//Enable WatchDog
 	//wdt_disable();
 	//delay(250);
-	//wdt_enable(WDTO_4S);
+	//wdt_enable(WDTO_4S);//Timer for 4000 Milliseconds
 	//delay(250);
 	//wdt_reset();//"Pat the Dog" Good Boy!
 
 	Serial.begin(9600);
-
-	//wdt_disable();
-	//delay(100);//Wait for flash event.
-	//wdt_enable(WDTO_1S);//Timer for 1000 Milliseconds
-	//delay(200);//Wait for flash event.
 
 	Wire.begin();
 
@@ -156,6 +151,4 @@ void loop() {
 	_prevTime = currentTime + loopExecutionTime;
 
 	//wdt_reset();//pat the dog "good boy!"
-
-	//wdt_reset();
 }
