@@ -11,6 +11,7 @@ SETUP_ACTION_4ARGS(sensor_update,
 {
 	EVENTHANDLER.add_event("sensor_update");
 }
+
 EXECUTE_ACTION(sensor_update)
 {
 	sensors_event_t bmp_event;
@@ -22,6 +23,9 @@ EXECUTE_ACTION(sensor_update)
 	_args.Pressure = bmp_event.pressure;
 	_bmp.getTemperature(&_args.bmp_Temp);
 	_args.Altitude = _bmp.pressureToAltitude(_seaLevelPressure, bmp_event.pressure);
+	AltitudeData alt_data;
+	alt_data.current_alt_in_meters = _args.Altitude;
+	EVENTHANDLER.trigger("altitude update", &alt_data);
 	_args.Euler = _bno.getVector(Adafruit_BNO055::VECTOR_EULER);
 	_args.Grav = _bno.getVector(Adafruit_BNO055::VECTOR_GRAVITY);
 	_args.Gyro = _bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);

@@ -14,8 +14,7 @@ CREATE_EVENT_TRIGGERING_ACTION_4ARGS(sensor_update, sensor_data, const Adafruit_
 	HIH6130 _humidSensor;
 	float _seaLevelPressure = 1012.8f;
 
-END_CREATE
-
+	END_CREATE
 
 //AVG TEMP UPDATE - to trigger, use event name "avg_tmp"
 //args contains temperature, pressure and altitude

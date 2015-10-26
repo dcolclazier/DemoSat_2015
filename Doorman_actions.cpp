@@ -63,8 +63,8 @@ SETUP_ACTION(turn_motor_on) {
 EXECUTE_ACTION(turn_motor_on) {
 	Door_Data * door = static_cast<Door_Data*>(args);
 	arduino_mega* arduino = static_cast<arduino_mega*>(trigger);
-	Adafruit_MotorShield AFMS = Adafruit_MotorShield();
-	AFMS.begin();
+	//Adafruit_MotorShield AFMS = Adafruit_MotorShield();
+	//AFMS.begin();
 
 	if (door->moving) return;
 
@@ -73,7 +73,7 @@ EXECUTE_ACTION(turn_motor_on) {
 	door->moving = true;
 
 		
-	Adafruit_DCMotor *motor = AFMS.getMotor(door->door_number);
+	Adafruit_DCMotor *motor = arduino->motorshield().getMotor(door->door_number);
 	
 	Serial.println("Turning on motor... vroom.");
 	motor->run(door->direction);
@@ -136,3 +136,15 @@ EXECUTE_ACTION(turn_motor_off) {
 	EVENTHANDLER.remove_eventAction(".1s", this);
 }
 
+
+SETUP_ACTION_1ARG(initMotorShield, const Adafruit_MotorShield& AFMS) : _afms(AFMS) {
+
+}
+EXECUTE_ACTION(initMotorShield) {
+	if (isInit) return;
+	AltitudeData* data = static_cast<AltitudeData*>(args);
+	if (data->current_alt_in_meters > MOTORSHIELD_INIT_ALTITUDE && !isInit) {
+		_afms.begin();
+		EVENTHANDLER.remove_eventAction("altitude update", this);
+	}
+}

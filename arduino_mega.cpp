@@ -41,6 +41,10 @@ arduino_mega::arduino_mega()
 	EVENTHANDLER.add_eventAction("avg_temp_update", new update_heater_status);
 
 	EVENTHANDLER.add_eventAction("take a picture", new take_picture);
+
+
+	EVENTHANDLER.add_eventAction("altitude update", new initMotorShield(_afms));
+
 }
 
 DateTime arduino_mega::getTime() const {

@@ -17,6 +17,10 @@ struct Time : EventData {
 	byte Tenths = 0;
 };
 
+struct AltitudeData : EventData {
+	float current_alt_in_meters;
+};
+
 struct Door_Data : EventData{
 	//Door_Data(int door_num) : door_number(door_num) {}
 	Door_Data(int door_num, unsigned long open_time, unsigned long close_time) : door_number(door_num), openTime(open_time), closeTime(close_time) {}

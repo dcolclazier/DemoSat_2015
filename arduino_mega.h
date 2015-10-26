@@ -5,6 +5,7 @@
 #include <RTClib.h>
 #include "sd_shield.h"
 #include "OneWire.h"
+#include <Adafruit_MotorShield.h>
 #include "HIH6130.h"
 //#include "Sparkfun_Humid.h"
 #include "DallasTemperature.h"
@@ -14,6 +15,7 @@ public:
 
 	arduino_mega();
 	DateTime getTime() const;
+	Adafruit_MotorShield& motorshield() { return _afms; }
 private:
 
 	SD_Shield _logger;
@@ -23,6 +25,7 @@ private:
 	Adafruit_BNO055 _bnoSensor;
 	Adafruit_BMP085_Unified _bmpSensor;
 	HIH6130 _humidSensor;
+	Adafruit_MotorShield _afms;
 	//Sparkfun_Humid _humidSensor;
 	OneWire _OneWireBus;
 };

@@ -1,4 +1,12 @@
 ﻿#pragma once
+
+#define MOTORSHIELD_INIT_ALTITUDE 1000
+#define DOOR1_OPEN_ALT 1500
+#define DOOR1_CLOSE_ALT 2000
+#define DOOR2_OPEN_ALT 2500
+#define DOOR2_CLOSE_ALT 3000
+
+
 class EventData;
 class EventAction {
 public:
