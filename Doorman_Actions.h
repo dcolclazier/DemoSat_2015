@@ -31,7 +31,7 @@ CREATE_ACTION(doorman_close)
 	DateTime _doorCloseFinish;
 END_CREATE
 
-CREATE_ACTION_TWO_ARGS(turn_motor_off, Door_Data* doorInfo, const arduino_mega* arduino)
+CREATE_ACTION_TWO_ARGS(turn_motor_off, Door_Data* doorInfo, arduino_mega* arduino)
 	Door_Data* door;
-	const arduino_mega* _arduino;
+	arduino_mega* _arduino;
 END_CREATE

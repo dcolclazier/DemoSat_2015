@@ -90,7 +90,7 @@ EXECUTE_ACTION(turn_motor_on) {
 
 SETUP_ACTION_2ARGS(turn_motor_off,
 					Door_Data* door_data, 
-				   const arduino_mega* arduino) : door(door_data), _arduino(arduino) {}
+				   arduino_mega* arduino) : door(door_data), _arduino(arduino) {}
 EXECUTE_ACTION(turn_motor_off) {
 	//if we shouldn't turn off the motor, don't.
 	
@@ -107,10 +107,10 @@ EXECUTE_ACTION(turn_motor_off) {
 	default: return;
 
 	}
-	Adafruit_MotorShield AFMS = Adafruit_MotorShield();
-	AFMS.begin();
+	//Adafruit_MotorShield AFMS = Adafruit_MotorShield();
+	//AFMS.begin();
 
-	Adafruit_DCMotor *motor = AFMS.getMotor(door->door_number);
+	Adafruit_DCMotor* motor = _arduino->motorshield().getMotor(door->door_number);
 
 	Serial.println("Turning off motor... eeeerrrccheek!");
 	motor->run(door->direction);
