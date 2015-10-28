@@ -30,8 +30,9 @@ arduino_mega::arduino_mega()
 	//start external temp sensor
 	_extTempSensor.begin();
 	
-	EVENTHANDLER.add_event("altitude update");
-
+	
+	
+	
 
 	_bnoSensor.setExtCrystalUse(true);
 	EVENTHANDLER.add_eventAction(".1s", new sensor_update(_bnoSensor, _bmpSensor, _extTempSensor, _humidSensor));
@@ -42,12 +43,12 @@ arduino_mega::arduino_mega()
 		
 	EVENTHANDLER.add_eventAction("5s", new avg_temp_update(_bmpSensor,_bnoSensor,_humidSensor));
 	EVENTHANDLER.add_eventAction("avg_temp_update", new update_heater_status);
-
-	EVENTHANDLER.add_eventAction("take a picture", new take_picture);
-
-
 	EVENTHANDLER.add_eventAction("altitude update", new initMotorShield(_afms));
 
+
+
+	EVENTHANDLER.add_eventAction("5s", new take_picture);
+	EVENTHANDLER.add_eventAction("save picture", new save_picture(_logger));
 }
 
 DateTime arduino_mega::getTime() const {

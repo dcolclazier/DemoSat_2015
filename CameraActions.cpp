@@ -17,6 +17,7 @@ SETUP_ACTION(take_picture) {
 	uint8_t imgSize = cam.getImageSize();
 	Serial.print("Image size: ");
 	Serial.println(imgSize);
+	EVENTHANDLER.add_event("save picture");
 
 }
 EXECUTE_ACTION(take_picture) {
@@ -28,45 +29,44 @@ EXECUTE_ACTION(take_picture) {
 	}
 }
 
-SETUP_ACTION_1ARG(save_picture, const SD_Shield* logger) : _logger(logger){
-	char filename[13];
-	strcpy(filename, "IMAGE00.JPG");
-	for (int i = 0; i < 100; i++) {
-		filename[5] = '0' + i / 10;
-		filename[6] = '0' + i % 10;
-		// create if does not exist, do not open existing, write, sync after write
-		if (!SD.exists(filename)) {
-			_filename = filename;
-			break;
-		}
-	}
-	
-}
+SETUP_ACTION_1ARG(save_picture, const SD_Shield& logger) : _logger(logger){ }
 
 EXECUTE_ACTION(save_picture) {
-
-	File imgFile = SD.open(_filename, FILE_WRITE);
-
 	_cam = static_cast<Adafruit_VC0706*>(trigger);
 	uint16_t jpglen = _cam->frameLength();
 	Serial.print("Storing ");
 	Serial.print(jpglen, DEC);
 	Serial.print(" byte image.");
 
+	Serial.println("Starting picture file check..");
+	char filename[] = "IMAGE00.JPG";
+	for (uint8_t i = 0; i < 100; i++) {
+		filename[5] = '0' + i / 10;
+		filename[6] = '0' + i % 10;
+		// create if does not exist, do not open existing, write, sync after write
+		if (!SD.exists(filename)) {
+			_pictureFile = SD.open(filename, O_CREAT | O_WRITE);
+			_filename = filename;
+			Serial.println(_filename);
+			break;
+		}
+	}	
+
 	unsigned long time = millis();
 	//pinMode(8,OUTPUT)
+	_pictureFile = SD.open(_filename, O_CREAT | O_WRITE);
 	byte writeCount = 0;
 	while(jpglen > 0) {
 		uint8_t bytesToRead = min(32, jpglen);
 		uint8_t* buffer = _cam->readPicture(bytesToRead);
-		imgFile.write(buffer, bytesToRead);
+		_pictureFile.write(buffer, bytesToRead);
 		if(++writeCount >= 64) {
 			Serial.print(".");
 			writeCount = 0;
 		}
 		jpglen -= bytesToRead;
 	}
-	imgFile.close();
+	_pictureFile.close();
 
 
 	time = millis() - time;

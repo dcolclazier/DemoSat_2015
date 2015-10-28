@@ -9,6 +9,7 @@ SETUP_ACTION_4ARGS(sensor_update,
 				   const HIH6130& humid_sensor)
 	: _bno(bno), _bmp(bmp), _extTemp(sensor), _humidSensor(humid_sensor)
 {
+	EVENTHANDLER.add_event("altitude update");
 	EVENTHANDLER.add_event("sensor_update");
 }
 
