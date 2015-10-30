@@ -74,6 +74,8 @@ private:\
 #define SETUP_ACTION_4ARGS(name, arg1, arg2, arg3, arg4)\
 	name::name(arg1,arg2,arg3,arg4)
 
+#define SETUP_ACTION_5ARGS(name, arg1, arg2, arg3, arg4)\
+	name::name(arg1,arg2,arg3,arg4,arg5)
 
 
 #define CREATE_EVENT_TRIGGERING_ACTION_1ARG(name, out_argtype, in_arg1)\
@@ -116,6 +118,16 @@ private:\
 
 #define QUADACTIONINIT(name, argtype, arg1, arg2, arg3, arg4)\
 	name(arg1, arg2, arg3, arg4);\
+	void execute(EventData* args, void* trigger) override;\
+private:\
+	argtype _args\
+
+#define CREATE_EVENT_TRIGGERING_ACTION_5ARGS(name, out_argtype, in_arg1, in_arg2, in_arg3, in_arg4, in_arg5)\
+	struct name : public EventAction {\
+	QUINTENARYACTIONINIT(name, out_argtype, in_arg1, in_arg2, in_arg3, in_arg4, in_arg5);
+
+#define QUINTENARYACTIONINIT(name, argtype, arg1, arg2, arg3, arg4, arg5)\
+	name(arg1, arg2, arg3, arg4, arg5);\
 	void execute(EventData* args, void* trigger) override;\
 private:\
 	argtype _args\

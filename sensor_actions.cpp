@@ -2,12 +2,13 @@
 #include "EventHandler.h"
 #include <Adafruit_BMP085_U.h>
 
-SETUP_ACTION_4ARGS(sensor_update,
+SETUP_ACTION_5ARGS(sensor_update,
 				   const Adafruit_BNO055& bno, 
 				   const Adafruit_BMP085_Unified& bmp, 
 				   const DallasTemperature& sensor, 
-				   const HIH6130& humid_sensor)
-	: _bno(bno), _bmp(bmp), _extTemp(sensor), _humidSensor(humid_sensor)
+				   const HIH6130& humid_sensor, 
+				   const Adafruit_SI1145& visible_light)
+	: _bno(bno), _bmp(bmp), _extTemp(sensor), _humidSensor(humid_sensor), _visibleLight(visible_light)
 {
 	EVENTHANDLER.add_event("sensor_update");
 }

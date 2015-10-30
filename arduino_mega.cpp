@@ -12,7 +12,7 @@
 
 arduino_mega::arduino_mega() 
 			: _logger(this), _onboardLED(LED(4)), _extTempSensor(&_OneWireBus), 
-			_bnoSensor(0x28), _bmpSensor(0x55), _humidSensor(0x27), _OneWireBus(OneWire(2)){
+			_bnoSensor(0x28), _bmpSensor(0x55), _humidSensor(0x27), _OneWireBus(OneWire(2)), _visLightSensor(0x60){
 	
 	//start bno055 
 	if (!_bnoSensor.begin()) {
@@ -34,7 +34,7 @@ arduino_mega::arduino_mega()
 
 
 	_bnoSensor.setExtCrystalUse(true);
-	EVENTHANDLER.add_eventAction(".1s", new sensor_update(_bnoSensor, _bmpSensor, _extTempSensor, _humidSensor));
+	EVENTHANDLER.add_eventAction(".1s", new sensor_update(_bnoSensor, _bmpSensor, _extTempSensor, _humidSensor, _visLightSensor));
 	EVENTHANDLER.add_eventAction("sensor_update", new log_all_data(_logger));
 	
 	EVENTHANDLER.add_eventAction(".2s", new doorman_altitude_check(_bmpSensor, this));
