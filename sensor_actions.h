@@ -4,7 +4,8 @@
 #include "Adafruit_BMP085_U.h"
 #include "HIH6130.h"
 #include "DallasTemperature.h"
-
+CREATE_EVENT_TRIGGERING_ACTION_1ARG(new_sensor_update, new_sensor_data, const SensorPackage& sensors)
+END_CREATE
 
 CREATE_EVENT_TRIGGERING_ACTION_4ARGS(sensor_update, sensor_data, const Adafruit_BNO055& bno, const Adafruit_BMP085_Unified& bmp, const DallasTemperature& sensor, const HIH6130& humid_sensor)
 

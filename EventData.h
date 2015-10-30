@@ -2,6 +2,13 @@
 #include "Arduino.h"
 #include "Adafruit_BNO055.h"
 #include <RTClib.h>
+#include <OneWire.h>
+#include <Adafruit_MotorShield.h>
+#include <HIH6130.h>
+#include <DallasTemperature.h>
+#include <Adafruit_BMP085_U.h>
+#include "LED.h"
+#include "sd_shield.h"
 
 class turn_motor_off;
 class EventData {
@@ -40,6 +47,38 @@ struct Door_Data : EventData{
 };
 
 struct sensor_data : EventData
+{
+	imu::Vector<3> Gyro;
+	imu::Vector<3> Mag;
+	imu::Vector<3> Grav;
+	float bno_Temp;
+	imu::Vector<3> Accel;
+	imu::Vector<3> Euler;
+	imu::Quaternion Quat;
+	imu::Vector<3> linearAccel;
+	float ext_Temp;
+	float Pressure;
+	float bmp_Temp;
+	float Altitude;
+	float Rel_Humidity;
+	float Humid_Temp;
+	uint8_t calib_fusion, calib_gyro, calib_accel, calib_mag = 0;
+};
+
+struct SensorPackage : EventData
+{
+	SD_Shield _logger;
+	RTC_DS1307 _realTimeClock;
+	LED _onboardLED;
+	DallasTemperature _extTempSensor;
+	Adafruit_BNO055 _bnoSensor;
+	Adafruit_BMP085_Unified _bmpSensor;
+	HIH6130 _humidSensor;
+	Adafruit_MotorShield _afms;
+	//Sparkfun_Humid _humidSensor;
+	OneWire _OneWireBus;
+};
+struct new_sensor_data : EventData
 {
 	imu::Vector<3> Gyro;
 	imu::Vector<3> Mag;
