@@ -1,4 +1,5 @@
 ﻿#include "CameraActions.h"
+#include "EventHandler.h"
 
 SETUP_ACTION(take_picture) {
 	

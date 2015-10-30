@@ -4,16 +4,15 @@
 #include "Adafruit_BMP085_U.h"
 #include "HIH6130.h"
 #include "DallasTemperature.h"
-#include "Adafruit_SI1145.h"
+CREATE_EVENT_TRIGGERING_ACTION_1ARG(new_sensor_update, new_sensor_data, const SensorPackage& sensors)
+END_CREATE
 
-
-CREATE_EVENT_TRIGGERING_ACTION_5ARGS(sensor_update, sensor_data, const Adafruit_BNO055& bno, const Adafruit_BMP085_Unified& bmp, const DallasTemperature& sensor, const HIH6130& humid_sensor, const Adafruit_SI1145& visible_light)
+CREATE_EVENT_TRIGGERING_ACTION_4ARGS(sensor_update, sensor_data, const Adafruit_BNO055& bno, const Adafruit_BMP085_Unified& bmp, const DallasTemperature& sensor, const HIH6130& humid_sensor)
 
 	Adafruit_BNO055 _bno;
 	Adafruit_BMP085_Unified _bmp;
 	DallasTemperature _extTemp;
 	HIH6130 _humidSensor;
-	Adafruit_SI1145 _visibleLight;
 	float _seaLevelPressure = 1012.8f;
 
 	END_CREATE
