@@ -3,7 +3,6 @@
 #include "sensor_actions.h"
 #include "logging_actions.h"
 #include "Doorman_Actions.h"
-#include "CameraActions.h"
 #include "EventHandler.h"
 
 #include "Adafruit_LEDBackpack.h"
@@ -15,7 +14,7 @@
 
 arduino_mega::arduino_mega() 
 			: _logger(this), _onboardLED(LED(4)), _extTempSensor(&_OneWireBus), 
-			_bnoSensor(0x28), _bmpSensor(0x55), _humidSensor(0x27), _OneWireBus(2), _visibleLight(), _BICOLOR(Adafruit_BicolorMatrix()){
+			_bnoSensor(0x28), _bmpSensor(0x55), _humidSensor(0x27), _OneWireBus(2), _lightSensor(), _ledMatrix(Adafruit_BicolorMatrix()){
 	
 	//start bno055 
 	if (!_bnoSensor.begin()) {
@@ -33,22 +32,22 @@ arduino_mega::arduino_mega()
 	//start external temp sensor
 	_extTempSensor.begin();
 	
-	_visibleLight = Adafruit_SI1145();
-	if(!_visibleLight.begin())
+	_lightSensor = Adafruit_SI1145();
+	if(!_lightSensor.begin())
 	{
 		Serial.println("Couldn't find the visible light sensor....");
 	}
 
 	//BICOLOR BACKPACK I2C assign
-	_BICOLOR.begin(0x70);
+	_ledMatrix.begin(0x70);
 	
-	EVENTHANDLER.add_event("altitude update");
-	SensorPackage sensor_package = SensorPackage(_logger, _realTimeClock, _onboardLED, _extTempSensor, _bnoSensor, _bmpSensor, _humidSensor, _afms, _OneWireBus, _visibleLight);
+	
+	SensorPackage sensor_package = SensorPackage(_logger, _realTimeClock, _onboardLED, _extTempSensor, _bnoSensor, _bmpSensor, _humidSensor, _motorShield, _OneWireBus, _lightSensor);
 
 
 	_bnoSensor.setExtCrystalUse(true);
 	EVENTHANDLER.add_eventAction(".1s", new new_sensor_update(sensor_package));
-	//EVENTHANDLER.add_eventAction(".1s", new sensor_update(_bnoSensor, _bmpSensor, _extTempSensor, _humidSensor));
+	
 	EVENTHANDLER.add_eventAction("sensor_update", new log_all_data(_logger));
 	
 	EVENTHANDLER.add_eventAction(".2s", new doorman_altitude_check(_bmpSensor, this));
@@ -57,10 +56,8 @@ arduino_mega::arduino_mega()
 	EVENTHANDLER.add_eventAction("5s", new avg_temp_update(_bmpSensor,_bnoSensor,_humidSensor));
 	EVENTHANDLER.add_eventAction("avg_temp_update", new update_heater_status);
 
-	EVENTHANDLER.add_eventAction("take a picture", new take_picture);
-
-
-	EVENTHANDLER.add_eventAction("altitude update", new initMotorShield(_afms));
+	EVENTHANDLER.add_event("altitude update");
+	EVENTHANDLER.add_eventAction("altitude update", new initMotorShield(_motorShield));
 
 }
 

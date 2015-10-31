@@ -19,7 +19,7 @@ public:
 
 	arduino_mega();
 	DateTime getTime() const;
-	Adafruit_MotorShield& motorshield() { return _afms; }
+	Adafruit_MotorShield& motorshield() { return _motorShield; }
 private:
 
 	SD_Shield _logger;
@@ -29,11 +29,10 @@ private:
 	Adafruit_BNO055 _bnoSensor;
 	Adafruit_BMP085_Unified _bmpSensor;
 	HIH6130 _humidSensor;
-	Adafruit_MotorShield _afms;
-	//Sparkfun_Humid _humidSensor;
+	Adafruit_MotorShield _motorShield;
 	OneWire _OneWireBus;
-	Adafruit_SI1145 _visibleLight;
-	Adafruit_BicolorMatrix _BICOLOR;
+	Adafruit_SI1145 _lightSensor;
+	Adafruit_BicolorMatrix _ledMatrix;
 
 	
 };
