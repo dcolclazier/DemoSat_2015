@@ -10,6 +10,10 @@
 //#include "Sparkfun_Humid.h"
 #include "DallasTemperature.h"
 #include <Adafruit_SI1145.h>
+#include "Adafruit_LEDBackpack.h"
+#include "Adafruit_GFX.h"
+
+
 class arduino_mega {
 public:
 
@@ -29,4 +33,7 @@ private:
 	//Sparkfun_Humid _humidSensor;
 	OneWire _OneWireBus;
 	Adafruit_SI1145 _visibleLight;
+	Adafruit_BicolorMatrix _BICOLOR;
+
+	
 };

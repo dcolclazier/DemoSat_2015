@@ -1,3 +1,7 @@
+#include "Matrix_actions.h"
+#include "Matrix_actions.h"
+#include <Adafruit_GFX.h>
+#include <Adafruit_LEDBackpack.h>
 #include <Adafruit_SI1145.h>
 #include <Adafruit_VC0706.h>
 #include <Adafruit_MotorShield.h>

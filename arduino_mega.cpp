@@ -6,13 +6,16 @@
 #include "CameraActions.h"
 #include "EventHandler.h"
 
+#include "Adafruit_LEDBackpack.h"
+#include "Adafruit_GFX.h"
+
 #include <avr/pgmspace.h>
 #include <RTClib.h>
 
 
 arduino_mega::arduino_mega() 
 			: _logger(this), _onboardLED(LED(4)), _extTempSensor(&_OneWireBus), 
-			_bnoSensor(0x28), _bmpSensor(0x55), _humidSensor(0x27), _OneWireBus(2), _visibleLight(){
+			_bnoSensor(0x28), _bmpSensor(0x55), _humidSensor(0x27), _OneWireBus(2), _visibleLight(), _BICOLOR(Adafruit_BicolorMatrix()){
 	
 	//start bno055 
 	if (!_bnoSensor.begin()) {
@@ -35,6 +38,9 @@ arduino_mega::arduino_mega()
 	{
 		Serial.println("Couldn't find the visible light sensor....");
 	}
+
+	//BICOLOR BACKPACK I2C assign
+	_BICOLOR.begin(0x70);
 	
 	EVENTHANDLER.add_event("altitude update");
 	SensorPackage sensor_package = SensorPackage(_logger, _realTimeClock, _onboardLED, _extTempSensor, _bnoSensor, _bmpSensor, _humidSensor, _afms, _OneWireBus, _visibleLight);
