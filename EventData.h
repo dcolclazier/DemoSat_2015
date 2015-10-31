@@ -45,6 +45,7 @@ struct Door_Data : EventData{
 	unsigned long openTime = 3750;
 	unsigned long closeTime = 3750;
 	bool closed = true;
+	bool hasntbeenopenedbefore = true;
 };
 
 struct sensor_data : EventData

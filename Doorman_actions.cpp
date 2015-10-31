@@ -42,7 +42,7 @@ EXECUTE_ACTION(doorman_open)
 	door->direction = FORWARD;
 	Serial.print("Opening door number: ");
 	Serial.println(door->door_number);
-	if(door->closed) EVENTHANDLER.trigger("move door", door, arduino);
+	if(door->closed & door->hasntbeenopenedbefore) EVENTHANDLER.trigger("move door", door, arduino);
 }
 
 SETUP_ACTION(doorman_close) {}
@@ -126,6 +126,7 @@ EXECUTE_ACTION(turn_motor_off) {
 	else if (door->direction == BACKWARD) {
 		door->closed = true;
 		door->door_close_finish = _arduino->getTime();
+		door->hasntbeenopenedbefore = false;
 	}
 	
 	//door->closed = false; //Setting door closed to false after setting true makes it try to close forever
