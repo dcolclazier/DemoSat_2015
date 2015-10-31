@@ -2,6 +2,14 @@
 #include "Arduino.h"
 #include "Adafruit_BNO055.h"
 #include <RTClib.h>
+#include <OneWire.h>
+#include <Adafruit_MotorShield.h>
+#include <HIH6130.h>
+#include <DallasTemperature.h>
+#include <Adafruit_BMP085_U.h>
+#include <Adafruit_SI1145.h>
+#include "LED.h"
+#include "sd_shield.h"
 
 class turn_motor_off;
 class EventData {
@@ -37,6 +45,7 @@ struct Door_Data : EventData{
 	unsigned long openTime = 3750;
 	unsigned long closeTime = 3750;
 	bool closed = true;
+	bool hasntbeenopenedbefore = true;
 };
 
 struct sensor_data : EventData
@@ -56,6 +65,51 @@ struct sensor_data : EventData
 	float Rel_Humidity;
 	float Humid_Temp;
 	uint8_t calib_fusion, calib_gyro, calib_accel, calib_mag = 0;
+};
+
+struct SensorPackage : EventData
+{
+	SensorPackage(const SD_Shield& logger, const RTC_DS1307& clock, const LED& led, const DallasTemperature& ext_temp,
+		const Adafruit_BNO055& bno, const Adafruit_BMP085_Unified& bmp, const HIH6130& humid, 
+		const Adafruit_MotorShield afms, const OneWire& oneWire, const Adafruit_SI1145 visible ) :
+		_logger(logger), _realTimeClock(clock), _onboardLED(led), _humidSensor(humid), _afms(afms),
+		_OneWireBus(oneWire), _visibleLight(visible), _extTemp(ext_temp)
+	{
+		
+	}
+	SD_Shield _logger;
+	RTC_DS1307 _realTimeClock;
+	LED _onboardLED;
+	DallasTemperature _extTemp;
+	Adafruit_BNO055 _bno;
+	Adafruit_BMP085_Unified _bmp;
+	HIH6130 _humidSensor;
+	Adafruit_MotorShield _afms;
+	//Sparkfun_Humid _humidSensor;
+	OneWire _OneWireBus;
+	Adafruit_SI1145 _visibleLight;
+
+};
+struct new_sensor_data : EventData
+{
+	imu::Vector<3> Gyro;
+	imu::Vector<3> Mag;
+	imu::Vector<3> Grav;
+	float bno_Temp;
+	imu::Vector<3> Accel;
+	imu::Vector<3> Euler;
+	imu::Quaternion Quat;
+	imu::Vector<3> linearAccel;
+	float ext_Temp;
+	float Pressure;
+	float bmp_Temp;
+	float Altitude;
+	float Rel_Humidity;
+	float Humid_Temp;
+	uint8_t calib_fusion, calib_gyro, calib_accel, calib_mag = 0;
+	uint16_t IR;
+	uint16_t visible;
+
 };
 
 struct temperature_data : EventData
