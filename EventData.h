@@ -7,6 +7,7 @@
 #include <HIH6130.h>
 #include <DallasTemperature.h>
 #include <Adafruit_BMP085_U.h>
+#include <Adafruit_SI1145.h>
 #include "LED.h"
 #include "sd_shield.h"
 
@@ -67,16 +68,26 @@ struct sensor_data : EventData
 
 struct SensorPackage : EventData
 {
+	SensorPackage(const SD_Shield& logger, const RTC_DS1307& clock, const LED& led, const DallasTemperature& ext_temp,
+		const Adafruit_BNO055& bno, const Adafruit_BMP085_Unified& bmp, const HIH6130& humid, 
+		const Adafruit_MotorShield afms, const OneWire& oneWire, const Adafruit_SI1145 visible ) :
+		_logger(logger), _realTimeClock(clock), _onboardLED(led), _humidSensor(humid), _afms(afms),
+		_OneWireBus(oneWire), _visibleLight(visible), _extTemp(ext_temp)
+	{
+		
+	}
 	SD_Shield _logger;
 	RTC_DS1307 _realTimeClock;
 	LED _onboardLED;
-	DallasTemperature _extTempSensor;
-	Adafruit_BNO055 _bnoSensor;
-	Adafruit_BMP085_Unified _bmpSensor;
+	DallasTemperature _extTemp;
+	Adafruit_BNO055 _bno;
+	Adafruit_BMP085_Unified _bmp;
 	HIH6130 _humidSensor;
 	Adafruit_MotorShield _afms;
 	//Sparkfun_Humid _humidSensor;
 	OneWire _OneWireBus;
+	Adafruit_SI1145 _visibleLight;
+
 };
 struct new_sensor_data : EventData
 {
@@ -95,6 +106,9 @@ struct new_sensor_data : EventData
 	float Rel_Humidity;
 	float Humid_Temp;
 	uint8_t calib_fusion, calib_gyro, calib_accel, calib_mag = 0;
+	uint16_t IR;
+	uint16_t visible;
+
 };
 
 struct temperature_data : EventData

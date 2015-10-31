@@ -1,5 +1,6 @@
 ﻿#include "logging_actions.h"
 #include "RTClib.h"
+#include <avr\pgmspace.h>
 
 
 SETUP_ACTION_1ARG(log_all_data,const SD_Shield& logger)
@@ -18,12 +19,13 @@ SETUP_ACTION_1ARG(log_all_data,const SD_Shield& logger)
 		}
 	}
 	//pressure, temp, altitude, ext_temp
-	_logfile.println(F("millis,datetime,calib_fusion,calib_gyro,calib_accel,calib_mag,gyro_x,gyro_y,gyro_z,mag_x,mag_y,mag_z,grav_x,grav_y,grav_z,temp_c,accel_x,accel_y,accel_z,euler_x,euler_y,euler_z,quat_x,quat_y,quat_z,quat_w,linear_x,linear_y,linear_z,pressure,bmp_temp,altitude,external_temp,rel_humid,humid_temp"));
+	_logfile.println(F("millis,datetime,calib_fusion,calib_gyro,calib_accel,calib_mag,gyro_x,gyro_y,gyro_z,mag_x,mag_y,mag_z,grav_x,grav_y,grav_z,temp_c,accel_x,accel_y,accel_z,euler_x,euler_y,euler_z,quat_x,quat_y,quat_z,quat_w,linear_x,linear_y,linear_z,pressure,bmp_temp,altitude,external_temp,rel_humid,humid_temp,IR,Visible"));
 	_logfile.close();
 }
 EXECUTE_ACTION(log_all_data)
 {
-	sensor_data* data = static_cast<sensor_data*>(args);
+	//sensor_data* data = static_cast<sensor_data*>(args);
+	new_sensor_data* data = static_cast<new_sensor_data*>(args);
 	
 	_logfile = SD.open(_filename.c_str(), O_CREAT | O_WRITE);
 	_logfile.print(millis());
@@ -108,6 +110,10 @@ EXECUTE_ACTION(log_all_data)
 	_logfile.print(data->Rel_Humidity);
 	_logfile.print(F(", "));
 	_logfile.print(data->Humid_Temp);
+	_logfile.print(F(", "));
+	_logfile.print(data->IR);
+	_logfile.print(F(", "));
+	_logfile.print(data->visible);
 	_logfile.println();
 	_logfile.close();
 }
