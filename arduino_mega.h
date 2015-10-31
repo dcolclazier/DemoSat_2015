@@ -10,7 +10,6 @@
 //#include "Sparkfun_Humid.h"
 #include "DallasTemperature.h"
 #include <Adafruit_SI1145.h>
-
 class arduino_mega {
 public:
 
@@ -29,6 +28,5 @@ private:
 	Adafruit_MotorShield _afms;
 	//Sparkfun_Humid _humidSensor;
 	OneWire _OneWireBus;
-	//Visible light sensor
-	Adafruit_SI1145 _visLightSensor;
+	Adafruit_SI1145 _visibleLight;
 };
