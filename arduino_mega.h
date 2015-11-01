@@ -7,11 +7,9 @@
 #include "OneWire.h"
 #include <Adafruit_MotorShield.h>
 #include "HIH6130.h"
-//#include "Sparkfun_Humid.h"
 #include "DallasTemperature.h"
 #include <Adafruit_SI1145.h>
 #include "Adafruit_LEDBackpack.h"
-#include "Adafruit_GFX.h"
 
 
 class arduino_mega {

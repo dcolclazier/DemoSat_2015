@@ -16,7 +16,7 @@ SETUP_ACTION_2ARGS(doorman_altitude_check,
 	EVENTHANDLER.add_event("move door");
 	EVENTHANDLER.add_eventAction("move door", new turn_motor_on);
 
-	EVENTHANDLER.add_event("door moved");
+	EVENTHANDLER.add_event("sample collected");
 
 }
 EXECUTE_ACTION(doorman_altitude_check) {
@@ -128,14 +128,14 @@ EXECUTE_ACTION(turn_motor_off) {
 	}
 	
 	//trigger a final door event, for logging purposes
-	EVENTHANDLER.trigger("door moved", door);
+	EVENTHANDLER.trigger("sample collected", door);
 	
 	//now delete me - I shouldn't exist now.
 	EVENTHANDLER.remove_eventAction(".1s", this);
 }
 
 
-SETUP_ACTION_1ARG(initMotorShield, const Adafruit_MotorShield& AFMS) : _afms(AFMS) {
+SETUP_ACTION_1ARG(initMotorShield, const Adafruit_MotorShield& motorShield) : _motorShield(motorShield) {
 
 }
 EXECUTE_ACTION(initMotorShield) {
@@ -143,7 +143,7 @@ EXECUTE_ACTION(initMotorShield) {
 	AltitudeData* data = static_cast<AltitudeData*>(args);
 	if (data->current_alt_in_meters > MOTORSHIELD_INIT_ALTITUDE && !isInit) {
 		Serial.println("About to init the Motor shield...");
-		_afms.begin();
+		_motorShield.begin();
 		Serial.println("Init the motor shield.");
 		EVENTHANDLER.remove_eventAction("altitude update", this);
 	}

@@ -6,9 +6,9 @@
 #include "EventData.h"
 class arduino_mega;
 
-CREATE_ACTION_1ARG(initMotorShield, const Adafruit_MotorShield& AFMS)
+CREATE_ACTION_1ARG(initMotorShield, const Adafruit_MotorShield& motorShield)
 	bool isInit = false;
-	Adafruit_MotorShield _afms;
+	Adafruit_MotorShield _motorShield;
 END_CREATE
 
 
