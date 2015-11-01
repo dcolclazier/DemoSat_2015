@@ -98,8 +98,8 @@ void setup() {
 	delay(250);
 	wdt_reset();//"Pat the Dog" Good Boy!
 
-	Serial.begin(9600);
-
+	Serial1.begin(9600);
+	Serial1.print("Testing!\n");
 	Wire.begin();
 
 	OneWire oneWireBus(2);

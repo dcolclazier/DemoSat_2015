@@ -47,7 +47,10 @@ struct Door_Data : EventData{
 	bool closed = true;
 	bool hasntbeenopenedbefore = true;
 };
-
+struct config_data : EventData
+{
+	uint8_t calib_system, calib_gyro, calib_accel, calib_mag = 0;
+};
 struct sensor_data : EventData
 {
 	imu::Vector<3> Gyro;

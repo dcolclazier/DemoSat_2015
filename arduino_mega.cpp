@@ -5,6 +5,7 @@
 #include "Doorman_Actions.h"
 #include "CameraActions.h"
 #include "EventHandler.h"
+#include "Matrix_actions.h"
 
 #include "Adafruit_LEDBackpack.h"
 #include "Adafruit_GFX.h"
@@ -40,13 +41,20 @@ arduino_mega::arduino_mega()
 	}
 
 	//BICOLOR BACKPACK I2C assign
+	Serial.println("beginning LED backpack...");
 	_BICOLOR.begin(0x70);
-	
+	_BICOLOR.clear();
+
+
+
+	EVENTHANDLER.add_event("update_config_status");
 	EVENTHANDLER.add_event("altitude update");
 	SensorPackage sensor_package = SensorPackage(_logger, _realTimeClock, _onboardLED, _extTempSensor, _bnoSensor, _bmpSensor, _humidSensor, _afms, _OneWireBus, _visibleLight);
 
-
 	_bnoSensor.setExtCrystalUse(true);
+
+	EVENTHANDLER.add_eventAction("update_config_status", new update_config_status(_BICOLOR));
+	
 	EVENTHANDLER.add_eventAction(".1s", new new_sensor_update(sensor_package));
 	//EVENTHANDLER.add_eventAction(".1s", new sensor_update(_bnoSensor, _bmpSensor, _extTempSensor, _humidSensor));
 	EVENTHANDLER.add_eventAction("sensor_update", new log_all_data(_logger));

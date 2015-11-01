@@ -44,6 +44,9 @@ EXECUTE_ACTION(new_sensor_update)
 	_args.Humid_Temp = _sensors._humidSensor.temperature;
 
 	_sensors._bno.getCalibration(&_args.calib_fusion, &_args.calib_gyro, &_args.calib_accel, &_args.calib_mag);
+	config_data data;
+	_sensors._bno.getCalibration(&data.calib_system, &data.calib_gyro, &data.calib_accel, &data.calib_mag);
+	EVENTHANDLER.trigger("update_config_status", &data);
 	_args.IR = _sensors._visibleLight.readIR();
 	_args.visible = _sensors._visibleLight.readVisible();
 	EVENTHANDLER.trigger("sensor_update", &_args);
@@ -77,7 +80,7 @@ EXECUTE_ACTION(new_sensor_update)
 //	_args.Rel_Humidity = _humidSensor.humidity;
 //	_args.Humid_Temp = _humidSensor.temperature;
 //	
-//	_bno.getCalibration(&_args.calib_fusion, &_args.calib_gyro, &_args.calib_accel, &_args.calib_mag);
+//	_bno.getCalibration(&_args.calib_system, &_args.calib_gyro, &_args.calib_accel, &_args.calib_mag);
 //	EVENTHANDLER.trigger("sensor_update", &_args);
 //
 //}
