@@ -6,6 +6,7 @@
 #include "CameraActions.h"
 #include "EventHandler.h"
 #include "Matrix_actions.h"
+#include "UV_Sensor.h"
 
 #include "Adafruit_LEDBackpack.h"
 #include "Adafruit_GFX.h"
@@ -15,7 +16,7 @@
 
 
 arduino_mega::arduino_mega() 
-			: _logger(this), _onboardLED(LED(4)), _extTempSensor(&_OneWireBus), 
+			: _logger(this), _onboardLED(LED(4)), _extTempSensor(&_OneWireBus), _UVSensor(UV(A1)), 
 			_bnoSensor(0x28), _bmpSensor(0x55), _humidSensor(0x27), _OneWireBus(2), _lightSensor(), _ledMatrix(Adafruit_BicolorMatrix()){
 	
 	//start bno055 
@@ -35,6 +36,9 @@ arduino_mega::arduino_mega()
 	_extTempSensor.begin();
 	
 	_lightSensor = Adafruit_SI1145();
+
+	//_UVSensor = UltraViolet(A1);
+
 	if(!_lightSensor.begin())
 	{
 		Serial.println("Couldn't find the visible light sensor....");
@@ -49,7 +53,7 @@ arduino_mega::arduino_mega()
 
 	EVENTHANDLER.add_event("update_config_status");
 	EVENTHANDLER.add_event("altitude update");
-	SensorPackage sensor_package = SensorPackage(_logger, _realTimeClock, _onboardLED, _extTempSensor, _bnoSensor, _bmpSensor, _humidSensor, _motorShield, _OneWireBus, _lightSensor);
+	SensorPackage sensor_package = SensorPackage(_logger, _realTimeClock, _onboardLED, _extTempSensor, _bnoSensor, _bmpSensor, _humidSensor, _motorShield, _OneWireBus, _lightSensor, _UVSensor);
 
 	_bnoSensor.setExtCrystalUse(true);
 

@@ -12,6 +12,7 @@
 #include <Adafruit_SI1145.h>
 #include "Adafruit_LEDBackpack.h"
 #include "Adafruit_GFX.h"
+#include "UV_Sensor.h"
 
 
 class arduino_mega {
@@ -33,6 +34,8 @@ private:
 	OneWire _OneWireBus;
 	Adafruit_SI1145 _lightSensor;
 	Adafruit_BicolorMatrix _ledMatrix;
+	UV _UVSensor;
+	
 
 	
 };

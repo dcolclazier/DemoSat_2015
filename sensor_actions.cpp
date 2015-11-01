@@ -49,6 +49,8 @@ EXECUTE_ACTION(new_sensor_update)
 	EVENTHANDLER.trigger("update_config_status", &data);
 	_args.IR = _sensors._visibleLight.readIR();
 	_args.visible = _sensors._visibleLight.readVisible();
+	_args.UltraViolet = _sensors._uvLight.readUV();
+	_args.UltraVioletVoltage = _sensors._uvLight.readVoltage();
 	EVENTHANDLER.trigger("sensor_update", &_args);
 }
 

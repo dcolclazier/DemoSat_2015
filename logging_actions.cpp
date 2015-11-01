@@ -19,7 +19,7 @@ SETUP_ACTION_1ARG(log_all_data,const SD_Shield& logger)
 		}
 	}
 	//pressure, temp, altitude, ext_temp
-	_logfile.println(F("millis,datetime,calib_system,calib_gyro,calib_accel,calib_mag,gyro_x,gyro_y,gyro_z,mag_x,mag_y,mag_z,grav_x,grav_y,grav_z,temp_c,accel_x,accel_y,accel_z,euler_x,euler_y,euler_z,quat_x,quat_y,quat_z,quat_w,linear_x,linear_y,linear_z,pressure,bmp_temp,altitude,external_temp,rel_humid,humid_temp,IR,Visible"));
+	_logfile.println(F("millis,datetime,calib_system,calib_gyro,calib_accel,calib_mag,gyro_x,gyro_y,gyro_z,mag_x,mag_y,mag_z,grav_x,grav_y,grav_z,temp_c,accel_x,accel_y,accel_z,euler_x,euler_y,euler_z,quat_x,quat_y,quat_z,quat_w,linear_x,linear_y,linear_z,pressure,bmp_temp,altitude,external_temp,rel_humid,humid_temp,IR,Visible,UV,UV_Voltage(mV)"));
 	_logfile.close();
 }
 EXECUTE_ACTION(log_all_data)
@@ -114,6 +114,10 @@ EXECUTE_ACTION(log_all_data)
 	_logfile.print(data->IR);
 	_logfile.print(F(", "));
 	_logfile.print(data->visible);
+	_logfile.print(F(", "));
+	_logfile.print(data->UltraViolet);
+	_logfile.print(F(", "));
+	_logfile.print(data->UltraVioletVoltage);
 	_logfile.println();
 	_logfile.close();
 }
