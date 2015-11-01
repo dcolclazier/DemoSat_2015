@@ -61,7 +61,6 @@
       <Filter>_EventHandler</Filter>
     </ClInclude>
     <ClInclude Include="CameraActions.h" />
-    <ClInclude Include="__vm\.DemoSat.vsarduino.h" />
     <ClInclude Include="Matrix_actions.h">
       <Filter>_Actions</Filter>
     </ClInclude>

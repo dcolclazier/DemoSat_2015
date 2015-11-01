@@ -31,6 +31,4 @@ private:
 	OneWire _OneWireBus;
 	Adafruit_SI1145 _lightSensor;
 	Adafruit_BicolorMatrix _ledMatrix;
-
-	
 };
