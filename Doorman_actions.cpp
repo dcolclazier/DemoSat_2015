@@ -8,13 +8,16 @@ SETUP_ACTION_2ARGS(doorman_altitude_check,
 	: _bmp(bmp), _arduino(arduino), door1(1, 1700, 4000), door2(2, 1700, 4000)
 {
 	EVENTHANDLER.add_event("time to open");
-	EVENTHANDLER.add_event("time to close");
-	EVENTHANDLER.add_event("move door");
-	EVENTHANDLER.add_event("door moved");
-
 	EVENTHANDLER.add_eventAction("time to open", new doorman_open);
+
+	EVENTHANDLER.add_event("time to close");
 	EVENTHANDLER.add_eventAction("time to close", new doorman_close);
+
+	EVENTHANDLER.add_event("move door");
 	EVENTHANDLER.add_eventAction("move door", new turn_motor_on);
+
+	EVENTHANDLER.add_event("sample collected");
+
 }
 EXECUTE_ACTION(doorman_altitude_check) {
 	sensors_event_t event;
@@ -22,7 +25,7 @@ EXECUTE_ACTION(doorman_altitude_check) {
 	_bmp.getEvent(&event);
 	_bmp.getTemperature(&temp);
 	float altitude = _bmp.pressureToAltitude(1012.8f, event.pressure);
-	
+	//BUG - This logic is wrong...
 	if (altitude > DOOR1_OPEN_ALT && altitude < DOOR1_CLOSE_ALT) {//Door 1 open all others closed
 		if (!door1.moving && !door2.moving && door1.closed) EVENTHANDLER.trigger("time to open", &door1, _arduino);
 		if (!door1.moving && !door2.moving && !door2.closed) EVENTHANDLER.trigger("time to close", &door2, _arduino);
@@ -63,8 +66,6 @@ SETUP_ACTION(turn_motor_on) {
 EXECUTE_ACTION(turn_motor_on) {
 	Door_Data * door = static_cast<Door_Data*>(args);
 	arduino_mega* arduino = static_cast<arduino_mega*>(trigger);
-	//Adafruit_MotorShield AFMS = Adafruit_MotorShield();
-	//AFMS.begin();
 
 	if (door->moving) return;
 
@@ -78,10 +79,6 @@ EXECUTE_ACTION(turn_motor_on) {
 	Serial.println("Turning on motor... vroom.");
 	motor->run(door->direction);
 	motor->setSpeed(200);
-
-	//turn on the motor for the door we're opening.
-	door->door_number; // use this
-	door->direction; // use this
 
 	door->door_start_millis = millis();
 	door->motor_action = new turn_motor_off(door, arduino);
@@ -105,15 +102,16 @@ EXECUTE_ACTION(turn_motor_off) {
 		if (time < door->closeTime) return;
 		break;
 	default: return;
-
 	}
-	//Adafruit_MotorShield AFMS = Adafruit_MotorShield();
-	//AFMS.begin();
 
 	Adafruit_DCMotor* motor = _arduino->motorshield().getMotor(door->door_number);
 
 	Serial.println("Turning off motor... eeeerrrccheek!");
 	motor->run(door->direction);
+	if(door->direction == BACKWARD) {
+		//we're closing - don't turn it off, just set it to something low to keep pulling on the door.
+		motor->setSpeed(5);
+	}
 	motor->setSpeed(0);
 
 	//update door open data with the time the door open finished, set our backup flag.
@@ -129,16 +127,15 @@ EXECUTE_ACTION(turn_motor_off) {
 		door->hasntbeenopenedbefore = false;
 	}
 	
-	//door->closed = false; //Setting door closed to false after setting true makes it try to close forever
 	//trigger a final door event, for logging purposes
-	EVENTHANDLER.trigger("door moved", door);
+	EVENTHANDLER.trigger("sample collected", door);
 	
 	//now delete me - I shouldn't exist now.
 	EVENTHANDLER.remove_eventAction(".1s", this);
 }
 
 
-SETUP_ACTION_1ARG(initMotorShield, const Adafruit_MotorShield& AFMS) : _afms(AFMS) {
+SETUP_ACTION_1ARG(initMotorShield, const Adafruit_MotorShield& motorShield) : _motorShield(motorShield) {
 
 }
 EXECUTE_ACTION(initMotorShield) {
@@ -146,7 +143,7 @@ EXECUTE_ACTION(initMotorShield) {
 	AltitudeData* data = static_cast<AltitudeData*>(args);
 	if (data->current_alt_in_meters > MOTORSHIELD_INIT_ALTITUDE && !isInit) {
 		Serial.println("About to init the Motor shield...");
-		_afms.begin();
+		_motorShield.begin();
 		Serial.println("Init the motor shield.");
 		EVENTHANDLER.remove_eventAction("altitude update", this);
 	}
