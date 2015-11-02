@@ -68,7 +68,6 @@ struct sensor_data : EventData
 	float Altitude;
 	float Rel_Humidity;
 	float Humid_Temp;
-	float UV_Sensor;
 	uint8_t calib_fusion, calib_gyro, calib_accel, calib_mag = 0;
 };
 
@@ -106,17 +105,18 @@ struct new_sensor_data : EventData
 	imu::Vector<3> Euler;
 	imu::Quaternion Quat;
 	imu::Vector<3> linearAccel;
-	float ext_Temp;
 	float Pressure;
+	float ext_Temp;
 	float bmp_Temp;
 	float Altitude;
 	float Rel_Humidity;
 	float Humid_Temp;
 	uint8_t calib_fusion, calib_gyro, calib_accel, calib_mag = 0;
-	uint16_t IR;
-	uint16_t visible;
-	uint16_t UltraViolet;
+	float IR;
+	float visible;
+	float UltraViolet;
 	float UltraVioletVoltage;
+	uint8_t UVindex;
 
 };
 

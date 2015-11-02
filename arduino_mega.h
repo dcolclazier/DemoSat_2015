@@ -32,7 +32,7 @@ private:
 	HIH6130 _humidSensor;
 	Adafruit_MotorShield _motorShield;
 	OneWire _OneWireBus;
-	Adafruit_SI1145 _lightSensor;
+	Adafruit_SI1145 _visibleLightSensor;
 	Adafruit_BicolorMatrix _ledMatrix;
 	UV _UVSensor;
 	
