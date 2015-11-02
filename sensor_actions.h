@@ -12,6 +12,12 @@ SensorPackage _sensors;
 float _seaLevelPressure = 1012.8; 
 END_CREATE
 
+CREATE_EVENT_TRIGGERING_ACTION_1ARG(external_temp_update, external_temp, const DallasTemperature& external_temperature)
+
+DallasTemperature _Ext_temp;
+float _seaLevelPressure = 1012.8;
+
+END_CREATE
 
 //CREATE_EVENT_TRIGGERING_ACTION_4ARGS(sensor_update, sensor_data, const Adafruit_BNO055& bno, const Adafruit_BMP085_Unified& bmp, const DallasTemperature& sensor, const HIH6130& humid_sensor)
 //
@@ -30,11 +36,4 @@ CREATE_EVENT_TRIGGERING_ACTION_3ARGS(avg_temp_update, temperature_data, const Ad
 	HIH6130 _humid;
 	Adafruit_BMP085_Unified _bmp;
 	Adafruit_BNO055 _bno;
-END_CREATE
-
-CREATE_EVENT_TRIGGERING_ACTION_1ARG(external_temp_update, new_sensor_data, const SensorPackage& sensors)
-
-	SensorPackage _sensors;
-	float _seaLevelPressure = 1012.8;
-
 END_CREATE

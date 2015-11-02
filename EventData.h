@@ -127,3 +127,8 @@ struct temperature_data : EventData
 	float HUM_Temp;
 	float AVG_temp;
 };
+
+struct external_temp : EventData
+{
+	float Ext_temp;
+};

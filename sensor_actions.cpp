@@ -135,61 +135,15 @@ EXECUTE_ACTION(avg_temp_update) {
 	EVENTHANDLER.trigger("avg_temp_update", &_args);
 }
 
-SETUP_ACTION_1ARG(external_temp_update, const SensorPackage& sensors) : _sensors(sensors){
-
-	EVENTHANDLER.add_event("external_temp_update");
-	//Get initial external temp reading
-	//_sensors._extTemp.requestTemperatures();
-	//_args.ext_Temp = _sensors._extTemp.getTempCByIndex(0);
+SETUP_ACTION_1ARG(external_temp_update, const DallasTemperature& external_temperature) : _Ext_temp(external_temperature)
+//SETUP_ACTION_1ARG(new_sensor_update, const SensorPackage& sensors) : _sensors(sensors)
+{
+	EVENTHANDLER.add_event("log_external_temp_update");
 }
 
 EXECUTE_ACTION(external_temp_update)
 {
-	/*_sensors._extTemp.requestTemperatures();
-	_args.ext_Temp = _sensors._extTemp.getTempCByIndex(0);
-	Serial.println("Your first event ran Wesely!");
-	Serial.print("Ext_temp: ");
-	Serial.println(_args.ext_Temp);
-	EVENTHANDLER.trigger("sensor_update", &_args);*/
-
-	_sensors._visibleLight.reset();
-	sensors_event_t bmp_event;
-	sensors_event_t bno_event;
-	_sensors._bmp.getEvent(&bmp_event);
-	_sensors._bno.getEvent(&bno_event);
-	_sensors._visibleLight.begin();
-
-	_args.Accel = _sensors._bno.getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER);
-	_args.Pressure = bmp_event.pressure;
-	_sensors._bmp.getTemperature(&_args.bmp_Temp);
-	_args.Altitude = _sensors._bmp.pressureToAltitude(_seaLevelPressure, bmp_event.pressure);
-	AltitudeData alt_data;
-	alt_data.current_alt_in_meters = _args.Altitude;
-	EVENTHANDLER.trigger("altitude update", &alt_data);
-	_args.Euler = _sensors._bno.getVector(Adafruit_BNO055::VECTOR_EULER);
-	_args.Grav = _sensors._bno.getVector(Adafruit_BNO055::VECTOR_GRAVITY);
-	_args.Gyro = _sensors._bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
-	_args.Quat = _sensors._bno.getQuat();
-	_args.linearAccel = _sensors._bno.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
-	_args.Mag = _sensors._bno.getVector(Adafruit_BNO055::VECTOR_MAGNETOMETER);
-	_args.bno_Temp = _sensors._bno.getTemp();
-	//This is the one we actually want to update
-	//Update everything else as well
-	_sensors._extTemp.requestTemperatures();
-	_args.ext_Temp = _sensors._extTemp.getTempCByIndex(0);
-
-	_sensors._humidSensor.readRHT();
-	_args.Rel_Humidity = _sensors._humidSensor.humidity;
-	_args.Humid_Temp = _sensors._humidSensor.temperature;
-
-	_sensors._bno.getCalibration(&_args.calib_fusion, &_args.calib_gyro, &_args.calib_accel, &_args.calib_mag);
-	config_data data;
-	_sensors._bno.getCalibration(&data.calib_system, &data.calib_gyro, &data.calib_accel, &data.calib_mag);
-	EVENTHANDLER.trigger("update_config_status", &data);
-	_args.IR = _sensors._visibleLight.readIR();
-	_args.visible = _sensors._visibleLight.readVisible();
-	_args.UltraViolet = _sensors._uvLight.readUVB();
-	_args.UltraVioletVoltage = _sensors._uvLight.readUvVoltage();
-	_args.UVindex = _sensors._uvLight.readUVindex();
-	EVENTHANDLER.trigger("sensor_update", &_args);
+	_Ext_temp.requestTemperatures();
+	_args.Ext_temp = _Ext_temp.getTempCByIndex(0);
+	EVENTHANDLER.trigger("log_external_temp_update", &_args);
 }
