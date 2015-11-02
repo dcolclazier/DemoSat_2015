@@ -65,6 +65,9 @@
       <Filter>_Actions</Filter>
     </ClInclude>
     <ClInclude Include="__vm\.DemoSat.vsarduino.h" />
+    <ClInclude Include="UV_Sensor.h">
+      <Filter>_Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Event.cpp">
@@ -100,6 +103,9 @@
     <ClCompile Include="CameraActions.cpp" />
     <ClCompile Include="Matrix_actions.cpp">
       <Filter>_Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="UV_Sensor.cpp">
+      <Filter>_Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -3,8 +3,10 @@
 #include "sensor_actions.h"
 #include "logging_actions.h"
 #include "Doorman_Actions.h"
+#include "CameraActions.h"
 #include "EventHandler.h"
 #include "Matrix_actions.h"
+#include "UV_Sensor.h"
 
 #include "Adafruit_LEDBackpack.h"
 #include "Adafruit_GFX.h"
@@ -14,8 +16,8 @@
 
 
 arduino_mega::arduino_mega() 
-			: _logger(this), _onboardLED(LED(4)), _extTempSensor(&_OneWireBus), 
-			_bnoSensor(0x28), _bmpSensor(0x55), _humidSensor(0x27), _OneWireBus(2), _lightSensor(Adafruit_SI1145()), _ledMatrix(Adafruit_BicolorMatrix()){
+			: _logger(this), _onboardLED(LED(4)), _extTempSensor(&_OneWireBus), _UVSensor(UV(A1)), 
+			_bnoSensor(0x28), _bmpSensor(0x55), _humidSensor(0x27), _OneWireBus(A2), _visibleLightSensor(), _ledMatrix(Adafruit_BicolorMatrix()){
 	
 	//start bno055 
 	if (!_bnoSensor.begin()) {
@@ -33,7 +35,12 @@ arduino_mega::arduino_mega()
 	//start external temp sensor
 	_extTempSensor.begin();
 	
-	if(!_lightSensor.begin())
+	//_visibleLightSensor = Adafruit_SI1145();
+	_visibleLightSensor.begin();
+
+	//_UVSensor = UltraViolet(A1);
+
+	if(!_visibleLightSensor.begin())
 	{
 		Serial.println("Couldn't find the visible light sensor....");
 	}
@@ -47,14 +54,13 @@ arduino_mega::arduino_mega()
 
 	EVENTHANDLER.add_event("update_config_status");
 	EVENTHANDLER.add_event("altitude update");
-	SensorPackage sensor_package = SensorPackage(_logger, _realTimeClock, _onboardLED, _extTempSensor, _bnoSensor, _bmpSensor, _humidSensor, _motorShield, _OneWireBus, _lightSensor);
+	SensorPackage sensor_package = SensorPackage(_logger, _realTimeClock, _onboardLED, _extTempSensor, _bnoSensor, _bmpSensor, _humidSensor, _motorShield, _OneWireBus, _visibleLightSensor, _UVSensor);
 
 	_bnoSensor.setExtCrystalUse(true);
 
 	EVENTHANDLER.add_eventAction("update_config_status", new update_config_status(_ledMatrix));
 	
 	EVENTHANDLER.add_eventAction(".1s", new new_sensor_update(sensor_package));
-	//EVENTHANDLER.add_eventAction(".1s", new sensor_update(_bnoSensor, _bmpSensor, _extTempSensor, _humidSensor));
 	EVENTHANDLER.add_eventAction("sensor_update", new log_all_data(_logger));
 	
 	EVENTHANDLER.add_eventAction(".2s", new doorman_altitude_check(_bmpSensor, this));
@@ -63,6 +69,11 @@ arduino_mega::arduino_mega()
 	EVENTHANDLER.add_eventAction("5s", new avg_temp_update(_bmpSensor,_bnoSensor,_humidSensor));
 	EVENTHANDLER.add_eventAction("avg_temp_update", new update_heater_status);
 
+	EVENTHANDLER.add_eventAction("10s", new external_temp_update(sensor_package));
+	//EVENTHANDLER.add_eventAction("external_temp_update",);
+
+
+	EVENTHANDLER.add_eventAction("take a picture", new take_picture);
 
 
 	EVENTHANDLER.add_eventAction("altitude update", new initMotorShield(_motorShield));

@@ -7,9 +7,12 @@
 #include "OneWire.h"
 #include <Adafruit_MotorShield.h>
 #include "HIH6130.h"
+//#include "Sparkfun_Humid.h"
 #include "DallasTemperature.h"
 #include <Adafruit_SI1145.h>
 #include "Adafruit_LEDBackpack.h"
+#include "Adafruit_GFX.h"
+#include "UV_Sensor.h"
 
 
 class arduino_mega {
@@ -29,6 +32,10 @@ private:
 	HIH6130 _humidSensor;
 	Adafruit_MotorShield _motorShield;
 	OneWire _OneWireBus;
-	Adafruit_SI1145 _lightSensor;
+	Adafruit_SI1145 _visibleLightSensor;
 	Adafruit_BicolorMatrix _ledMatrix;
+	UV _UVSensor;
+	
+
+	
 };
