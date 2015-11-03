@@ -15,7 +15,7 @@ float _seaLevelPressure = 1012.8;
 
 CREATE_EVENT_TRIGGERING_ACTION_1ARG(external_temp_update, external_temp, const DallasTemperature& external_temperature)
 
-DallasTemperature _Ext_temp;
+	DallasTemperature _Ext_temp;
 
 END_CREATE
 

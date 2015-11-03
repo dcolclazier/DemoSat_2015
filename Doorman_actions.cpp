@@ -90,7 +90,7 @@ EXECUTE_ACTION(turn_motor_on) {
 	
 	Serial.println("Turning on motor... vroom.");
 	motor->run(door->direction);
-	motor->setSpeed(50);
+	motor->setSpeed(MOTOR_FAST);
 
 	door->door_start_millis = millis();
 	door->motor_action = new turn_motor_off(door, _arduino);
@@ -115,42 +115,28 @@ EXECUTE_ACTION(turn_motor_off) {
 		break;
 	default: return;
 	}
-	Serial.print("Address of motorshield ");
-	Serial.println((int)_arduino->motorshield());
-
+	
 	Adafruit_MotorShield AFMS = Adafruit_MotorShield(0x61);
 	Adafruit_DCMotor* motor = AFMS.getMotor(door->door_number);
 
 	Serial.println("Turning off motor... eeeerrrccheek!");
 
-	
-	if(door->direction == BACKWARD) {
-		//we're closing - don't turn it off, just set it to something low to keep pulling on the door.
-		motor->setSpeed(200);
-		door->closed = true;
-		door->door_close_finish = _arduino->getTime();
-		door->hasntbeenopenedbefore = false;
-	}
-	else {
-		motor->setSpeed(0);
+	if (door->direction == FORWARD) {
 		motor->run(RELEASE);
 		door->closed = false;
 		door->door_open_finish = _arduino->getTime();
 	}
+	else if(door->direction == BACKWARD) {
+		motor->setSpeed(MOTOR_SLOW);
+		door->closed = true;
+		door->door_close_finish = _arduino->getTime();
+		door->hasntbeenopenedbefore = false;
+	}
+	
 
 	//update door open data with the time the door open finished, set our backup flag.
 	door->moving = false;
-	
-	/*if(door->direction ==FORWARD) {
-		
-	}
-	else if (door->direction == BACKWARD) {
-		
-	}
-	*/
-	//trigger a final door event, for logging purposes
+
 	EVENTHANDLER.trigger("sample collected", door);
-	
-	//now delete me - I shouldn't exist now.
 	EVENTHANDLER.remove_eventAction(".1s", this);
 }

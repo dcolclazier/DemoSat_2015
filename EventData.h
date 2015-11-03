@@ -89,7 +89,6 @@ struct SensorPackage : EventData
 	Adafruit_BMP085_Unified _bmp;
 	HIH6130 _humidSensor;
 	Adafruit_MotorShield _afms;
-	//Sparkfun_Humid _humidSensor;
 	OneWire _OneWireBus;
 	Adafruit_SI1145 _visibleLight;
 	UV _uvLight;

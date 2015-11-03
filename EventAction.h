@@ -5,6 +5,8 @@
 #define DOOR1_CLOSE_ALT 900
 #define DOOR2_OPEN_ALT 1800
 #define DOOR2_CLOSE_ALT 2000
+#define MOTOR_FAST 50
+#define MOTOR_SLOW 200	
 
 
 class EventData;

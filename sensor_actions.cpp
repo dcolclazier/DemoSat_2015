@@ -71,7 +71,6 @@ EXECUTE_ACTION(avg_temp_update) {
 }
 
 SETUP_ACTION_1ARG(external_temp_update, const DallasTemperature& external_temperature) : _Ext_temp(external_temperature)
-//SETUP_ACTION_1ARG(new_sensor_update, const SensorPackage& sensors) : _sensors(sensors)
 {
 	Serial.println("Initializing external_temp_update event");
 	EVENTHANDLER.add_event("log_external_temp_update");
@@ -80,6 +79,7 @@ SETUP_ACTION_1ARG(external_temp_update, const DallasTemperature& external_temper
 
 EXECUTE_ACTION(external_temp_update)
 {
+	Serial.println("Starting temp update...");
 	_Ext_temp.requestTemperatures();
 	_args.Ext_temp = _Ext_temp.getTempCByIndex(0);
 	EVENTHANDLER.trigger("log_external_temp_update", &_args);

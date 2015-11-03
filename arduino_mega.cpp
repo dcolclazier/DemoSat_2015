@@ -28,21 +28,12 @@ arduino_mega::arduino_mega()
 		Serial.print(F("bmp180 not detected..."));
 		while (1);
 	}
-	//start humid sensor
-	_humidSensor.begin();
-
-	//start external temp sensor
-	_extTempSensor.begin();
 	
-	//_visibleLightSensor = Adafruit_SI1145();
-	_visibleLightSensor.begin();
+	_humidSensor.begin();
+	_extTempSensor.begin();
 
-	//_UVSensor = UltraViolet(A1);
-
-	if(!_visibleLightSensor.begin())
-	{
-		Serial.println("Couldn't find the visible light sensor....");
-	}
+	if(!_visibleLightSensor.begin()) Serial.println("Couldn't find the visible light sensor....");
+	
 
 	//BICOLOR BACKPACK I2C assign
 	Serial.println("beginning LED backpack...");
@@ -56,10 +47,6 @@ arduino_mega::arduino_mega()
 	EVENTHANDLER.add_event("update_config_status");
 	EVENTHANDLER.add_eventAction("update_config_status", new update_config_status(_ledMatrix));
 
-	//EVENTHANDLER.add_event("altitude update");
-	//EVENTHANDLER.add_eventAction("altitude update", new initMotorShield(this));
-
-	
 	EVENTHANDLER.add_event("sensor_update");
 	EVENTHANDLER.add_eventAction(".1s", new new_sensor_update(sensor_package, this));
 	EVENTHANDLER.add_eventAction("sensor_update", new log_all_data(_logger));
@@ -81,7 +68,7 @@ arduino_mega::arduino_mega()
 	EVENTHANDLER.add_eventAction("5s", new avg_temp_update(_bmpSensor,_bnoSensor,_humidSensor));
 	EVENTHANDLER.add_eventAction("avg_temp_update", new update_heater_status);
 
-	EVENTHANDLER.add_eventAction("5s", new external_temp_update(_extTempSensor));
+	EVENTHANDLER.add_eventAction("2s", new external_temp_update(_extTempSensor));
 	EVENTHANDLER.add_eventAction("log_external_temp_update", new log_external_temp(_logger));
 	
 
@@ -90,15 +77,3 @@ arduino_mega::arduino_mega()
 DateTime arduino_mega::getTime() const {
 	return _realTimeClock.now();
 }
-
-
-/*
-Todo:
-
-Add in led support for calibrating the accel/gyro/fusion/magnetometer
-First i wanna set up 4 leds
-Turn them off to start, then when poweredm, turn to red if non calibrated
-if calibration level increases, change the color of the led to yellow, then to green
-
-
-*/

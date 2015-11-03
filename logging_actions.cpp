@@ -124,43 +124,77 @@ EXECUTE_ACTION(log_all_data)
 	_logfile.close();
 }
 
-SETUP_ACTION_1ARG(log_door_data, const SD_Shield& logger) {
-	
-}
+SETUP_ACTION_1ARG(log_door_data, const SD_Shield& logger) {}
 EXECUTE_ACTION(log_door_data) {
 	Door_Data* door = static_cast<Door_Data*>(args);
 
 	Serial.print("DOOR ");
 	Serial.print(door->door_number);
-	Serial.println(" OPEN START: ");
-	Serial.print(F("\""));
-	Serial.print(door->door_open_start.year(), DEC);
-	Serial.print(F("/"));
-	Serial.print(door->door_open_start.month(), DEC);
-	Serial.print(F("/"));
-	Serial.print(door->door_open_start.day(), DEC);
-	Serial.print(F(" "));
-	Serial.print(door->door_open_start.hour(), DEC);
-	Serial.print(F(":"));
-	Serial.print(door->door_open_start.minute(), DEC);
-	Serial.print(F(":"));
-	Serial.print(door->door_open_start.second(), DEC);
-	Serial.print(F("\""));
-	Serial.println();
-	Serial.print("DOOR OPEN FINISH: ");
-	Serial.print(F("\""));
-	Serial.print(door->door_open_finish.year(), DEC);
-	Serial.print(F("/"));
-	Serial.print(door->door_open_finish.month(), DEC);
-	Serial.print(F("/"));
-	Serial.print(door->door_open_finish.day(), DEC);
-	Serial.print(F(" "));
-	Serial.print(door->door_open_finish.hour(), DEC);
-	Serial.print(F(":"));
-	Serial.print(door->door_open_finish.minute(), DEC);
-	Serial.print(F(":"));
-	Serial.print(door->door_open_finish.second(), DEC);
-	Serial.print(F("\""));
+	if (door->direction == FORWARD)
+	{
+		Serial.println(" OPEN START: ");
+		Serial.print(F("\""));
+		Serial.print(door->door_open_start.year(), DEC);
+		Serial.print(F("/"));
+		Serial.print(door->door_open_start.month(), DEC);
+		Serial.print(F("/"));
+		Serial.print(door->door_open_start.day(), DEC);
+		Serial.print(F(" "));
+		Serial.print(door->door_open_start.hour(), DEC);
+		Serial.print(F(":"));
+		Serial.print(door->door_open_start.minute(), DEC);
+		Serial.print(F(":"));
+		Serial.print(door->door_open_start.second(), DEC);
+		Serial.print(F("\""));
+		Serial.println();
+		Serial.print("DOOR OPEN FINISH: ");
+		Serial.print(F("\""));
+		Serial.print(door->door_open_finish.year(), DEC);
+		Serial.print(F("/"));
+		Serial.print(door->door_open_finish.month(), DEC);
+		Serial.print(F("/"));
+		Serial.print(door->door_open_finish.day(), DEC);
+		Serial.print(F(" "));
+		Serial.print(door->door_open_finish.hour(), DEC);
+		Serial.print(F(":"));
+		Serial.print(door->door_open_finish.minute(), DEC);
+		Serial.print(F(":"));
+		Serial.print(door->door_open_finish.second(), DEC);
+		Serial.print(F("\""));
+	}
+	else if (door->direction == BACKWARD)
+	{
+		Serial.println(" CLOSE START: ");
+		Serial.print(F("\""));
+		Serial.print(door->door_close_start.year(), DEC);
+		Serial.print(F("/"));	
+		Serial.print(door->door_close_start.month(), DEC);
+		Serial.print(F("/"));	
+		Serial.print(door->door_close_start.day(), DEC);
+		Serial.print(F(" "));	
+		Serial.print(door->door_close_start.hour(), DEC);
+		Serial.print(F(":"));	
+		Serial.print(door->door_close_start.minute(), DEC);
+		Serial.print(F(":"));	
+		Serial.print(door->door_close_start.second(), DEC);
+		Serial.print(F("\""));
+		Serial.println();
+		Serial.print("DOOR CLOSE FINISH: ");
+		Serial.print(F("\""));
+		Serial.print(door->door_close_finish.year(), DEC);
+		Serial.print(F("/"));	
+		Serial.print(door->door_close_finish.month(), DEC);
+		Serial.print(F("/"));	
+		Serial.print(door->door_close_finish.day(), DEC);
+		Serial.print(F(" "));	
+		Serial.print(door->door_close_finish.hour(), DEC);
+		Serial.print(F(":"));	
+		Serial.print(door->door_close_finish.minute(), DEC);
+		Serial.print(F(":"));	
+		Serial.print(door->door_close_finish.second(), DEC);
+		Serial.print(F("\""));
+	}
+	
 }
 
 
@@ -187,6 +221,8 @@ SETUP_ACTION_1ARG(log_external_temp, const SD_Shield& logger)
 
 EXECUTE_ACTION(log_external_temp)
 {
+	Serial.println("Logging external temp...");
+	Serial.println(_filename);
 	external_temp* data = static_cast<external_temp*>(args);
 
 	_logfile = SD.open(_filename.c_str(), O_CREAT | O_WRITE);
@@ -208,5 +244,6 @@ EXECUTE_ACTION(log_external_temp)
 	_logfile.print(F("\""));
 	_logfile.print(F(", "));
 	_logfile.print(data->Ext_temp);
+	_logfile.close();
 	
 }
