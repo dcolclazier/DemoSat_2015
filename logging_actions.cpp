@@ -125,26 +125,11 @@ EXECUTE_ACTION(log_all_data)
 }
 
 SETUP_ACTION_1ARG(log_door_data, const SD_Shield& logger) {
-	Serial.println("starting file check...");
-	char filename[] = "DOOR00.txt";
-	for (uint8_t i = 0; i < 100; i++) {
-		filename[4] = i / 10 + '0';
-		filename[5] = i % 10 + '0';
-		if (!SD.exists(filename)) {
-			// only open a new file if it doesn't exist
-			_logfile = SD.open(filename, O_CREAT | O_WRITE);
-			_filename = filename;
-			Serial.println(_filename);
-			break;  // leave the loop!
-		}
-	}
-
-	_logfile.close();
+	
 }
 EXECUTE_ACTION(log_door_data) {
 	Door_Data* door = static_cast<Door_Data*>(args);
 
-	_logfile = SD.open(_filename.c_str(), O_CREAT | O_WRITE);
 	Serial.print("DOOR ");
 	Serial.print(door->door_number);
 	Serial.println(" OPEN START: ");
@@ -197,6 +182,7 @@ SETUP_ACTION_1ARG(log_external_temp, const SD_Shield& logger)
 	//pressure, temp, altitude, ext_temp
 	_logfile.println(F("millis,datetime,external_temp"));
 	_logfile.close();
+
 }
 
 EXECUTE_ACTION(log_external_temp)

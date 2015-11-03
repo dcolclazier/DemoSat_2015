@@ -91,7 +91,7 @@ void InitClock() {
 }
 int _prevTime = 0;
 Time RunTime;
-
+arduino_mega* _mainBOARD = 0;
 void setup() {
 	//Enable WatchDog
 	wdt_disable();
@@ -108,6 +108,7 @@ void setup() {
 	InitClock();
 	
 	static arduino_mega mainBoard;
+
 }
 
 

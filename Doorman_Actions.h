@@ -9,6 +9,7 @@ class arduino_mega;
 CREATE_ACTION_1ARG(initMotorShield, const Adafruit_MotorShield& motorShield)
 	bool isInit = false;
 	Adafruit_MotorShield _motorShield;
+	arduino_mega* _arduino;
 END_CREATE
 
 
@@ -18,17 +19,20 @@ CREATE_ACTION_TWO_ARGS(doorman_altitude_check, Adafruit_BMP085_Unified bmp, ardu
 	Door_Data door1, door2;
 END_CREATE
 
-CREATE_ACTION(doorman_open)
+CREATE_ACTION_1ARG(doorman_open, arduino_mega* arduino)
 	DateTime _doorOpenStart;
 	DateTime _doorOpenFinish;
-END_CREATE
+	arduino_mega* _arduino;
+	END_CREATE
 
-CREATE_ACTION(turn_motor_on)
-END_CREATE
+CREATE_ACTION_1ARG(turn_motor_on, arduino_mega* arduino)
+	arduino_mega* _arduino;
+	END_CREATE
 
-CREATE_ACTION(doorman_close)
+CREATE_ACTION_1ARG(doorman_close, arduino_mega* arduino)
 	DateTime _doorCloseStart;
 	DateTime _doorCloseFinish;
+	arduino_mega* _arduino;
 END_CREATE
 
 CREATE_ACTION_TWO_ARGS(turn_motor_off, Door_Data* doorInfo, arduino_mega* arduino)

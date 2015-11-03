@@ -13,11 +13,15 @@
 //}
 SETUP_ACTION_1ARG(new_sensor_update, const SensorPackage& sensors) : _sensors(sensors)
 {
+	Serial.println("Initializing new_sensor_update event..");
 	EVENTHANDLER.add_event("sensor_update");
 }
 
 EXECUTE_ACTION(new_sensor_update)
 {
+	arduino_mega* _arduino = static_cast<arduino_mega*>(trigger);
+	//Serial.println((int)_arduino);
+//	arduino_mega* _arduino = _mainBOARD;
 	_sensors._visibleLight.reset();
 	sensors_event_t bmp_event;
 	sensors_event_t bno_event;
@@ -31,7 +35,7 @@ EXECUTE_ACTION(new_sensor_update)
 	_args.Altitude = _sensors._bmp.pressureToAltitude(_seaLevelPressure, bmp_event.pressure);
 	AltitudeData alt_data;
 	alt_data.current_alt_in_meters = _args.Altitude;
-	EVENTHANDLER.trigger("altitude update", &alt_data);
+	EVENTHANDLER.trigger("altitude update", &alt_data, &_arduino);
 	_args.Euler = _sensors._bno.getVector(Adafruit_BNO055::VECTOR_EULER);
 	_args.Grav = _sensors._bno.getVector(Adafruit_BNO055::VECTOR_GRAVITY);
 	_args.Gyro = _sensors._bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
@@ -65,6 +69,7 @@ SETUP_ACTION_3ARGS(avg_temp_update,
 				   const Adafruit_BNO055& bno,
 				   const HIH6130& humid)
 	: _bmp(bmp), _bno(bno), _humid(humid) {
+	Serial.println("Initializing avg_temp_update event");
 	EVENTHANDLER.add_event("avg_temp_update");
 }
 EXECUTE_ACTION(avg_temp_update) {
@@ -79,7 +84,9 @@ EXECUTE_ACTION(avg_temp_update) {
 SETUP_ACTION_1ARG(external_temp_update, const DallasTemperature& external_temperature) : _Ext_temp(external_temperature)
 //SETUP_ACTION_1ARG(new_sensor_update, const SensorPackage& sensors) : _sensors(sensors)
 {
+	Serial.println("Initializing external_temp_update event");
 	EVENTHANDLER.add_event("log_external_temp_update");
+	
 }
 
 EXECUTE_ACTION(external_temp_update)
