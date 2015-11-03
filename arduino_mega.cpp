@@ -3,7 +3,6 @@
 #include "sensor_actions.h"
 #include "logging_actions.h"
 #include "Doorman_Actions.h"
-#include "CameraActions.h"
 #include "EventHandler.h"
 #include "Matrix_actions.h"
 #include "UV_Sensor.h"
@@ -69,13 +68,7 @@ arduino_mega::arduino_mega()
 	EVENTHANDLER.add_eventAction("5s", new avg_temp_update(_bmpSensor,_bnoSensor,_humidSensor));
 	EVENTHANDLER.add_eventAction("avg_temp_update", new update_heater_status);
 
-	EVENTHANDLER.add_eventAction("10s", new external_temp_update(sensor_package));
-	//EVENTHANDLER.add_eventAction("external_temp_update",);
-
-
-	EVENTHANDLER.add_eventAction("take a picture", new take_picture);
-
-
+	EVENTHANDLER.add_eventAction("5s", new external_temp_update(_extTempSensor));
 	EVENTHANDLER.add_eventAction("altitude update", new initMotorShield(_motorShield));
 
 }

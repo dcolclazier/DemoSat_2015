@@ -99,9 +99,8 @@ void setup() {
 	wdt_enable(WDTO_4S);//Timer for 4000 Milliseconds
 	delay(250);
 	wdt_reset();//"Pat the Dog" Good Boy!
-
-	Serial1.begin(9600);
-	Serial1.print("Testing!\n");
+	Serial.begin(9600);
+	Serial.println("This one?");
 	Wire.begin();
 
 	OneWire oneWireBus(2);

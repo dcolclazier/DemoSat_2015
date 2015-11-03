@@ -40,9 +40,7 @@ EXECUTE_ACTION(new_sensor_update)
 	_args.Mag = _sensors._bno.getVector(Adafruit_BNO055::VECTOR_MAGNETOMETER);
 	_args.bno_Temp = _sensors._bno.getTemp();
 
-	//_sensors._extTemp.requestTemperatures();		//Moved to new event that triggeres every 10 s
-	//_args.ext_Temp = _sensors._extTemp.getTempCByIndex(0);
-
+	
 	_sensors._humidSensor.readRHT();
 	_args.Rel_Humidity = _sensors._humidSensor.humidity;
 	_args.Humid_Temp = _sensors._humidSensor.temperature;
@@ -54,70 +52,13 @@ EXECUTE_ACTION(new_sensor_update)
 	_args.IR = _sensors._visibleLight.readIR();
 	_args.visible = _sensors._visibleLight.readVisible();
 	_args.UltraViolet = _sensors._uvLight.readUVB();
-	//Serial.print("IR: ");
-	//Serial.println(_sensors._visibleLight.readIR());
-	//Serial.print("Visible: ");
-	//Serial.println(_sensors._visibleLight.readVisible());
+	
 
-	//float gain = 1;
-
-	//float range = SI1145_PARAM_ALSIRADCMISC_RANGE;
-	//float MISC= SI1145_PARAM_ALSIRADCMISC;
-
-	//if (range == 32) gain = 14.5;
-
-	//float sensitivity = SI1145_PARAM_ALSIRADCGAIN;
-
-	//sensitivity = SI1145_Read_Param(fd, (unsigned char)ALS_IR_ADC_GAIN);
-
-	/*Serial.print("Range: ");
-	Serial.println(range);
-	Serial.print("MISC: ");
-	Serial.println(MISC);
-	Serial.print("Sen: ");
-	Serial.println(sensitivity);
-
-	Serial.print("UV INDEX: ");*/
-	//float i = _sensors._visibleLight.readUV();
-	//i /= 100;
-	//Serial.println(i);
+	
 	_args.UltraVioletVoltage = _sensors._uvLight.readUvVoltage();
 	_args.UVindex = _sensors._uvLight.readUVindex();
 	EVENTHANDLER.trigger("sensor_update", &_args);
 }
-
-//
-//EXECUTE_ACTION(sensor_update)
-//{
-//	sensors_event_t bmp_event;
-//	sensors_event_t bno_event;
-//	_bmp.getEvent(&bmp_event);
-//	_bno.getEvent(&bno_event);
-//
-//	_args.Accel = _bno.getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER);
-//	_args.Pressure = bmp_event.pressure;
-//	_bmp.getTemperature(&_args.bmp_Temp);
-//	_args.Altitude = _bmp.pressureToAltitude(_seaLevelPressure, bmp_event.pressure);
-//	AltitudeData alt_data;
-//	alt_data.current_alt_in_meters = _args.Altitude;
-//	EVENTHANDLER.trigger("altitude update", &alt_data);
-//	_args.Euler = _bno.getVector(Adafruit_BNO055::VECTOR_EULER);
-//	_args.Grav = _bno.getVector(Adafruit_BNO055::VECTOR_GRAVITY);
-//	_args.Gyro = _bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
-//	_args.Quat = _bno.getQuat();
-//	_args.linearAccel = _bno.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
-//	_args.Mag = _bno.getVector(Adafruit_BNO055::VECTOR_MAGNETOMETER);
-//	_args.bno_Temp = _bno.getTemp();
-//	_args.ext_Temp = _extTemp.getTempC(0);
-//
-//	_humidSensor.readRHT();
-//	_args.Rel_Humidity = _humidSensor.humidity;
-//	_args.Humid_Temp = _humidSensor.temperature;
-//	
-//	_bno.getCalibration(&_args.calib_system, &_args.calib_gyro, &_args.calib_accel, &_args.calib_mag);
-//	EVENTHANDLER.trigger("sensor_update", &_args);
-//
-//}
 
 SETUP_ACTION_3ARGS(avg_temp_update, 
 				   const Adafruit_BMP085_Unified& bmp, 

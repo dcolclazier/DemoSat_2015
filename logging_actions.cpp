@@ -177,3 +177,50 @@ EXECUTE_ACTION(log_door_data) {
 	Serial.print(door->door_open_finish.second(), DEC);
 	Serial.print(F("\""));
 }
+
+
+SETUP_ACTION_1ARG(log_external_temp, const SD_Shield& logger)
+{
+	Serial.println("starting file check...");
+	char filename[] = "TEMP00.CSV";
+	for (uint8_t i = 0; i < 100; i++) {
+		filename[4] = i / 10 + '0';
+		filename[5] = i % 10 + '0';
+		if (!SD.exists(filename)) {
+			// only open a new file if it doesn't exist
+			_logfile = SD.open(filename, O_CREAT | O_WRITE);
+			_filename = filename;
+			Serial.println(_filename);
+			break;  // leave the loop!
+		}
+	}
+	//pressure, temp, altitude, ext_temp
+	_logfile.println(F("millis,datetime,external_temp"));
+	_logfile.close();
+}
+
+EXECUTE_ACTION(log_external_temp)
+{
+	external_temp* data = static_cast<external_temp*>(args);
+
+	_logfile = SD.open(_filename.c_str(), O_CREAT | O_WRITE);
+	_logfile.print(millis());
+	_logfile.print(F(", "));
+	_logfile.print(F("\""));
+	DateTime now = _logger->getTime();
+	_logfile.print(now.year(), DEC);
+	_logfile.print(F("/"));
+	_logfile.print(now.month(), DEC);
+	_logfile.print(F("/"));
+	_logfile.print(now.day(), DEC);
+	_logfile.print(F(" "));
+	_logfile.print(now.hour(), DEC);
+	_logfile.print(F(":"));
+	_logfile.print(now.minute(), DEC);
+	_logfile.print(F(":"));
+	_logfile.print(now.second(), DEC);
+	_logfile.print(F("\""));
+	_logfile.print(F(", "));
+	_logfile.print(data->Ext_temp);
+	
+}

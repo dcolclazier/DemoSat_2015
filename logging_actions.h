@@ -18,3 +18,8 @@ CREATE_ACTION_1ARG(log_door_data, const SD_Shield& logger)
 
 END_CREATE
 
+CREATE_ACTION_1ARG(log_external_temp, const SD_Shield& logger)
+File _logfile;
+SD_Shield* _logger;
+String _filename;
+END_CREATE
