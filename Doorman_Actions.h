@@ -6,13 +6,6 @@
 #include "EventData.h"
 class arduino_mega;
 
-CREATE_ACTION_1ARG(initMotorShield, const Adafruit_MotorShield& motorShield)
-	bool isInit = false;
-	Adafruit_MotorShield _motorShield;
-	arduino_mega* _arduino;
-END_CREATE
-
-
 CREATE_ACTION_TWO_ARGS(doorman_altitude_check, Adafruit_BMP085_Unified bmp, arduino_mega* arduino)
 	Adafruit_BMP085_Unified _bmp;
 	arduino_mega* _arduino;

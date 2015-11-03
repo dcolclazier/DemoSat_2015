@@ -64,10 +64,10 @@
     <ClInclude Include="Matrix_actions.h">
       <Filter>_Actions</Filter>
     </ClInclude>
-    <ClInclude Include="__vm\.DemoSat.vsarduino.h" />
     <ClInclude Include="UV_Sensor.h">
       <Filter>_Components</Filter>
     </ClInclude>
+    <ClInclude Include="__vm\.DemoSat.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Event.cpp">

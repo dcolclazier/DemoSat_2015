@@ -1,10 +1,10 @@
 ﻿#pragma once
 
 #define MOTORSHIELD_INIT_ALTITUDE 500
-#define DOOR1_OPEN_ALT 1600
-#define DOOR1_CLOSE_ALT 1685
+#define DOOR1_OPEN_ALT 1800
+#define DOOR1_CLOSE_ALT 2000
 #define DOOR2_OPEN_ALT 600
-#define DOOR2_CLOSE_ALT 3000
+#define DOOR2_CLOSE_ALT 900
 
 
 class EventData;

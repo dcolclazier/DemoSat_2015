@@ -1,27 +1,16 @@
 ﻿#include "sensor_actions.h"
 #include "EventHandler.h"
 #include <Adafruit_BMP085_U.h>
+#include "Doorman_Actions.h"
+#include "arduino_mega.h"
 
-//SETUP_ACTION_4ARGS(sensor_update,
-//				   const Adafruit_BNO055& bno, 
-//				   const Adafruit_BMP085_Unified& bmp, 
-//				   const DallasTemperature& sensor, 
-//				   const HIH6130& humid_sensor)
-//	: _bno(bno), _bmp(bmp), _extTemp(sensor), _humidSensor(humid_sensor)
-//{
-//	EVENTHANDLER.add_event("sensor_update");
-//}
-SETUP_ACTION_1ARG(new_sensor_update, const SensorPackage& sensors) : _sensors(sensors)
-{
-	Serial.println("Initializing new_sensor_update event..");
-	EVENTHANDLER.add_event("sensor_update");
-}
+
+SETUP_ACTION_2ARGS(new_sensor_update, const SensorPackage& sensors, arduino_mega* arduino) : _sensors(sensors), _arduino(arduino)
+{}
 
 EXECUTE_ACTION(new_sensor_update)
 {
-	arduino_mega* _arduino = static_cast<arduino_mega*>(trigger);
-	//Serial.println((int)_arduino);
-//	arduino_mega* _arduino = _mainBOARD;
+
 	_sensors._visibleLight.reset();
 	sensors_event_t bmp_event;
 	sensors_event_t bno_event;

@@ -91,7 +91,7 @@ void InitClock() {
 }
 int _prevTime = 0;
 Time RunTime;
-arduino_mega* _mainBOARD = 0;
+//static arduino_mega mainBoard;
 void setup() {
 	//Enable WatchDog
 	wdt_disable();
@@ -100,7 +100,7 @@ void setup() {
 	delay(250);
 	wdt_reset();//"Pat the Dog" Good Boy!
 	Serial.begin(9600);
-	Serial.println("This one?");
+	
 	Wire.begin();
 
 	OneWire oneWireBus(2);

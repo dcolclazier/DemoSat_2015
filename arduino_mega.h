@@ -20,7 +20,7 @@ public:
 
 	arduino_mega();
 	DateTime getTime() const;
-	Adafruit_MotorShield& motorshield() { return _motorShield; }
+	Adafruit_MotorShield* motorshield() { return &_motorShield; }
 private:
 
 	SD_Shield _logger;
@@ -35,7 +35,5 @@ private:
 	Adafruit_SI1145 _visibleLightSensor;
 	Adafruit_BicolorMatrix _ledMatrix;
 	UV _UVSensor;
-	
-
 	
 };

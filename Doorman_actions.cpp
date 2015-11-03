@@ -5,35 +5,34 @@
 SETUP_ACTION_2ARGS(doorman_altitude_check,
 				   Adafruit_BMP085_Unified bmp,
 				   arduino_mega* arduino)
-	: _bmp(bmp), _arduino(arduino), door1(1, 1700, 8000), door2(2, 1700, 4000)
-{
-	EVENTHANDLER.add_event("time to open");
-	EVENTHANDLER.add_eventAction("time to open", new doorman_open(_arduino));
-
-	EVENTHANDLER.add_event("time to close");
-	EVENTHANDLER.add_eventAction("time to close", new doorman_close(_arduino));
-
-	EVENTHANDLER.add_event("move door");
-	EVENTHANDLER.add_eventAction("move door", new turn_motor_on(_arduino));
-
-	EVENTHANDLER.add_event("sample collected");
-
-}
+	: _bmp(bmp), _arduino(arduino), door1(1, 3700, 4000), door2(2, 3700, 4000)
+{}
 EXECUTE_ACTION(doorman_altitude_check) {
 	sensors_event_t event;
 	float temp;
 	_bmp.getEvent(&event);
 	_bmp.getTemperature(&temp);
 	float altitude = _bmp.pressureToAltitude(1012.8f, event.pressure);
-	//BUG - This logic is wrong...
-	if (altitude > DOOR1_OPEN_ALT && altitude < DOOR1_CLOSE_ALT) {//Door 1 open all others closed
-		if (!door1.moving && !door2.moving && door1.closed) EVENTHANDLER.trigger("time to open", &door1, _arduino);
-		if (!door1.moving && !door2.moving && !door2.closed) EVENTHANDLER.trigger("time to close", &door2, _arduino);
+	
+	if(altitude > DOOR1_OPEN_ALT && door1.hasntbeenopenedbefore) {
+		EVENTHANDLER.trigger("time to open", &door1, _arduino);
 	}
-	else if (altitude > DOOR2_OPEN_ALT && altitude < DOOR2_CLOSE_ALT) {//Door 2 open all others closed
-		if(!door1.moving && !door2.moving && door2.closed) EVENTHANDLER.trigger("time to open", &door2, _arduino);
-		if(!door1.moving && !door2.moving && !door1.closed) EVENTHANDLER.trigger("time to close", &door1, _arduino);
+	if(altitude > DOOR2_OPEN_ALT && door2.hasntbeenopenedbefore) {
+		EVENTHANDLER.trigger("time to open", &door2, _arduino);
 	}
+	if(altitude > DOOR1_CLOSE_ALT && !door1.closed) {
+		EVENTHANDLER.trigger("time to close", &door1, _arduino);
+	}
+	if(altitude > DOOR2_CLOSE_ALT && !door2.closed) {
+		EVENTHANDLER.trigger("time to close", &door2, _arduino);
+	}
+	if(altitude < DOOR1_OPEN_ALT && !door1.closed && !door1.hasntbeenopenedbefore) {
+		EVENTHANDLER.trigger("time to close", &door1, _arduino);
+	}
+	if(altitude < DOOR2_OPEN_ALT && !door2.closed && !door2.hasntbeenopenedbefore) {
+		EVENTHANDLER.trigger("time to close", &door2, _arduino);
+	}
+	
 }
 
 SETUP_ACTION_1ARG(doorman_open, arduino_mega* arduino) : _arduino(arduino)
@@ -45,11 +44,15 @@ EXECUTE_ACTION(doorman_open)
 {
 	
 	Door_Data* door = static_cast<Door_Data*>(args);
-	
-	door->direction = FORWARD;
-	Serial.print("Opening door number: ");
-	Serial.println(door->door_number);
-	if(door->closed & door->hasntbeenopenedbefore) EVENTHANDLER.trigger("move door", door, _arduino);
+		
+	if(door->closed & door->hasntbeenopenedbefore) {
+		door->direction = FORWARD;
+		door->hasntbeenopenedbefore = false;
+		Serial.print("Opening door number: ");
+		Serial.println(door->door_number);
+		EVENTHANDLER.trigger("move door", door, _arduino);
+
+	}
 }
 
 SETUP_ACTION_1ARG(doorman_close, arduino_mega* arduino) : _arduino(arduino)
@@ -59,14 +62,14 @@ SETUP_ACTION_1ARG(doorman_close, arduino_mega* arduino) : _arduino(arduino)
 }
 EXECUTE_ACTION(doorman_close) {
 	Door_Data* door = static_cast<Door_Data*>(args);
-	
-	
-	Serial.print("Closing door number: ");
-	Serial.println(door->door_number);
+		
+	if (!door->closed) {
+		Serial.print("Closing door number: ");
+		Serial.println(door->door_number);
 
-	door->direction = BACKWARD;
-	
-	if (!door->closed) EVENTHANDLER.trigger("move door", door, _arduino);
+		door->direction = BACKWARD;
+		EVENTHANDLER.trigger("move door", door, _arduino);
+	}
 }
 
 SETUP_ACTION_1ARG(turn_motor_on, arduino_mega* arduino) : _arduino(arduino){
@@ -81,12 +84,14 @@ EXECUTE_ACTION(turn_motor_on) {
 	else if (door->direction == BACKWARD) door->door_close_start = _arduino->getTime();
 	door->moving = true;
 
-		
-	Adafruit_DCMotor *motor = _arduino->motorshield().getMotor(door->door_number);
+	Adafruit_MotorShield AFMS = Adafruit_MotorShield(0x61);
+	Adafruit_DCMotor* motor = AFMS.getMotor(door->door_number);
+	AFMS.begin();
+	//Adafruit_DCMotor *motor = _arduino->motorshield()->getMotor(door->door_number);
 	
 	Serial.println("Turning on motor... vroom.");
 	motor->run(door->direction);
-	motor->setSpeed(200);
+	motor->setSpeed(5);
 
 	door->door_start_millis = millis();
 	door->motor_action = new turn_motor_off(door, _arduino);
@@ -111,20 +116,23 @@ EXECUTE_ACTION(turn_motor_off) {
 		break;
 	default: return;
 	}
-	Serial.print("Address of arduino ");
-	Serial.println((int)&_arduino);
 	Serial.print("Address of motorshield ");
-	Serial.println((int)&_arduino->motorshield());
+	Serial.println((int)_arduino->motorshield());
 
-	Adafruit_DCMotor* motor = _arduino->motorshield().getMotor(door->door_number);
+	/*Adafruit_DCMotor* motor = _arduino->motorshield()->getMotor(door->door_number);*/
+	Adafruit_MotorShield AFMS = Adafruit_MotorShield(0x61);
+	Adafruit_DCMotor* motor = AFMS.getMotor(door->door_number);
+	//AFMS.begin();
 
 	Serial.println("Turning off motor... eeeerrrccheek!");
-	motor->run(door->direction);
+	motor->setSpeed(0);
+	motor->run(RELEASE);
+	//motor->run(door->direction);
+	
 	//if(door->direction == BACKWARD) {
 	//	//we're closing - don't turn it off, just set it to something low to keep pulling on the door.
 	//	motor->setSpeed(5);
 	//}
-	motor->setSpeed(0);
 
 	//update door open data with the time the door open finished, set our backup flag.
 	door->moving = false;
@@ -147,24 +155,27 @@ EXECUTE_ACTION(turn_motor_off) {
 }
 
 
-SETUP_ACTION_1ARG(initMotorShield, const Adafruit_MotorShield& motorShield) : _motorShield(motorShield) {
-	
-}
-EXECUTE_ACTION(initMotorShield) {
-	if (isInit) return;
-	_arduino = static_cast<arduino_mega*>(trigger);
-	_motorShield = _arduino->motorshield();
-	AltitudeData* data = static_cast<AltitudeData*>(args);
-	if (data->current_alt_in_meters > MOTORSHIELD_INIT_ALTITUDE && !isInit) {
-		Serial.println("About to init the Motor shield...");
-		_arduino->motorshield().begin();
-		Serial.print("Address of arduino ");
-		Serial.println((int)&_arduino);
-		Serial.print("Address of motorshield ");
-		Serial.println((int)&_arduino->motorshield());
-		
-		
-		Serial.println("Init the motor shield.");
-		EVENTHANDLER.remove_eventAction("altitude update", this);
-	}
-}
+//SETUP_ACTION_1ARG(initMotorShield, arduino_mega* arduino) : _arduino(arduino) {
+//	
+//}
+//EXECUTE_ACTION(initMotorShield) {
+//	if (isInit) {
+//		Serial.println("Motorshield already init..");
+//		return;
+//	}
+//
+//	AltitudeData* data = static_cast<AltitudeData*>(args);
+//	if (data->current_alt_in_meters > MOTORSHIELD_INIT_ALTITUDE && !isInit) {
+//		Serial.println("About to init the Motor shield...");
+//		//_arduino->motorshield().begin();
+//		_arduino->motorshield()->begin();
+//		//Serial.print("Address of arduino ");
+//		//Serial.println((int)&_arduino);
+//		Serial.print("Address of motorshield ");
+//		Serial.println((int)&_arduino);
+//		
+//		isInit = true;
+//		Serial.println("Init the motor shield.");
+//		EVENTHANDLER.remove_eventAction("altitude update", this);
+//	}
+//}

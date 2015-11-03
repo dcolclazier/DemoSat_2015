@@ -7,10 +7,10 @@
 
 
 
-CREATE_EVENT_TRIGGERING_ACTION_1ARG(new_sensor_update, new_sensor_data, const SensorPackage& sensors)
+CREATE_EVENT_TRIGGERING_ACTION_2ARGS(new_sensor_update, new_sensor_data, const SensorPackage& sensors, arduino_mega* arduino)
 SensorPackage _sensors;
 float _seaLevelPressure = 1012.8;
-	
+	arduino_mega* _arduino;
 	END_CREATE
 
 CREATE_EVENT_TRIGGERING_ACTION_1ARG(external_temp_update, external_temp, const DallasTemperature& external_temperature)
