@@ -57,11 +57,15 @@ void setup() {
 	
 	Wire.begin();
 
+	Adafruit_MotorShield AFMS = Adafruit_MotorShield(0x61);
+	AFMS.begin();
+
 	OneWire oneWireBus(2);
 	
 	InitClock();
 	
 	static arduino_mega mainBoard;
+	delay(1000);
 }
 
 

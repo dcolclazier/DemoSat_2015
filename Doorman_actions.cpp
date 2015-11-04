@@ -5,7 +5,7 @@
 SETUP_ACTION_2ARGS(doorman_altitude_check,
 				   Adafruit_BMP085_Unified bmp,
 				   arduino_mega* arduino)
-	: _bmp(bmp), _arduino(arduino), door1(3, 3700, 4000), door2(2, 3700, 4000)
+	: _bmp(bmp), _arduino(arduino), door1(3, 2750, 2750), door2(2, 2750, 2750)
 {}
 EXECUTE_ACTION(doorman_altitude_check) {
 	sensors_event_t event;
