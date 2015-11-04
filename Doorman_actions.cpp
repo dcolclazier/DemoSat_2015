@@ -5,7 +5,7 @@
 SETUP_ACTION_2ARGS(doorman_altitude_check,
 				   Adafruit_BMP085_Unified bmp,
 				   arduino_mega* arduino)
-	: _bmp(bmp), _arduino(arduino), door1(1, 3700, 4000), door2(2, 3700, 4000)
+	: _bmp(bmp), _arduino(arduino), door1(3, 2750, 2750), door2(2, 2750, 2750)
 {}
 EXECUTE_ACTION(doorman_altitude_check) {
 	sensors_event_t event;
@@ -13,7 +13,8 @@ EXECUTE_ACTION(doorman_altitude_check) {
 	_bmp.getEvent(&event);
 	_bmp.getTemperature(&temp);
 	float altitude = _bmp.pressureToAltitude(1012.8f, event.pressure);
-	
+	Serial.print("The doorman thinks the altitude is ");
+	Serial.println(altitude);
 	if(altitude > DOOR1_OPEN_ALT && door1.hasntbeenopenedbefore) {
 		EVENTHANDLER.trigger("time to open", &door1, _arduino);
 	}
