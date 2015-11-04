@@ -21,12 +21,12 @@ arduino_mega::arduino_mega()
 	//start bno055 
 	if (!_bnoSensor.begin()) {
 		Serial.print(F("9dof sensor not detected..."));
-		while (1);
+		//while (1);
 	}
 	//start bmp180
 	if (!_bmpSensor.begin()) {
 		Serial.print(F("bmp180 not detected..."));
-		while (1);
+		//while (1);
 	}
 	
 	_humidSensor.begin();
