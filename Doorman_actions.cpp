@@ -3,24 +3,36 @@
 #include "EventHandler.h"
 #include "arduino_mega.h"
 SETUP_ACTION_2ARGS(doorman_altitude_check,
-				   Adafruit_BMP085_Unified bmp,
-				   arduino_mega* arduino)
-	: _bmp(bmp), _arduino(arduino), door1(3, 2750, 2750), door2(2, 2750, 2750)
+	Adafruit_BMP085_Unified bmp,
+	arduino_mega* arduino)
+	: _bmp(bmp), _arduino(arduino), door1(3, 1550, 2750), door2(2, 2750, 2750), door4(4, 2750, 2750)
 {}
 EXECUTE_ACTION(doorman_altitude_check) {
 	sensors_event_t event;
 	float temp;
 	_bmp.getEvent(&event);
 	_bmp.getTemperature(&temp);
-	float altitude = _bmp.pressureToAltitude(1012.8f, event.pressure);
+	float altitude = _bmp.pressureToAltitude(1028.0f, event.pressure);
 	Serial.print("The doorman thinks the altitude is ");
 	Serial.println(altitude);
+	if(altitude > DOOR4_OPEN_ALT && door4.hasntbeenopenedbefore)
+	{
+		Serial.println("About to test door light....");
+		EVENTHANDLER.trigger("time to open", &door4, _arduino);
+	}
+	if (altitude > DOOR4_CLOSE_ALT && !door4.closed) {
+		EVENTHANDLER.trigger("time to close", &door4, _arduino);
+	}
 	if(altitude > DOOR1_OPEN_ALT && door1.hasntbeenopenedbefore) {
+		Serial.println("About to open door 1...");
 		EVENTHANDLER.trigger("time to open", &door1, _arduino);
 	}
+	else Serial.println("Door 1 not ready to open...");
 	if(altitude > DOOR2_OPEN_ALT && door2.hasntbeenopenedbefore) {
+		Serial.println("About to open door 2...");
 		EVENTHANDLER.trigger("time to open", &door2, _arduino);
 	}
+	else Serial.println("Door 2 not ready to open...");
 	if(altitude > DOOR1_CLOSE_ALT && !door1.closed) {
 		EVENTHANDLER.trigger("time to close", &door1, _arduino);
 	}

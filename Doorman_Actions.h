@@ -9,7 +9,7 @@ class arduino_mega;
 CREATE_ACTION_TWO_ARGS(doorman_altitude_check, Adafruit_BMP085_Unified bmp, arduino_mega* arduino)
 	Adafruit_BMP085_Unified _bmp;
 	arduino_mega* _arduino;
-	Door_Data door1, door2;
+	Door_Data door1, door2, door4;
 END_CREATE
 
 CREATE_ACTION_1ARG(doorman_open, arduino_mega* arduino)

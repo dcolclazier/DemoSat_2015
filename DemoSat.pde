@@ -53,7 +53,7 @@ void setup() {
 	//wdt_enable(WDTO_4S);//Timer for 4000 Milliseconds
 	//delay(250);
 	//wdt_reset();//"Pat the Dog" Good Boy!
-	//Serial.begin(9600);
+	Serial.begin(9600);
 	
 	Wire.begin();
 
@@ -65,7 +65,7 @@ void setup() {
 	InitClock();
 	
 	static arduino_mega mainBoard;
-	delay(1000);
+	delay(5000);
 }
 
 
@@ -99,8 +99,8 @@ void loop() {
 		}
 	}
 	int loopExecutionTime = millis()/100 - currentTime;
-	Serial.print("loop execution time: ");
-	Serial.println(loopExecutionTime);
+	//Serial.print("loop execution time: ");
+	//Serial.println(loopExecutionTime);
 	_prevTime = currentTime + loopExecutionTime;
 
 	//wdt_reset();//pat the dog "good boy!"
