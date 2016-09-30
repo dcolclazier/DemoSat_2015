@@ -1,13 +1,14 @@
 #pragma once
 #include "EventHandler.h"
-#include <OneWire.h>
-#include <DallasTemperature.h>
-
-CREATE_EVENT_TRIGGERING_ACTION(get_external_temp, externalTemp_args)
-
-OneWire oneWireBus;
-DallasTemperature sensors;
-
-END_CREATE
+//#include <OneWire.h>
+//#include <DallasTemperature.h>
+//#include <DallasTemperature.h>
+//
+//struct get_external_temp : public EventAction { get_external_temp(); void execute(EventArgs* args, void* trigger) override; private: externalTemp_args _args ;
+//
+//OneWire oneWireBus;
+//DallasTemperature sensors;
+//
+//};
 
 

@@ -59,6 +59,7 @@
       <Filter>_Actions</Filter>
     </ClInclude>
     <ClInclude Include="__vm\.DemoSat.vsarduino.h" />
+    <ClInclude Include="__vm\.DemoSat_2015.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Event.cpp">

@@ -1,8 +1,9 @@
 #pragma once
 #include "EventHandler.h"
 
-//See? Easy-peasy! pick a name, don't forget the END_CREATE, and 
-//create any variables I want the action to remember.
-CREATE_ACTION(update_heater_status) 
+struct update_heater_status : EventAction { 
+	update_heater_status(); 
+	void execute(EventArgs* args, void* trigger) override; 
+private:  
 	int heater_control = 3;
-END_CREATE
+};

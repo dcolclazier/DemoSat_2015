@@ -15,51 +15,55 @@
 
 
 //BNO055 GYROSCOPE UPDATE 
-CREATE_EVENT_TRIGGERING_ACTION_1ARG(gyro_update, gyro_data, Adafruit_BNO055 bno)
+struct gyro_update : EventAction { 
+	gyro_update(Adafruit_BNO055 bno); 
+	void execute(EventArgs* args, void* trigger) override; 
+private: 
+	gyro_data _args ; 
 	Adafruit_BNO055 _bno;
-END_CREATE
+};
 
 //BNO055 MAGNETOMETER UPDATE 
-CREATE_EVENT_TRIGGERING_ACTION_1ARG(magnetometer_update, magnetometer_args, Adafruit_BNO055 bno)
+struct magnetometer_update : public EventAction { magnetometer_update(Adafruit_BNO055 bno); void execute(EventArgs* args, void* trigger) override; private: magnetometer_args _args ; 
 	Adafruit_BNO055 _bno;
-END_CREATE
+};
 
 //BNO055 GRAVITOMETER UPDATE - to trigger, use event name "gravitometer_update"
 //args contain gravitometer data
-CREATE_EVENT_TRIGGERING_ACTION_1ARG(gravitometer_update, gravitometer_args, Adafruit_BNO055 bno)
+struct gravitometer_update : public EventAction { gravitometer_update(Adafruit_BNO055 bno); void execute(EventArgs* args, void* trigger) override; private: gravitometer_args _args ; 
 	Adafruit_BNO055 _bno;
-END_CREATE
+};
 
 //BNO055 ACCELERATION UPDATE - to trigger, use event name "accelerometer_update"
 //args contain accelerometer and linear acceleration
-CREATE_EVENT_TRIGGERING_ACTION_1ARG(accelerometer_update, accelerometer_args, Adafruit_BNO055 bno);
+struct accelerometer_update : public EventAction { accelerometer_update(Adafruit_BNO055 bno); void execute(EventArgs* args, void* trigger) override; private: accelerometer_args _args ; ;
 	Adafruit_BNO055 _bno;
-END_CREATE
+};
 
 //BNO055 POSITION UPDATE 
-CREATE_EVENT_TRIGGERING_ACTION_1ARG(position_update, position_args, Adafruit_BNO055 bno);
+struct position_update : public EventAction { position_update(Adafruit_BNO055 bno); void execute(EventArgs* args, void* trigger) override; private: position_args _args ; ;
 	Adafruit_BNO055 _bno;
-END_CREATE
+};
 
 //BNO055 Full UPDATE - to trigger, use event name "bno_logger_update"
 //args contains all possible data from bno_055 sensors 
 //use this for logging data - it's memory intensive.
-CREATE_EVENT_TRIGGERING_ACTION_1ARG(bno_logger_update, bno_logger_data, Adafruit_BNO055 bno)
+struct bno_logger_update : public EventAction { bno_logger_update(Adafruit_BNO055 bno); void execute(EventArgs* args, void* trigger) override; private: bno_logger_data _args ; 
 	Adafruit_BNO055 _bno;
-END_CREATE
+};
 
 //BMP SENSOR UPDATE - to trigger, use event name "altitude_update"
 //args contains temperature, pressure and altitude
-CREATE_EVENT_TRIGGERING_ACTION_1ARG(altitude_update, altitude_args, Adafruit_BMP085_Unified bmp)
+struct altitude_update : public EventAction { altitude_update(Adafruit_BMP085_Unified bmp); void execute(EventArgs* args, void* trigger) override; private: altitude_args _args ; 
 
 	Adafruit_BMP085_Unified _bmp;
 	const float _seaLevelPressure = 1012.8f;
-END_CREATE
+};
 
 //AVG TEMP UPDATE - to trigger, use event name "avg_tmp"
 //args contains temperature, pressure and altitude
-CREATE_EVENT_TRIGGERING_ACTION_2ARGS(avg_temp_update, temperature_args, Adafruit_BMP085_Unified bmp, Adafruit_BNO055 bno)
+struct avg_temp_update : public EventAction { avg_temp_update(Adafruit_BMP085_Unified bmp, Adafruit_BNO055 bno); void execute(EventArgs* args, void* trigger) override; private: temperature_args _args ;
 	
 	Adafruit_BMP085_Unified _bmp;
 	Adafruit_BNO055 _bno;
-END_CREATE
+};

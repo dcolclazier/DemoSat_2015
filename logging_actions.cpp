@@ -1,7 +1,7 @@
 ﻿#include "logging_actions.h"
 #include "RTClib.h"
 
-SETUP_ACTION_ONE_ARG(log_bno_update, SD_Shield* logger) : _logger(logger) {
+log_bno_update::log_bno_update(SD_Shield* logger) : _logger(logger) {
 	//find a good filename, create the file.
 	char filename[] = "BNO00.CSV";
 	for (uint8_t i = 0; i < 100; i++) {
@@ -16,82 +16,82 @@ SETUP_ACTION_ONE_ARG(log_bno_update, SD_Shield* logger) : _logger(logger) {
 		}
 	}
 	//print column headers for csv
-	_logfile.println(F("millis,datetime,gyro_x,gyro_y,gyro_z,mag_x,mag_y,mag_z,grav_x,grav_y,grav_z,temp_c,accel_x,accel_y,accel_z,euler_x,euler_y,euler_z,quat_x,quat_y,quat_z,quat_w,linear_x,linear_y,linear_z"));
+	_logfile.println(("millis,datetime,gyro_x,gyro_y,gyro_z,mag_x,mag_y,mag_z,grav_x,grav_y,grav_z,temp_c,accel_x,accel_y,accel_z,euler_x,euler_y,euler_z,quat_x,quat_y,quat_z,quat_w,linear_x,linear_y,linear_z"));
 	_logfile.close();
 
 }
-EXECUTE_ACTION(log_bno_update) {
+void log_bno_update::execute(EventArgs* args, void* trigger) {
 
 	bno_logger_data * bnoargs = static_cast<bno_logger_data*>(args);
 
 	_logfile = SD.open(_filename.c_str(), O_CREAT | O_WRITE);
 	_logfile.print(millis());
-	_logfile.print(F(", "));
-	_logfile.print(F("\""));
+	_logfile.print((", "));
+	_logfile.print(("\""));
 	DateTime now = _logger->getTime();
 	_logfile.print(now.year(), DEC);
-	_logfile.print(F("/"));
+	_logfile.print(("/"));
 	_logfile.print(now.month(), DEC);
-	_logfile.print(F("/"));
+	_logfile.print(("/"));
 	_logfile.print(now.day(), DEC);
-	_logfile.print(F(" "));
+	_logfile.print((" "));
 	_logfile.print(now.hour(), DEC);
-	_logfile.print(F(":"));
+	_logfile.print((":"));
 	_logfile.print(now.minute(), DEC);
-	_logfile.print(F(":"));
+	_logfile.print((":"));
 	_logfile.print(now.second(), DEC);
-	_logfile.print(F("\""));
-	_logfile.print(F(", "));
+	_logfile.print(("\""));
+	_logfile.print((", "));
 	_logfile.print(bnoargs->Gyro.x(), DEC);
-	_logfile.print(F(", "));
+	_logfile.print((", "));
 	_logfile.print(bnoargs->Gyro.y(), DEC);
-	_logfile.print(F(", "));
+	_logfile.print((", "));
 	_logfile.print(bnoargs->Gyro.z(), DEC);
-	_logfile.print(F(", "));
+	_logfile.print((", "));
 	_logfile.print(bnoargs->Mag.x(), DEC);
-	_logfile.print(F(", "));
+	_logfile.print((", "));
 	_logfile.print(bnoargs->Mag.y(), DEC);
-	_logfile.print(F(", "));
+	_logfile.print((", "));
 	_logfile.print(bnoargs->Mag.z(), DEC);
-	_logfile.print(F(", "));
+	_logfile.print((", "));
 	_logfile.print(bnoargs->Grav.x(), DEC);
-	_logfile.print(F(", "));
+	_logfile.print((", "));
 	_logfile.print(bnoargs->Grav.y(), DEC);
-	_logfile.print(F(", "));
+	_logfile.print((", "));
 	_logfile.print(bnoargs->Grav.z(), DEC);
-	_logfile.print(F(", "));
+	_logfile.print((", "));
 	_logfile.print(bnoargs->Temp, DEC);
-	_logfile.print(F(", "));
+	_logfile.print((", "));
 	_logfile.print(bnoargs->Accel.x(), DEC);
-	_logfile.print(F(", "));
+	_logfile.print((", "));
 	_logfile.print(bnoargs->Accel.y(), DEC);
-	_logfile.print(F(", "));
+	_logfile.print((", "));
 	_logfile.print(bnoargs->Accel.z(), DEC);
-	_logfile.print(F(", "));
+	_logfile.print((", "));
 	_logfile.print(bnoargs->Euler.x(), DEC);
-	_logfile.print(F(", "));
+	_logfile.print((", "));
 	_logfile.print(bnoargs->Euler.y(), DEC);
-	_logfile.print(F(", "));
+	_logfile.print((", "));
 	_logfile.print(bnoargs->Euler.z(), DEC);
-	_logfile.print(F(", "));
+	_logfile.print((", "));
 	_logfile.print(bnoargs->Quat.x(), DEC);
-	_logfile.print(F(", "));
+	_logfile.print((", "));
 	_logfile.print(bnoargs->Quat.y(), DEC);
-	_logfile.print(F(", "));
+	_logfile.print((", "));
 	_logfile.print(bnoargs->Quat.z(), DEC);
-	_logfile.print(F(", "));
+	_logfile.print((", "));
 	_logfile.print(bnoargs->Quat.w(), DEC);
-	_logfile.print(F(", "));
+	_logfile.print((", "));
 	_logfile.print(bnoargs->linearAccel.x(), DEC);
-	_logfile.print(F(", "));
+	_logfile.print((", "));
 	_logfile.print(bnoargs->linearAccel.y(), DEC);
-	_logfile.print(F(", "));
+	_logfile.print((", "));
 	_logfile.print(bnoargs->linearAccel.z(), DEC);
 	_logfile.println();
 	_logfile.close();
 }
 
-SETUP_ACTION_ONE_ARG(log_altitude_update, SD_Shield* logger) : _logger(logger) {
+log_altitude_update::log_altitude_update(SD_Shield* logger) : _logger(logger) {
 
 	char filename[] = "BMP00.CSV";
 	for (uint8_t i = 0; i < 100; i++) {
@@ -106,42 +106,42 @@ SETUP_ACTION_ONE_ARG(log_altitude_update, SD_Shield* logger) : _logger(logger) {
 		}
 	}
 	//print column headers for csv
-	_logfile.println(F("millis,datetime,pressure,temp,altitude"));
+	_logfile.println(("millis,datetime,pressure,temp,altitude"));
 	_logfile.close();
 
 }
-EXECUTE_ACTION(log_altitude_update) {
+void log_altitude_update::execute(EventArgs* args, void* trigger) {
 
 	altitude_args * bmpargs = static_cast<altitude_args*>(args);
 
 	_logfile = SD.open(_filename.c_str(), O_CREAT | O_WRITE);
 	_logfile.print(millis());
-	_logfile.print(F(", "));
-	_logfile.print(F("\""));
+	_logfile.print((", "));
+	_logfile.print(("\""));
 	DateTime now = _logger->getTime();
 	_logfile.print(now.year(), DEC);
-	_logfile.print(F("/"));
+	_logfile.print(("/"));
 	_logfile.print(now.month(), DEC);
-	_logfile.print(F("/"));
+	_logfile.print(("/"));
 	_logfile.print(now.day(), DEC);
-	_logfile.print(F(" "));
+	_logfile.print((" "));
 	_logfile.print(now.hour(), DEC);
-	_logfile.print(F(":"));
+	_logfile.print((":"));
 	_logfile.print(now.minute(), DEC);
-	_logfile.print(F(":"));
+	_logfile.print((":"));
 	_logfile.print(now.second(), DEC);
-	_logfile.print(F("\""));
-	_logfile.print(F(", "));
+	_logfile.print(("\""));
+	_logfile.print((", "));
 	_logfile.print(bmpargs->Pressure);
-	_logfile.print(F(", "));
+	_logfile.print((", "));
 	_logfile.print(bmpargs->Temp);
-	_logfile.print(F(", "));
+	_logfile.print((", "));
 	_logfile.print(bmpargs->Altitude);
 	_logfile.println();
 	_logfile.close();
 }
 
-SETUP_ACTION_ONE_ARG(log_ext_temp, SD_Shield* logger) : _logger(logger) {
+log_ext_temp::log_ext_temp(SD_Shield* logger) : _logger(logger) {
 
 	char filename[] = "EXT_TMP00.CSV";
 	for (uint8_t i = 0; i < 100; i++) {
@@ -156,32 +156,36 @@ SETUP_ACTION_ONE_ARG(log_ext_temp, SD_Shield* logger) : _logger(logger) {
 		}
 	}
 	//print column headers for csv
-	_logfile.println(F("Time,Datestamp,External Temp"));
+	_logfile.println(("Time,Datestamp,External Temp"));
 	_logfile.close();
 
 }
-EXECUTE_ACTION(log_ext_temp) {
+///asdfasdfasdf
+///asdfasdfasdf/
+///asdfasdfasdf
+void log_ext_temp::execute(EventArgs* args, void* trigger) {
 
 	externalTemp_args * tmpargs = static_cast<externalTemp_args*>(args);
 
+	
 	_logfile = SD.open(_filename.c_str(), O_CREAT | O_WRITE);
 	_logfile.print(millis());
-	_logfile.print(F(", "));
-	_logfile.print(F("\""));
+	_logfile.print((", "));
+	_logfile.print(("\""));
 	DateTime now = _logger->getTime();
 	_logfile.print(now.year(), DEC);
-	_logfile.print(F("/"));
+	_logfile.print(("/"));
 	_logfile.print(now.month(), DEC);
-	_logfile.print(F("/"));
+	_logfile.print(("/"));
 	_logfile.print(now.day(), DEC);
-	_logfile.print(F(" "));
+	_logfile.print((" "));
 	_logfile.print(now.hour(), DEC);
-	_logfile.print(F(":"));
+	_logfile.print((":"));
 	_logfile.print(now.minute(), DEC);
-	_logfile.print(F(":"));
+	_logfile.print((":"));
 	_logfile.print(now.second(), DEC);
-	_logfile.print(F("\""));
-	_logfile.print(F(", "));
+	_logfile.print(("\""));
+	_logfile.print((", "));
 	_logfile.print(tmpargs->EXT_Temp);
 	_logfile.println();
 	_logfile.close();
